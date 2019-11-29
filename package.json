@@ -17,9 +17,16 @@
     "morgan": "^1.9.1"
   },
   "scripts": {
-    "build:server": "tsc",
+    "build": "yarn lint && yarn build:server && yarn build:client",
+    "build:client": "cd client && yarn build",
+    "build:server": "yarn clean:server && tsc",
+    "clean": "yarn clean:server && yarn clean:client",
+    "clean:client": "cd client && rm -rf build",
     "clean:server": "rm -rf build",
-    "lint:server": "tslint --project .",
+    "lint": "yarn lint:server && yarn lint:client",
+    "lint:client": "tslint --project ./client",
+    "lint:server": "tslint --project ./",
+    "start:client": "cd client && yarn start",
     "start:server": "ts-node-dev app.ts"
   }
 }

@@ -14,5 +14,8 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "exclude": [
+    "./client/"
+  ]
 }

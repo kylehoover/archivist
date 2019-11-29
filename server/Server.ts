@@ -2,7 +2,7 @@ import express from 'express'
 import morgan from 'morgan'
 
 class Server {
-  public async run() {
+  public async run(): Promise<void> {
     const app = express()
     const port = process.env.AR_PORT || 4000
 
