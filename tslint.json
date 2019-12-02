@@ -6,9 +6,17 @@
     "jsRules": {},
     "rules": {
         "no-console": false,
-        "ordered-imports": true,
         "quotemark": [true, "single", "avoid-template"],
-        "semicolon": [true, "never"]
+        "semicolon": [true, "never"],
+        "typedef": [true, "call-signature"],
+        "variable-name": {
+            "options": [
+                "allow-leading-underscore",
+                "allow-pascal-case",
+                "check-format",
+                "require-const-for-all-caps"
+            ]
+        }
     },
     "rulesDirectory": []
 }
