@@ -4,7 +4,7 @@ import morgan from 'morgan'
 
 import MongoCampaignService from '../database/MongoCampaignService'
 import { getSchema } from '../graphql'
-import { ICampaignService, IServiceProvider, registerServices } from '../graphql/services'
+import { ICampaignService, IServiceProvider, registerServices } from '../services'
 
 class Server {
   public async run(): Promise<void> {

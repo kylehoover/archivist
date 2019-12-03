@@ -1,6 +1,6 @@
 import { Service } from 'typedi'
-import { ICampaignService } from '../graphql/services'
 import { Campaign } from '../graphql/types'
+import { ICampaignService } from '../services'
 
 @Service()
 class MongoCampaignService implements ICampaignService {

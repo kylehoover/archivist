@@ -2,8 +2,8 @@ import { GraphQLSchema } from 'graphql'
 import { buildSchema } from 'type-graphql'
 import { Container } from 'typedi'
 
+import { verifyRegisteredServices } from '../services'
 import { CampaignResolver } from './resolvers'
-import { verifyRegisteredServices } from './services'
 
 export function getSchema(): Promise<GraphQLSchema> {
   verifyRegisteredServices()

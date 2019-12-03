@@ -1,4 +1,4 @@
-import { Campaign } from '../types'
+import { Campaign } from '../graphql/types'
 
 interface ICampaignService {
   findAll(): Campaign[]
