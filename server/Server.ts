@@ -2,24 +2,19 @@ import express from 'express'
 import graphqlHTTP from 'express-graphql'
 import morgan from 'morgan'
 
-import MongoCampaignService from '../database/MongoCampaignService'
 import { getSchema } from '../graphql'
-import { ICampaignService, IServiceProvider, registerServices } from '../services'
+import { IServiceProvider, registerServices } from '../services'
 
 class Server {
+  public constructor(private readonly serviceProvider: IServiceProvider) {}
+
   public async run(): Promise<void> {
+    registerServices(this.serviceProvider)
+
     const app = express()
     const port = process.env.AR_PORT || 4000
 
     app.use(morgan('tiny'))
-
-    const sp: IServiceProvider = {
-      getCampaignService(): ICampaignService {
-        return new MongoCampaignService()
-      },
-    }
-
-    registerServices(sp)
 
     app.use('/graphql', graphqlHTTP({
       graphiql: true,
