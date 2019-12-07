@@ -1,11 +1,15 @@
 import { Service } from 'typedi'
+
 import { Campaign } from '../graphql/types'
 import { ICampaignService } from '../services'
+import MongoDB from './MongoDB'
 
 @Service()
 class MongoCampaignService implements ICampaignService {
-  public findAll(): Campaign[] {
-    return [{ id: '1', name: 'Sample Campaign' }]
+  constructor(private readonly db: MongoDB) {}
+
+  public async findAll(): Promise<Campaign[]> {
+    return this.db.campaigns.find().toArray()
   }
 }
 

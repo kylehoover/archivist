@@ -11,7 +11,7 @@ export class CampaignResolver {
   constructor(@Inject(ServiceName.campaign) private readonly campaignService: ICampaignService) {}
 
   @Query(returns => [Campaign])
-  public campaigns(): Campaign[] {
+  public campaigns(): Promise<Campaign[]> {
     return this.campaignService.findAll()
   }
 }

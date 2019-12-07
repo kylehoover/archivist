@@ -1,7 +1,7 @@
 import { Campaign } from '../graphql/types'
 
 interface ICampaignService {
-  findAll(): Campaign[]
+  findAll(): Promise<Campaign[]>
 }
 
 export default ICampaignService

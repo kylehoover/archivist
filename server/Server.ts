@@ -9,6 +9,7 @@ class Server {
   public constructor(private readonly serviceProvider: IServiceProvider) {}
 
   public async run(): Promise<void> {
+    await this.serviceProvider.init()
     registerServices(this.serviceProvider)
 
     const app = express()

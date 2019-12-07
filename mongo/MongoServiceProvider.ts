@@ -1,10 +1,19 @@
-import { IServiceProvider } from '../services'
-import { ICampaignService } from '../services'
-import MongoCampaignService from './MongoCampaignService'
+import { Container, Service } from 'typedi'
 
+import { ICampaignService, IServiceProvider } from '../services'
+import MongoCampaignService from './MongoCampaignService'
+import MongoDB from './MongoDB'
+
+@Service()
 class MongoServiceProvider implements IServiceProvider {
+  constructor(private readonly db: MongoDB) {}
+
+  public async init(): Promise<void> {
+    await this.db.init()
+  }
+
   public getCampaignService(): ICampaignService {
-    return new MongoCampaignService()
+    return Container.get(MongoCampaignService)
   }
 }
 
