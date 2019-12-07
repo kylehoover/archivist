@@ -1,8 +1,7 @@
-// tslint:disable: arrow-parens
 import { Field, ID, ObjectType } from 'type-graphql'
 
 @ObjectType()
-export class Campaign {
+class Model {
   private identifier!: string
 
   @Field(type => ID)
@@ -17,10 +16,6 @@ export class Campaign {
   public set _id(id: string) {
     this.identifier = id
   }
-
-  // @Field(type => ID)
-  // public id!: string
-
-  @Field()
-  public name!: string
 }
+
+export default Model

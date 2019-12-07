@@ -1,4 +1,3 @@
-// tslint:disable: arrow-parens
 import { Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 
