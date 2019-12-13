@@ -1,4 +1,4 @@
-import { Query, Resolver } from 'type-graphql'
+import { Arg, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 
 import { ICampaignService, ServiceName } from '../../services'
@@ -8,6 +8,13 @@ import { Campaign } from '../types'
 @Resolver(Campaign)
 class CampaignResolver {
   constructor(@Inject(ServiceName.campaign) private readonly campaignService: ICampaignService) {}
+
+  @Query(returns => Campaign)
+  public campaign(
+    @Arg('id', { nullable: false }) id: string,
+  ): Promise<Campaign | null> {
+    return this.campaignService.findById(id)
+  }
 
   @Query(returns => [Campaign])
   public campaigns(): Promise<Campaign[]> {
