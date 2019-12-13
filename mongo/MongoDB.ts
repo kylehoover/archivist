@@ -1,7 +1,14 @@
-import { Collection, Db, MongoClient } from 'mongodb'
+import { Collection as MongoCollection, Db, MongoClient } from 'mongodb'
 import { Service } from 'typedi'
 
-type ProcessEnv = string | undefined
+enum Collection {
+  campaigns = 'campaigns',
+}
+
+enum EnvVar {
+  dbName = 'AR_MONGO_DB',
+  dbUrl = 'AR_MONGO_URL',
+}
 
 @Service()
 class MongoDB {
@@ -15,21 +22,21 @@ class MongoDB {
     return this.conn
   }
 
-  public get campaigns(): Collection {
-    return this.db.collection('campaigns')
+  public get campaigns(): MongoCollection {
+    return this.db.collection(Collection.campaigns)
   }
 
   public async init(): Promise<void> {
-    const dbName: ProcessEnv = process.env.AR_MONGO_DB
-    const url: ProcessEnv = process.env.AR_MONGO_URL
+    const dbName = process.env[EnvVar.dbName]
+    const url = process.env[EnvVar.dbUrl]
     let client: MongoClient
 
     if (!dbName) {
-      throw new Error('AR_MONGO_DB environment variable is not set')
+      throw new Error(`${EnvVar.dbName} environment variable is not set`)
     }
 
     if (!url) {
-      throw new Error('AR_MONGO_URL environment variable is not set')
+      throw new Error(`${EnvVar.dbUrl} environment variable is not set`)
     }
 
     try {
