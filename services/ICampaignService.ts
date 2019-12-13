@@ -1,8 +1,6 @@
 import { Campaign } from '../graphql/types'
+import IDataService from './IDataService'
 
-interface ICampaignService {
-  findAll(): Promise<Campaign[]>
-  findById(id: string): Promise<Campaign | null>
-}
+interface ICampaignService extends IDataService<Campaign> {}
 
 export default ICampaignService
