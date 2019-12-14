@@ -1,5 +1,7 @@
 import React from 'react'
 
+import './styles/base.scss'
+
 const App = () => {
   return (
     <div>
