@@ -1,12 +1,14 @@
 import React from 'react'
+import { BrowserRouter } from 'react-router-dom'
 
+import NavBar from './components/NavBar'
 import './styles/base.scss'
 
 const App = () => {
   return (
-    <div>
-      Archivist
-    </div>
+    <BrowserRouter>
+      <NavBar />
+    </BrowserRouter>
   )
 }
 
