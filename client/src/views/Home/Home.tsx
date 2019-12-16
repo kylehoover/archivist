@@ -1,9 +1,11 @@
 import React from 'react'
 
+import Panel from '../../components/Panel'
+
 const Home = () => {
   return (
     <div className='Home'>
-      Home
+      <Panel />
     </div>
   )
 }

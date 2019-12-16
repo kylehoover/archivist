@@ -1,0 +1,6 @@
+@import 'styles/mixins';
+
+.Panel {
+  @include elevated;
+  padding: 1rem;
+}
