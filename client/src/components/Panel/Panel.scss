@@ -2,5 +2,41 @@
 
 .Panel {
   @include elevated;
-  padding: 1rem;
+  margin-bottom: 5rem;
+  overflow: hidden;
+}
+
+.Panel header.detached {
+  color: #4dcdbf;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: .25rem 1rem 0 1rem;
+}
+
+.Panel header.no-banner {
+  background-color: #4dcdbf;
+  border-bottom-right-radius: .5rem;
+  color: white;
+  font-size: 1.75rem;
+  font-weight: 700;
+  padding: .25rem 1rem;
+  width: fit-content;
+}
+
+.Panel header.with-banner {
+  background-color: #4dcdbf;
+  border-bottom-right-radius: .5rem;
+  color: white;
+  font-size: 1.75rem;
+  font-weight: 700;
+  padding: 0 1rem .3rem 1rem;
+  width: fit-content;
+}
+
+.Panel .banner {
+  height: .3rem;
+}
+
+.Panel .content {
+  margin: .7rem 1rem 1rem 1rem;
 }
