@@ -1,3 +1,9 @@
+$teal: #009688;
+
 .teal {
-  background-color: #4dcdbf;
+  background-color: $teal;
+}
+
+.teal-border {
+  border-color: $teal;
 }

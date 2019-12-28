@@ -5,7 +5,7 @@ import Panel from '../../components/Panel'
 const Home = () => {
   return (
     <div className='Home'>
-      <Panel />
+      <Panel title='Campaigns' />
     </div>
   )
 }

@@ -2,39 +2,27 @@
 
 .Panel {
   @include elevated;
-  margin-bottom: 5rem;
   overflow: hidden;
 }
 
-.Panel header.detached {
-  color: #4dcdbf;
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin: .25rem 1rem 0 1rem;
+.Panel header {
+  align-items: stretch;
+  display: flex;
 }
 
-.Panel header.no-banner {
-  background-color: #4dcdbf;
+.Panel header h2 {
   border-bottom-right-radius: .5rem;
   color: white;
-  font-size: 1.75rem;
-  font-weight: 700;
-  padding: .25rem 1rem;
-  width: fit-content;
+  padding: .5rem 1rem;
 }
 
-.Panel header.with-banner {
-  background-color: #4dcdbf;
-  border-bottom-right-radius: .5rem;
-  color: white;
-  font-size: 1.75rem;
-  font-weight: 700;
-  padding: 0 1rem .3rem 1rem;
-  width: fit-content;
-}
-
-.Panel .banner {
-  height: .3rem;
+.Panel header .actions {
+  align-items: center;
+  border-top-style: solid;
+  border-top-width: .3rem;
+  display: flex;
+  padding: 0 1rem;
+  width: 100%;
 }
 
 .Panel .content {
