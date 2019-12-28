@@ -1,5 +1,6 @@
 import React from 'react'
 
+import Button from '../Button'
 import './Panel.scss'
 
 type Props = {
@@ -14,15 +15,11 @@ const Panel = ({ title }: Props) => {
           {title}
         </h2>
         <div className='actions teal-border'>
-          <button>
+          <Button icon='add'>
             New
-          </button>
+          </Button>
         </div>
       </header>
-      {/* <div className='banner teal' />
-      <header className='with-banner teal'>
-        {title}
-      </header> */}
       <div className='content'>
         Panel content
       </div>

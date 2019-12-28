@@ -5,6 +5,7 @@ import NavBar from './components/NavBar'
 import Home from './views/Home'
 
 import './styles/base.scss'
+import './styles/color-classes.scss'
 
 const App = () => {
   return (
