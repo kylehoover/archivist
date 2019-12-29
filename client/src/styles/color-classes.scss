@@ -1,13 +1,20 @@
 @import 'colors';
+@import 'theme';
 
 .blue {
   background-color: $blue-600;
+  &-text { color: $blue-600; }
+  &-border { border-color: $blue-600; }
+}
+
+.primary {
+  background-color: $primary;
+  &-text { color: $primary; }
+  &-border { border-color: $primary; }
 }
 
 .teal {
   background-color: $teal-500;
-}
-
-.teal-border {
-  border-color: $teal-500;
+  &-text { color: $teal-500; }
+  &-border { border-color: $teal-500; }
 }

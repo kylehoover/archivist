@@ -15,7 +15,13 @@ const Panel = ({ title }: Props) => {
           {title}
         </h2>
         <div className='actions teal-border'>
-          <Button icon='add'>
+          <Button icon='add' onClick={() => {}}>
+            New
+          </Button>
+          <Button icon='add' onClick={() => {}} outlined>
+            New
+          </Button>
+          <Button icon='add' onClick={() => {}} flat>
             New
           </Button>
         </div>
