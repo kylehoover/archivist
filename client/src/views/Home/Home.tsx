@@ -1,11 +1,11 @@
 import React from 'react'
 
-import Panel from '../../components/Panel'
+import { CampaignsPanel } from '../../panels'
 
 const Home = () => {
   return (
     <div className='Home'>
-      <Panel title='Campaigns' />
+      <CampaignsPanel />
     </div>
   )
 }
