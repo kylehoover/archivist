@@ -3,36 +3,36 @@
 .Panel {
   @include elevated;
   overflow: hidden;
-}
 
-.Panel header {
-  align-items: stretch;
-  display: flex;
-}
+  header {
+    align-items: stretch;
+    display: flex;
 
-.Panel header h2 {
-  border-bottom-right-radius: .5rem;
-  color: white;
-  padding: .5rem 1rem;
-}
+    h2 {
+      border-bottom-right-radius: .5rem;
+      color: white;
+      padding: .5rem 1rem;
+    }
 
-.Panel header .actions {
-  align-items: center;
-  border-top-style: solid;
-  border-top-width: .3rem;
-  display: flex;
-  padding: 0 1rem;
-  width: 100%;
-}
+    .actions {
+      align-items: center;
+      border-top-style: solid;
+      border-top-width: .3rem;
+      display: flex;
+      padding: 0 1rem;
+      width: 100%;
 
-.Panel header .actions > * {
-  margin-right: 1rem;
-}
+      > * {
+        margin-right: 1rem;
+      }
 
-.Panel header .actions > *:last-child {
-  margin-right: 0;
-}
+      > *:last-child {
+        margin-right: 0;
+      }
+    }
+  }
 
-.Panel .content {
-  margin: .7rem 1rem 1rem 1rem;
+  .content {
+    margin: 1rem;
+  }
 }
