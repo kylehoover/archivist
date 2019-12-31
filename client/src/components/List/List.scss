@@ -1,0 +1,23 @@
+@import 'styles/colors';
+
+$border-color: $blue-grey-100;
+
+.List {
+  border: 1px solid $border-color;
+  border-radius: .5rem;
+
+  .empty-list-text {
+    color: #607D8B;
+    font-size: .9rem;
+    padding: 1rem;
+  }
+
+  .item {
+    border-bottom: 1px solid $border-color;
+    padding: 1rem;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}

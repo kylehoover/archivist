@@ -1,4 +1,6 @@
 import React from 'react'
+
+import List from '../components/List'
 import Panel from '../components/Panel'
 
 const CampaignsPanel = () => {
@@ -12,7 +14,9 @@ const CampaignsPanel = () => {
           label: 'New Campaign',
         },
       ]}
-    />
+    >
+      <List textIfEmpty='There are no campaigns' />
+    </Panel>
   )
 }
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 import Button from '../Button'
 import './Panel.scss'
@@ -12,10 +12,11 @@ export type PanelAction = {
 
 type Props = {
   actions?: PanelAction[],
+  children?: ReactNode,
   title: string,
 }
 
-const Panel = ({ actions = [], title }: Props) => {
+const Panel = ({ actions = [], children, title }: Props) => {
   return (
     <div className='Panel'>
       <header>
@@ -39,7 +40,7 @@ const Panel = ({ actions = [], title }: Props) => {
       </header>
 
       <div className='content'>
-        Panel content
+        {children}
       </div>
     </div>
   )
