@@ -3,18 +3,33 @@
 
 .blue {
   background-color: $blue-600;
-  &-text { color: $blue-600; }
   &-border { border-color: $blue-600; }
+  &-light { background-color: $blue-50; }
+  &-text { color: $blue-600; }
+}
+
+.blue-grey {
+  background-color: $blue-grey-400;
+  &-border { border-color: $blue-grey-400; }
+  &-light { background-color: $blue-grey-50; }
+  &-text { color: $blue-grey-400; }
+}
+
+.cyan {
+  background-color: $cyan-700;
+  &-border { border-color: $cyan-700; }
+  &-light { background-color: $cyan-50; }
+  &-text { color: $cyan-700; }
 }
 
 .primary {
   background-color: $primary;
-  &-text { color: $primary; }
   &-border { border-color: $primary; }
+  &-text { color: $primary; }
 }
 
 .teal {
   background-color: $teal-500;
-  &-text { color: $teal-500; }
   &-border { border-color: $teal-500; }
+  &-text { color: $teal-500; }
 }
