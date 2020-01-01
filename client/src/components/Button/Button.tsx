@@ -22,6 +22,7 @@ const Button = ({
 }: Props) => {
   const btnClass = classNames('Button', {
     [color]: !flat && !outlined,
+    [`${color}-border`]: !flat,
     [`${color}-text`]: flat || outlined,
     flat,
     outlined,

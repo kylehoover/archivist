@@ -1,21 +1,23 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 import { Info } from '../Alert'
 import './List.scss'
 
-type Props = {
-  items?: any[],
-  textIfEmpty?: string,
+type Props<T> = {
+  items?: T[],
+  itemsEmptyText?: string,
+  renderItem: (item: T, index: number) => ReactNode,
 }
 
-const List = ({
+const List = <T extends unknown>({
   items = [],
-  textIfEmpty = 'There are no items in this list',
-}: Props) => {
+  itemsEmptyText = 'There are no items in this list',
+  renderItem,
+}: Props<T>) => {
   if (items.length === 0) {
     return (
       <Info>
-        {textIfEmpty}
+        {itemsEmptyText}
       </Info>
     )
   }
@@ -24,7 +26,7 @@ const List = ({
     <div className='List'>
       {items.map((item, index) => (
         <div className='item' key={index}>
-          Item: {item}
+          {renderItem(item, index)}
         </div>
       ))}
     </div>

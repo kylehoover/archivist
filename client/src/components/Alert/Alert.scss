@@ -1,9 +1,11 @@
+@import 'styles/variables';
+
 .Alert {
   border: 1px solid black;
   border-radius: .4rem;
   display: flex;
   font-size: .9rem;
-  padding: .75rem;
+  padding: $padding-comfortable;
 
   &.flat {
     background-color: transparent;

@@ -1,21 +1,22 @@
 @import 'styles/colors';
+@import 'styles/variables';
 
 $border-color: $blue-grey-100;
 
 .List {
   border: 1px solid $border-color;
   border-radius: .5rem;
-
-  .empty-list-text {
-    padding: 1rem;
-  }
+  overflow: hidden;
 
   .item {
     border-bottom: 1px solid $border-color;
-    padding: 1rem;
 
     &:last-child {
       border-bottom: none;
+    }
+
+    > * {
+      padding: $padding-comfortable;
     }
   }
 }

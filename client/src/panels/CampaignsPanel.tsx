@@ -1,6 +1,6 @@
 import React from 'react'
 
-import List from '../components/List'
+import List, { LinkItem } from '../components/List'
 import Panel from '../components/Panel'
 
 const CampaignsPanel = () => {
@@ -15,7 +15,15 @@ const CampaignsPanel = () => {
         },
       ]}
     >
-      <List textIfEmpty='There are no campaigns' />
+      <List
+        items={[1, 2, 3]}
+        itemsEmptyText='There are no campaigns'
+        renderItem={item => (
+          <LinkItem to='/'>
+            LinkItem
+          </LinkItem>
+        )}
+      />
     </Panel>
   )
 }
