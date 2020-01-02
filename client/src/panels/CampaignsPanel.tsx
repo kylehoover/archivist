@@ -16,11 +16,11 @@ const CampaignsPanel = () => {
       ]}
     >
       <List
-        items={[1, 2, 3]}
+        items={['Campaign 1', 'Campaign 2', 'Campaign 3']}
         itemsEmptyText='There are no campaigns'
         renderItem={item => (
-          <LinkItem to='/'>
-            LinkItem
+          <LinkItem to='/home/'>
+            {item}
           </LinkItem>
         )}
       />

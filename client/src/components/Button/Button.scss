@@ -11,6 +11,7 @@
   font-size: .9rem;
   font-weight: 500;
   padding: .3rem .7rem;
+  text-decoration: none;
 
   &:focus {
     outline: none;
@@ -25,8 +26,15 @@
     opacity: 1;
   }
 
+  &.fillParent {
+    border-radius: 0;
+    height: 100%;
+    width: 100%;
+  }
+
   &.flat {
-    border-color: white;
+    border: none;
+    padding: calc(.3rem + 1px) calc(.7rem + 1px); // add 1px border to padding
   }
 
   &.flat, &.outlined {

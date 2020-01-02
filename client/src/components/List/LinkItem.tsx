@@ -11,23 +11,9 @@ type Props = {
 
 const LinkItem = ({ children, to }: Props) => {
   return (
-    <div className='LinkItem'>
-      <Button onClick={() => {}}>
-        button
-      </Button>
-      <Button onClick={() => {}} outlined>
-        button
-      </Button>
-      <Button onClick={() => {}} flat>
-        button
-      </Button>
-    </div>
-  )
-
-  return (
-    <Link className='LinkItem' to={to}>
+    <Button color='black' linkTo={to} fillParent flat>
       {children}
-    </Link>
+    </Button>
   )
 }
 

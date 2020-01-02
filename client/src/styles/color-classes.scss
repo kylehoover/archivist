@@ -1,6 +1,12 @@
 @import 'colors';
 @import 'theme';
 
+.black {
+  background-color: black;
+  &-border { border-color: black; }
+  &-text { color: black; }
+}
+
 .blue {
   background-color: $blue-600;
   &-border { border-color: $blue-600; }
@@ -8,7 +14,7 @@
   &-text { color: $blue-600; }
 }
 
-.blue-grey {
+.blueGrey {
   background-color: $blue-grey-400;
   &-border { border-color: $blue-grey-400; }
   &-light { background-color: $blue-grey-50; }
