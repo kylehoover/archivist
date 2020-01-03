@@ -1,11 +1,14 @@
 import React from 'react'
 
+import Container from '../../components/Container'
 import { CampaignsPanel } from '../../panels'
 
 const Home = () => {
   return (
     <div className='Home'>
-      <CampaignsPanel />
+      <Container maxWidth={50} centered>
+        <CampaignsPanel />
+      </Container>
     </div>
   )
 }

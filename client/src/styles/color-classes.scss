@@ -34,6 +34,13 @@
   &-text { color: $primary; }
 }
 
+.purple {
+  background-color: $purple-300;
+  &-border { border-color: $purple-300; }
+  &-light { background-color: $purple-50; }
+  &-text { color: $purple-300; }
+}
+
 .teal {
   background-color: $teal-500;
   &-border { border-color: $teal-500; }

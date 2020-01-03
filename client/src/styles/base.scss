@@ -1,9 +1,11 @@
+@import 'colors';
+
 html {
   font-size: 16px;
 }
 
 body {
-  background-color: #e6e6e6;
+  background-color: $grey-200;
   font-family: Roboto, Arial, Helvetica, sans-serif;
   margin: 0;
 }

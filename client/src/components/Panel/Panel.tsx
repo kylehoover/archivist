@@ -13,18 +13,19 @@ export type PanelAction = {
 type Props = {
   actions?: PanelAction[],
   children?: ReactNode,
+  color: string,
   title: string,
 }
 
-const Panel = ({ actions = [], children, title }: Props) => {
+const Panel = ({ actions = [], children, color, title }: Props) => {
   return (
     <div className='Panel'>
       <header>
-        <h2 className='teal'>
+        <h2 className={color}>
           {title}
         </h2>
 
-        <div className='actions teal-border'>
+        <div className={`actions ${color}-border`}>
           {actions.map((action, index) => (
             <Button
               color={action.color}
