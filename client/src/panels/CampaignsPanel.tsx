@@ -7,6 +7,7 @@ const CampaignsPanel = () => {
   const panelActions: PanelAction[] = [
     {
       callback: () => { console.log('Add new campaign') },
+      color: 'indigo',
       icon: 'add',
       label: 'New Campaign',
     },

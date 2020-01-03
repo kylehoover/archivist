@@ -28,6 +28,13 @@
   &-text { color: $cyan-700; }
 }
 
+.indigo {
+  background-color: $indigo-300;
+  &-border { border-color: $indigo-300; }
+  &-light { background-color: $indigo-50; }
+  &-text { color: $indigo-300; }
+}
+
 .primary {
   background-color: $primary;
   &-border { border-color: $primary; }
