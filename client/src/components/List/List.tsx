@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react'
+import { observer } from 'mobx-react'
 
 import { Info } from '../Alert'
 import './List.scss'
@@ -9,7 +10,7 @@ type Props<T> = {
   renderItem: (item: T, index: number) => ReactNode,
 }
 
-const List = <T extends unknown>({
+const List = observer(<T extends unknown>({
   items = [],
   itemsEmptyText = 'There are no items in this list',
   renderItem,
@@ -31,6 +32,6 @@ const List = <T extends unknown>({
       ))}
     </div>
   )
-}
+})
 
 export default List
