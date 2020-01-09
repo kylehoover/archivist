@@ -1,7 +1,5 @@
-@import 'styles/colors';
+@import 'styles/theme';
 @import 'styles/variables';
-
-$border-color: $blue-grey-100;
 
 .List {
   border: 1px solid $border-color;

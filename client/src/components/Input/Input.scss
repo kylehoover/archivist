@@ -1,0 +1,24 @@
+@import 'styles/theme';
+
+.Input {
+  display: flex;
+  flex-direction: column;
+
+  input {
+    border: 1px solid $border-color;
+    border-radius: .2rem;
+    font-size: .85rem;
+    padding: .5rem;
+
+    &:focus {
+      border: 1.5px solid blue;
+      outline: none;
+      padding: calc(.5rem - .5px);
+    }
+  }
+
+  label {
+    font-size: .9rem;
+    margin-bottom: .1rem;
+  }
+}
