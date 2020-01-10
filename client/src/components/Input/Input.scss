@@ -1,24 +1,78 @@
 @import 'styles/theme';
 
+/**
+* TODO
+*  - label-embedded
+*    - smaller padding-bottom for input
+*    - placeholder === name
+*    - try animating label
+*  - inline width, full width
+*  - focus color
+**/
+
 .Input {
   display: flex;
-  flex-direction: column;
 
   input {
-    border: 1px solid $border-color;
+    border: .0625rem solid $border-color;
     border-radius: .2rem;
+    box-sizing: border-box;
     font-size: .85rem;
-    padding: .5rem;
+    order: 2;
+    padding: .3rem;
 
     &:focus {
-      border: 1.5px solid blue;
+      border: .1rem solid blue;
       outline: none;
-      padding: calc(.5rem - .5px);
+      padding: .2625rem;
     }
   }
 
   label {
     font-size: .9rem;
-    margin-bottom: .1rem;
+    order: 1;
+    width: fit-content;
+  }
+
+  &.label-embedded {
+    flex-direction: column;
+
+    input {
+      padding: .5rem;
+
+      &:focus {
+        padding: .4625rem;
+
+        + label {
+          color: blue;
+        }
+      }
+    }
+
+    label {
+      background-color: white;
+      font-size: .7rem;
+      left: .4rem;
+      padding: 0 .25rem;
+      position: relative;
+      top: .4rem;
+    }
+  }
+
+  &.label-left {
+    align-items: center;
+    flex-direction: row;
+
+    label {
+      margin-right: .4rem;
+    }
+  }
+
+  &.label-top {
+    flex-direction: column;
+
+    label {
+      margin-bottom: .1rem;
+    }
   }
 }

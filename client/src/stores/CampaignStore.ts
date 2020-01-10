@@ -1,4 +1,4 @@
-import { action, observable, toJS } from 'mobx'
+import { action, observable } from 'mobx'
 
 import Campaign from '../models/Campaign'
 
