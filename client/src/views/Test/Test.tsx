@@ -7,7 +7,7 @@ import Panel from '../../components/Panel'
 const Test = () => {
   return (
     <div className='Test'>
-      <Container maxWidth={40} centered>
+      <Container centered>
         <Panel title='Forms' color='blue'>
           <div style={{marginBottom: 32}}>
             <Input label='Name' name='name' labelPosition='embedded' />

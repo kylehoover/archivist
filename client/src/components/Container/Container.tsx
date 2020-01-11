@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 import classNames from 'classnames'
 
+import { numToRem } from '../../util'
 import './Container.scss'
 
 type Props = {
@@ -20,8 +21,8 @@ const Container = ({
     <div
       className={classNames('Container', { centered })}
       style={{
-        maxWidth: maxWidth ? `${maxWidth}rem` : 'none',
-        minWidth: `${minWidth}rem`,
+        maxWidth: numToRem(maxWidth),
+        minWidth: numToRem(minWidth),
       }}
     >
       {children}

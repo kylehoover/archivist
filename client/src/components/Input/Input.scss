@@ -1,11 +1,7 @@
+@import 'styles/colors';
 @import 'styles/theme';
 
-/**
-* TODO
-*  - inline width, full width
-*  - focus color
-**/
-
+$focus-color: $indigo-400;
 $input-font-size: .85rem;
 
 .Input {
@@ -21,7 +17,7 @@ $input-font-size: .85rem;
     padding: .3rem;
 
     &:focus {
-      border: .1rem solid blue;
+      border: .1rem solid $focus-color;
       outline: none;
       padding: .2625rem;
     }
@@ -44,11 +40,14 @@ $input-font-size: .85rem;
         padding: .5625rem .4625rem .3625rem .4625rem;
 
         + label {
-          color: blue;
-          font-size: .7rem;
-          top: -.45rem;
+          color: $focus-color;
           transition: font-size .1s, top .1s;
         }
+      }
+
+      &:focus + label, &.hasValue + label {
+        font-size: .7rem;
+        top: -.45rem;
       }
     }
 
