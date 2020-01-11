@@ -10,10 +10,10 @@ const Test = () => {
       <Container maxWidth={40} centered>
         <Panel title='Forms' color='blue'>
           <div style={{marginBottom: 32}}>
-            <Input label='Name' name='name' labelPosition='top' />
+            <Input label='Name' name='name' labelPosition='embedded' />
           </div>
           <div style={{marginBottom: 32}}>
-            <Input label='Name' name='name' labelPosition='embedded' />
+            <Input label='Name' name='name' labelPosition='top' />
           </div>
           <div style={{marginBottom: 32}}>
             <Input label='Name' name='name' labelPosition='left' />
