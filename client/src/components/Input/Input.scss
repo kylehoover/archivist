@@ -2,6 +2,7 @@
 @import 'styles/theme';
 
 $focus-color: $indigo-400;
+$focus-error-color: $pink-600;
 $input-font-size: .85rem;
 
 .Input {
@@ -21,6 +22,11 @@ $input-font-size: .85rem;
       outline: none;
       padding: .2625rem;
     }
+
+    &:invalid {
+      border-color: $focus-error-color;
+      border-left-width: .2rem;
+    }
   }
 
   label {
@@ -38,6 +44,10 @@ $input-font-size: .85rem;
 
       &:focus {
         padding: .5625rem .4625rem .3625rem .4625rem;
+
+        &:invalid + label {
+          color: $focus-error-color;
+        }
 
         + label {
           color: $focus-color;
