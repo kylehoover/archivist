@@ -9,6 +9,7 @@ type Props = {
   labelPosition?: 'embedded' | 'left' | 'top',
   maxWidth?: number,
   name: string,
+  type?: 'number' | 'text',
   width?: number,
 }
 
@@ -17,10 +18,11 @@ const Input = ({
   labelPosition = 'embedded',
   maxWidth,
   name,
+  type = 'text',
   width,
 }: Props) => {
-  const [ nameVal, setNameVal ] = useState('')
-  const hasValue = nameVal !== ''
+  const [ inputValue, setInputValue ] = useState('')
+  const hasValue = inputValue !== ''
 
   return (
     <div
@@ -33,9 +35,10 @@ const Input = ({
       <input
         className={classNames({ hasValue })}
         name={name}
-        type='text'
-        value={nameVal}
-        onChange={e => setNameVal(e.target.value)}
+        step='any'
+        type={type}
+        value={inputValue}
+        onChange={e => setInputValue(e.target.value)}
       />
       <label htmlFor={name}>
         {label}

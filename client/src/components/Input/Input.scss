@@ -2,12 +2,12 @@
 @import 'styles/theme';
 
 $focus-color: $indigo-400;
-$focus-error-color: $pink-600;
 $input-font-size: .85rem;
+$invalid-color: $pink-600;
 
 .Input {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 
   input {
     border: .0625rem solid $border-color;
@@ -16,6 +16,7 @@ $input-font-size: .85rem;
     font-size: $input-font-size;
     order: 2;
     padding: .3rem;
+    width: 100%;
 
     &:focus {
       border: .1rem solid $focus-color;
@@ -24,9 +25,13 @@ $input-font-size: .85rem;
     }
 
     &:invalid {
-      border-color: $focus-error-color;
+      border-color: $invalid-color;
       border-left-width: .2rem;
     }
+  }
+
+  input[type=number]::-webkit-inner-spin-button {
+    appearance: none;
   }
 
   label {
@@ -46,7 +51,7 @@ $input-font-size: .85rem;
         padding: .5625rem .4625rem .3625rem .4625rem;
 
         &:invalid + label {
-          color: $focus-error-color;
+          color: $invalid-color;
         }
 
         + label {
@@ -75,11 +80,6 @@ $input-font-size: .85rem;
 
   &.label-left {
     align-items: center;
-    flex-direction: row;
-
-    input {
-      width: 100%;
-    }
 
     label {
       margin-right: .4rem;
@@ -87,6 +87,8 @@ $input-font-size: .85rem;
   }
 
   &.label-top {
+    flex-direction: column;
+
     label {
       margin-bottom: .1rem;
     }
