@@ -10,7 +10,7 @@ const store = new CampaignStore()
 const CampaignsPanel = () => {
   const panelActions: PanelAction[] = [
     {
-      callback: () => {},
+      callback: () => console.log('New Campaign clicked'),
       color: 'indigo',
       icon: 'add',
       label: 'New Campaign',
