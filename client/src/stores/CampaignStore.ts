@@ -6,8 +6,8 @@ class CampaignStore {
   @observable public campaigns: Campaign[] = []
 
   @action.bound
-  public addCampaign(): void {
-    this.campaigns.push(new Campaign('NEW Campaign'))
+  public addCampaign(name: string): void {
+    this.campaigns.push(new Campaign(name))
   }
 }
 

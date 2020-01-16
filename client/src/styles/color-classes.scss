@@ -28,6 +28,13 @@
   &-text { color: $cyan-700; }
 }
 
+.green {
+  background-color: $green-500;
+  &-border { border-color: $green-500; }
+  &-light { background-color: $green-50; }
+  &-text { color: $green-500; }
+}
+
 .indigo {
   background-color: $indigo-300;
   &-border { border-color: $indigo-300; }
@@ -46,6 +53,13 @@
   &-border { border-color: $purple-300; }
   &-light { background-color: $purple-50; }
   &-text { color: $purple-300; }
+}
+
+.red {
+  background-color: $red-500;
+  &-border { border-color: $red-500; }
+  &-light { background-color: $red-50; }
+  &-text { color: $red-500; }
 }
 
 .teal {

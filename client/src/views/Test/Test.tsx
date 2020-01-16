@@ -15,10 +15,10 @@ const Test = () => {
         <Panel title='Forms' color='blue'>
           <form onSubmit={handleSubmit(data => console.log(data))}>
             <div style={{marginBottom: 32}}>
-              <Input label='Name' name='name' />
+              {/* <Input label='Name' name='name' /> */}
             </div>
             <div style={{marginBottom: 32}}>
-              <Input label='Number' name='number' type='number' />
+              {/* <Input label='Number' name='number' type='number' /> */}
             </div>
             <input type='submit' />
           </form>

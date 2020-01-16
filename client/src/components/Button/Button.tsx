@@ -13,6 +13,7 @@ type Props = {
   linkTo?: string,
   onClick?: (e: MouseEvent) => any,
   outlined?: boolean,
+  type?: 'button' | 'submit',
 }
 
 const Button = ({
@@ -24,6 +25,7 @@ const Button = ({
   linkTo = '',
   onClick,
   outlined = false,
+  type = 'button',
 }: Props) => {
   const ButtonTag = linkTo ? Link : 'button'
 
@@ -37,7 +39,7 @@ const Button = ({
   })
 
   return (
-    <ButtonTag className={btnClass} onClick={onClick} to={linkTo}>
+    <ButtonTag className={btnClass} onClick={onClick} to={linkTo} type={type}>
       {icon && <i className='material-icons'>{icon}</i>}
       {children}
     </ButtonTag>

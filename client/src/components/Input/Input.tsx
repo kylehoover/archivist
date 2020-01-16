@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import classNames from 'classnames'
 
 import { numToRem } from '../../util'
@@ -9,7 +9,9 @@ type Props = {
   labelPosition?: 'embedded' | 'left' | 'top',
   maxWidth?: number,
   name: string,
+  register: any,
   type?: 'number' | 'text',
+  watch: any,
   width?: number,
 }
 
@@ -18,11 +20,16 @@ const Input = ({
   labelPosition = 'embedded',
   maxWidth,
   name,
+  register,
   type = 'text',
+  watch,
   width,
 }: Props) => {
-  const [ inputValue, setInputValue ] = useState('')
-  const hasValue = inputValue !== ''
+  let hasValue = false
+
+  if (labelPosition === 'embedded') {
+    hasValue = watch(name, '') !== ''
+  }
 
   return (
     <div
@@ -35,10 +42,9 @@ const Input = ({
       <input
         className={classNames({ hasValue })}
         name={name}
+        ref={register}
         step='any'
         type={type}
-        value={inputValue}
-        onChange={e => setInputValue(e.target.value)}
       />
       <label htmlFor={name}>
         {label}
