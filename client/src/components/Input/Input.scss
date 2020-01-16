@@ -27,6 +27,7 @@ $invalid-color: $pink-600;
     &:invalid {
       border-color: $invalid-color;
       border-left-width: .2rem;
+      padding-left: .1625rem;
     }
   }
 
@@ -56,13 +57,17 @@ $invalid-color: $pink-600;
 
         + label {
           color: $focus-color;
-          transition: font-size .1s, top .1s;
+          transition: all .1s ease-in-out;
         }
       }
 
       &:focus + label, &.hasValue + label {
         font-size: .7rem;
         top: -.45rem;
+      }
+
+      &:invalid {
+        padding-left: .3625rem;
       }
     }
 
@@ -72,9 +77,10 @@ $invalid-color: $pink-600;
       font-size: $input-font-size;
       left: .4rem;
       padding: 0 .25rem;
+      pointer-events: none;
       position: absolute;
       top: .55rem;
-      transition: font-size .1s, top .1s;
+      transition: all .1s ease-in-out;
     }
   }
 
