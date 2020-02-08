@@ -10,7 +10,6 @@ export function getSchema(): Promise<GraphQLSchema> {
 
   return buildSchema({
     container: Container,
-    nullableByDefault: true,
     resolvers: [
       CampaignResolver,
     ],

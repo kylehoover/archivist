@@ -4,7 +4,7 @@ import Model from './Model'
 
 @ObjectType()
 class Campaign extends Model {
-  @Field()
+  @Field({ description: 'The name of the campaign' })
   public name!: string
 }
 

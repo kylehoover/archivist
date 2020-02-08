@@ -9,9 +9,9 @@ import { Campaign } from '../types'
 class CampaignResolver {
   constructor(@Inject(ServiceName.campaign) private readonly campaignService: ICampaignService) {}
 
-  @Query(returns => Campaign)
+  @Query(returns => Campaign, { nullable: true })
   public campaign(
-    @Arg('id', { nullable: false }) id: string,
+    @Arg('id') id: string,
   ): Promise<Campaign | null> {
     return this.campaignService.findById(id)
   }
