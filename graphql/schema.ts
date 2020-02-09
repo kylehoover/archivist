@@ -3,7 +3,7 @@ import { buildSchema } from 'type-graphql'
 import { Container } from 'typedi'
 
 import { verifyRegisteredServices } from '../services'
-import { CampaignResolver } from './resolvers'
+import { CampaignResolver, UserResolver } from './resolvers'
 
 export function getSchema(): Promise<GraphQLSchema> {
   verifyRegisteredServices()
@@ -12,6 +12,7 @@ export function getSchema(): Promise<GraphQLSchema> {
     container: Container,
     resolvers: [
       CampaignResolver,
+      UserResolver,
     ],
   })
 }
