@@ -1,7 +1,7 @@
 import { Field, ID, ObjectType } from 'type-graphql'
 
 @ObjectType()
-class Model {
+abstract class Model {
   @Field(type => ID)
   public get id(): string {
     return this.identifier

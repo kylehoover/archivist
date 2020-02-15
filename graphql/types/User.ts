@@ -9,7 +9,7 @@ class User extends Model {
   public email!: string
 
   @Field()
-  public fistName!: string
+  public firstName!: string
 
   @Field({ nullable: true })
   public lastName?: string
