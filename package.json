@@ -10,6 +10,7 @@
     "@types/mongodb": "^3.3.12",
     "@types/morgan": "^1.7.37",
     "@types/node": "^12.12.14",
+    "husky": "^4.2.3",
     "ts-node-dev": "^1.0.0-pre.44",
     "tslint": "^5.20.1",
     "typescript": "^3.7.2"
@@ -37,6 +38,6 @@
     "lint:client": "tslint --project ./client",
     "lint:server": "tslint --project ./",
     "start:client": "cd client && yarn start",
-    "start:server": "ts-node-dev app.ts"
+    "start:server": "ts-node-dev --project tsconfig.dev.json app.ts"
   }
 }
