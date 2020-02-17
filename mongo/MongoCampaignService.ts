@@ -2,11 +2,11 @@ import { ObjectId } from 'mongodb'
 import { Service } from 'typedi'
 
 import { Campaign } from '../graphql/types'
-import { ICampaignService } from '../services'
+import { CampaignService } from '../services'
 import MongoDB from './MongoDB'
 
 @Service()
-class MongoCampaignService implements ICampaignService {
+class MongoCampaignService implements CampaignService {
   constructor(private readonly db: MongoDB) {}
 
   public async findAll(): Promise<Campaign[]> {

@@ -1,11 +1,11 @@
-import ICampaignService from './ICampaignService'
-import IServiceProvider from './IServiceProvider'
+import CampaignService from './CampaignService'
+import ServiceProvider from './ServiceProvider'
 import ServiceName from './ServiceName'
 import { registerServices, verifyRegisteredServices } from './util'
 
 export {
-  ICampaignService,
-  IServiceProvider,
+  CampaignService,
+  ServiceProvider,
   ServiceName,
   registerServices,
   verifyRegisteredServices,

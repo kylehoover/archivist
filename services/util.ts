@@ -1,9 +1,9 @@
 import { Container } from 'typedi'
 
-import IServiceProvider from './IServiceProvider'
+import ServiceProvider from './ServiceProvider'
 import ServiceName from './ServiceName'
 
-export function registerServices(serviceProvider: IServiceProvider): void {
+export function registerServices(serviceProvider: ServiceProvider): void {
   Container.set(ServiceName.campaign, serviceProvider.getCampaignService())
 }
 

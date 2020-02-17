@@ -1,7 +1,7 @@
-import { Collection as MongoCollection, Db, MongoClient } from 'mongodb'
+import { Collection, Db, MongoClient } from 'mongodb'
 import { Service } from 'typedi'
 
-enum Collection {
+enum ArchivistCollection {
   campaigns = 'campaigns',
 }
 
@@ -22,8 +22,8 @@ class MongoDB {
     return this.conn
   }
 
-  public get campaigns(): MongoCollection {
-    return this.db.collection(Collection.campaigns)
+  public get campaigns(): Collection {
+    return this.db.collection(ArchivistCollection.campaigns)
   }
 
   public async init(): Promise<void> {

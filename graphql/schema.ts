@@ -5,7 +5,7 @@ import { Container } from 'typedi'
 import { verifyRegisteredServices } from '../services'
 import { CampaignResolver, UserResolver } from './resolvers'
 
-const errorInterceptor: MiddlewareFn<any> = async ({ context, info }, next) => {
+const errorInterceptor: MiddlewareFn = async ({ context, info }, next) => {
   try {
     return await next()
   } catch (err) {

@@ -3,10 +3,10 @@ import graphqlHTTP from 'express-graphql'
 import morgan from 'morgan'
 
 import { getSchema } from '../graphql'
-import { IServiceProvider, registerServices } from '../services'
+import { ServiceProvider, registerServices } from '../services'
 
 class Server {
-  public constructor(private readonly serviceProvider: IServiceProvider) {}
+  constructor(private readonly serviceProvider: ServiceProvider) {}
 
   public async run(): Promise<void> {
     await this.serviceProvider.init()

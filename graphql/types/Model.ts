@@ -7,6 +7,14 @@ abstract class Model {
     return this.identifier
   }
 
+  public set id(id: string) {
+    this.identifier = id
+  }
+
+  public set _id(id: string) {
+    this.identifier = id
+  }
+
   @Field()
   public createdAt!: Date
 
@@ -14,14 +22,6 @@ abstract class Model {
   public modifiedAt!: Date
 
   private identifier!: string
-
-  public set _id(id: string) {
-    this.identifier = id
-  }
-
-  public set id(id: string) {
-    this.identifier = id
-  }
 }
 
 export default Model

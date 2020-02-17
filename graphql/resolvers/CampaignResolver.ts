@@ -1,13 +1,13 @@
 import { Arg, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 
-import { ICampaignService, ServiceName } from '../../services'
+import { CampaignService, ServiceName } from '../../services'
 import { Campaign } from '../types'
 
 @Service()
 @Resolver(Campaign)
 class CampaignResolver {
-  constructor(@Inject(ServiceName.campaign) private readonly campaignService: ICampaignService) {}
+  constructor(@Inject(ServiceName.campaign) private readonly campaignService: CampaignService) {}
 
   @Query(returns => Campaign, { nullable: true })
   public campaign(
