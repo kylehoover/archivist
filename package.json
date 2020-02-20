@@ -33,9 +33,9 @@
     "typedi": "^0.8.0"
   },
   "scripts": {
-    "build": "yarn lint && yarn build:server && yarn build:client",
+    "build": "yarn build:server && yarn build:client",
     "build:client": "cd client && yarn build",
-    "build:server": "yarn lint:server && yarn clean:server && tsc",
+    "build:server": "yarn clean:server && tsc && cp .env build/",
     "clean": "yarn clean:server && yarn clean:client",
     "clean:client": "cd client && rm -rf build",
     "clean:server": "rm -rf build",
