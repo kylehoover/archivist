@@ -13,6 +13,7 @@
     "@typescript-eslint/eslint-plugin": "^2.19.2",
     "@typescript-eslint/eslint-plugin-tslint": "^2.19.2",
     "@typescript-eslint/parser": "^2.19.2",
+    "chalk": "^3.0.0",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.20.1",
     "husky": "^4.2.3",
@@ -39,11 +40,15 @@
     "clean": "yarn clean:server && yarn clean:client",
     "clean:client": "cd client && rm -rf build",
     "clean:server": "rm -rf build",
-    "lint": "yarn lint:server && yarn lint:client",
-    "lint:client": "tslint --project ./client",
+    "lint": "yarn lint:server",
     "lint:server": "eslint --ext .ts .",
     "lint:staged": "git diff --staged --name-only | xargs eslint --ext .ts --no-error-on-unmatched-pattern",
     "start:client": "cd client && yarn start",
     "start:server": "ts-node-dev --project tsconfig.dev.json app.ts"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "ts-node pre-commit-hook.ts"
+    }
   }
 }

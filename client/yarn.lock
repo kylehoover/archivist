@@ -2072,9 +2072,9 @@
     csstype "^2.2.0"
 
 "@types/react@^16.9.13":
-  version "16.9.21"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.21.tgz#99e274e2ecfab6bb93920e918341daa3198b348d"
-  integrity sha512-xpmenCMeBwJRct8vmIfczlgdOXWIWASoOM857kxKfHlVQvDltRh7IFRVfGws79iO2jkNPXOeWREyKoClzhBaQA==
+  version "16.9.22"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.22.tgz#f0288c92d94e93c4b43e3f5633edf788b2c040ae"
+  integrity sha512-7OSt4EGiLvy0h5R7X+r0c7S739TCU/LvWbkNOrm10lUwNHe7XPz5OLhLOSZeCkqO9JSCly1NkYJ7ODTUqVnHJQ==
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
@@ -9586,9 +9586,9 @@ react-error-overlay@^6.0.6:
   integrity sha512-Yzpno3enVzSrSCnnljmr4b/2KUQSMZaPuqmS26t9k4nW7uwJk6STWmH9heNjPuvqUTO3jOSPkHoKgO4+Dw7uIw==
 
 react-hook-form@^4.4.8:
-  version "4.9.6"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-4.9.6.tgz#2057b4af7028f09d50c9bd1db46d1ff4e453c046"
-  integrity sha512-t5EQdfATwOOlj0rsBmHYBgf6s5L/dzakPzhzr2kdqTVhRnxSI73ZthJofZ+dYiXrXa6ds0VRso49GCHwDXL66Q==
+  version "4.9.8"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-4.9.8.tgz#eb3630d76d90b19fe2fd40383a5b6975dce668a6"
+  integrity sha512-oOeTZe4MomOyoPzJ5k69kg2xukdDE02jkoH6kSH9anUq5GjD2gL6TGQGhjA2deV4JYjM7c1XD4Mwinxoqc407w==
 
 react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4:
   version "16.12.0"
@@ -11305,9 +11305,9 @@ typedarray@^0.0.6:
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
 typescript@^3.7.2:
-  version "3.7.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.5.tgz#0692e21f65fd4108b9330238aac11dd2e177a1ae"
-  integrity sha512-/P5lkRXkWHNAbcJIiHPfRoKqyd7bsyCma1hZNUGfn20qm64T6ZBlrzprymeu918H+mB/0rIg2gGK/BXkhhYgBw==
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.8.2.tgz#91d6868aaead7da74f493c553aeff76c0c0b1d5a"
+  integrity sha512-EgOVgL/4xfVrCMbhYKUQTdF37SQn4Iw73H5BgCrF1Abdun7Kwy/QZsE/ssAy0y4LxBbvua3PIbFsbRczWWnDdQ==
 
 uglify-js@^3.1.4:
   version "3.7.0"
