@@ -1,6 +1,6 @@
 import { Container, Service } from 'typedi'
 
-import { CampaignService, ServiceProvider } from '../services'
+import { CampaignService, ServiceProvider, UserService } from '../services'
 import MongoCampaignService from './MongoCampaignService'
 import MongoDB from './MongoDB'
 
@@ -14,6 +14,10 @@ class MongoServiceProvider implements ServiceProvider {
 
   public getCampaignService(): CampaignService {
     return Container.get(MongoCampaignService)
+  }
+
+  public getUserService(): UserService {
+    throw new Error('Not implemented')
   }
 }
 

@@ -4,7 +4,8 @@ import ServiceProvider from './ServiceProvider'
 import ServiceName from './ServiceName'
 
 export function registerServices(serviceProvider: ServiceProvider): void {
-  Container.set(ServiceName.campaign, serviceProvider.getCampaignService())
+  Container.set(ServiceName.Campaign, serviceProvider.getCampaignService())
+  Container.set(ServiceName.User, serviceProvider.getUserService())
 }
 
 export function verifyRegisteredServices(): void {

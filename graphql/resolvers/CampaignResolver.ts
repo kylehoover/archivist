@@ -7,7 +7,7 @@ import { Campaign } from '../types'
 @Service()
 @Resolver(Campaign)
 class CampaignResolver {
-  constructor(@Inject(ServiceName.campaign) private readonly campaignService: CampaignService) {}
+  constructor(@Inject(ServiceName.Campaign) private readonly campaignService: CampaignService) {}
 
   @Query(returns => Campaign, { nullable: true })
   public campaign(

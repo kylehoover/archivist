@@ -2,12 +2,12 @@ import { Collection, Db, MongoClient } from 'mongodb'
 import { Service } from 'typedi'
 
 enum ArchivistCollection {
-  campaigns = 'campaigns',
+  Campaigns = 'campaigns',
 }
 
 enum EnvVar {
-  dbName = 'AR_MONGO_DB',
-  dbUrl = 'AR_MONGO_URL',
+  DbName = 'AR_MONGO_DB',
+  DbUrl = 'AR_MONGO_URL',
 }
 
 @Service()
@@ -23,20 +23,20 @@ class MongoDB {
   }
 
   public get campaigns(): Collection {
-    return this.db.collection(ArchivistCollection.campaigns)
+    return this.db.collection(ArchivistCollection.Campaigns)
   }
 
   public async init(): Promise<void> {
-    const dbName = process.env[EnvVar.dbName]
-    const url = process.env[EnvVar.dbUrl]
+    const dbName = process.env[EnvVar.DbName]
+    const url = process.env[EnvVar.DbUrl]
     let client: MongoClient
 
     if (!dbName) {
-      throw new Error(`${EnvVar.dbName} environment variable is not set`)
+      throw new Error(`${EnvVar.DbName} environment variable is not set`)
     }
 
     if (!url) {
-      throw new Error(`${EnvVar.dbUrl} environment variable is not set`)
+      throw new Error(`${EnvVar.DbUrl} environment variable is not set`)
     }
 
     try {

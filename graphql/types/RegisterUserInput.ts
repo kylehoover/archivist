@@ -10,12 +10,12 @@ class RegisterUserInput {
   @Field()
   @IsNotEmpty()
   @MaxLength(50)
-  public firstName!: string
+  public name!: string
 
-  @Field({ nullable: true })
+  @Field()
   @IsNotEmpty()
-  @MaxLength(50)
-  public lastName?: string
+  @MaxLength(100)
+  public password!: string
 }
 
 export default RegisterUserInput

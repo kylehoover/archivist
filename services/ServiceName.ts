@@ -1,5 +1,6 @@
 enum ServiceName {
-  campaign = 'service.campaign',
+  Campaign = 'service.campaign',
+  User = 'service.user',
 }
 
 export default ServiceName
