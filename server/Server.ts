@@ -2,8 +2,8 @@ import express from 'express'
 import graphqlHTTP from 'express-graphql'
 import morgan from 'morgan'
 
-import { getSchema } from '../graphql'
-import { ServiceProvider, registerServices } from '../services'
+import { getSchema } from './graphql'
+import { ServiceProvider, registerServices } from './services'
 
 class Server {
   constructor(private readonly serviceProvider: ServiceProvider) {}

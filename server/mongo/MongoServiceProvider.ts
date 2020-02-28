@@ -17,7 +17,7 @@ class MongoServiceProvider implements ServiceProvider {
   }
 
   public getUserService(): UserService {
-    throw new Error('Not implemented')
+    throw new Error('MongoServiceProvider.getUserService not implemented')
   }
 }
 
