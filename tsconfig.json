@@ -16,7 +16,8 @@
     "forceConsistentCasingInFileNames": true,
     "lib": ["es2016", "esnext.asynciterable"]
   },
-  "exclude": [
-    "./client/"
+  "include": [
+    "app.ts",
+    "server/**/*.ts"
   ]
 }

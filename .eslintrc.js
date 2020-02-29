@@ -100,11 +100,12 @@ module.exports = {
         "@typescript-eslint/no-empty-interface": ["error", { "allowSingleExtends": true }],
         "@typescript-eslint/no-explicit-any": "error",
         "@typescript-eslint/no-parameter-properties": "off",
-        "@typescript-eslint/no-unused-vars": ["error", { "args": "none" }],
+        "@typescript-eslint/no-unused-vars": ["warn", { "args": "none" }],
         "@typescript-eslint/no-use-before-define": "off",
         "@typescript-eslint/prefer-for-of": "error",
         "@typescript-eslint/prefer-function-type": "error",
         "@typescript-eslint/quotes": ["error", "single"],
+        "@typescript-eslint/require-await": "off",
         "@typescript-eslint/semi": ["error", "never"],
         "@typescript-eslint/unified-signatures": "error",
         "@typescript-eslint/tslint/config": [

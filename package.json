@@ -14,10 +14,11 @@
     "@typescript-eslint/eslint-plugin-tslint": "^2.19.2",
     "@typescript-eslint/parser": "^2.19.2",
     "chalk": "^3.0.0",
+    "concurrently": "^5.1.0",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.20.1",
     "husky": "^4.2.3",
-    "ts-node-dev": "^1.0.0-pre.44",
+    "nodemon": "^2.0.2",
     "tslint": "^5.20.1",
     "typescript": "^3.7.2"
   },
@@ -44,7 +45,7 @@
     "lint:server": "eslint --ext .ts .",
     "lint:staged": "git diff --staged --name-only | xargs eslint --ext .ts --no-error-on-unmatched-pattern",
     "start:client": "cd client && yarn start",
-    "start:server": "ts-node-dev --project tsconfig.dev.json app.ts"
+    "start:server": "rm -rf build-dev && mkdir build-dev && cp .env build-dev && tsc -p tsconfig.dev.json && concurrently \"tsc -p tsconfig.dev.json -w\" \"nodemon build-dev/app.js\""
   },
   "husky": {
     "hooks": {

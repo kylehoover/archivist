@@ -3,5 +3,6 @@ yarn-error.log
 
 .idea/
 build/
+build-dev/
 docs/
 node_modules/
