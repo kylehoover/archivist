@@ -1,5 +1,5 @@
-import { Campaign } from '../graphql/types'
 import DataService from './DataService'
+import { Campaign } from '../models'
 
 interface CampaignService extends DataService<Campaign> {}
 

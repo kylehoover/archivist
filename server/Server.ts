@@ -13,7 +13,7 @@ class Server {
     registerServices(this.serviceProvider)
 
     const app = express()
-    const port = process.env.AR_PORT || 4000
+    const port = process.env.AR_PORT ?? 4000
 
     app.use(morgan('tiny'))
 

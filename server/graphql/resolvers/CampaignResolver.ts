@@ -2,23 +2,23 @@ import { Arg, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 
 import { CampaignService, ServiceName } from '../../services'
-import { Campaign } from '../types'
+import { CampaignType } from '../types'
 
 @Service()
-@Resolver(Campaign)
+@Resolver(CampaignType)
 class CampaignResolver {
   constructor(@Inject(ServiceName.Campaign) private readonly campaignService: CampaignService) {}
 
-  @Query(returns => Campaign, { nullable: true })
-  public campaign(
-    @Arg('id') id: string,
-  ): Promise<Campaign | null> {
-    return this.campaignService.findById(id)
+  @Query(returns => CampaignType, { nullable: true })
+  public async campaign(@Arg('id') id: string): Promise<CampaignType | undefined> {
+    const campaign = await this.campaignService.findById(id)
+    return campaign?.toGraphQLType()
   }
 
-  @Query(returns => [Campaign])
-  public campaigns(): Promise<Campaign[]> {
-    return this.campaignService.findAll()
+  @Query(returns => [CampaignType])
+  public async campaigns(): Promise<CampaignType[]> {
+    const campaigns = await this.campaignService.findAll()
+    return campaigns.map(c => c.toGraphQLType())
   }
 }
 

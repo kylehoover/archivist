@@ -1,9 +1,11 @@
-import Campaign from './Campaign'
+import CampaignType from './CampaignType'
+import ModelType from './ModelType'
 import RegisterUserInput from './RegisterUserInput'
-import User from './User'
+import UserType from './UserType'
 
 export {
-  Campaign,
+  CampaignType,
+  ModelType,
   RegisterUserInput,
-  User,
+  UserType,
 }
