@@ -9,12 +9,13 @@ import MongoDB from './MongoDB'
 class MongoUserService implements UserService {
   constructor(private readonly db: MongoDB) {}
 
-  public async findAll(): Promise<User[]> {
-    return []
+  public findAll(): Promise<User[]> {
+    return MongoDB.findAll(this.db.users, User.fromMongoDocument)
   }
 
   public async findById(id: string): Promise<User | null> {
-    return null
+    const doc = await this.db.users.findOne({ _id: new ObjectId(id) })
+    return doc ? User.fromMongoDocument(doc) : null
   }
 }
 

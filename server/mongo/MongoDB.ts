@@ -3,6 +3,7 @@ import { Service } from 'typedi'
 
 enum ArchivistCollection {
   Campaigns = 'campaigns',
+  Users = 'users',
 }
 
 enum EnvVar {
@@ -24,6 +25,14 @@ class MongoDB {
 
   public get campaigns(): Collection {
     return this.db.collection(ArchivistCollection.Campaigns)
+  }
+
+  public get users(): Collection {
+    return this.db.collection(ArchivistCollection.Users)
+  }
+
+  public static findAll<T>(collection: Collection, transform: (doc: any) => T): Promise<T[]> {
+    return collection.find().map(transform).toArray()
   }
 
   public async init(): Promise<void> {
