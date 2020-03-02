@@ -19,6 +19,7 @@
     "eslint-plugin-import": "^2.20.1",
     "husky": "^4.2.3",
     "nodemon": "^2.0.2",
+    "ts-node": "^8.6.2",
     "tslint": "^5.20.1",
     "typescript": "^3.7.2"
   },
@@ -42,7 +43,7 @@
     "clean:client": "cd client && rm -rf build",
     "clean:server": "rm -rf build",
     "lint": "yarn lint:server",
-    "lint:server": "eslint --ext .ts .",
+    "lint:server": "eslint --ext .ts app.ts server",
     "lint:staged": "git diff --staged --name-only | xargs eslint --ext .ts --no-error-on-unmatched-pattern",
     "start:client": "cd client && yarn start",
     "start:server": "rm -rf build-dev && mkdir build-dev && cp .env build-dev && tsc -p tsconfig.dev.json && concurrently \"tsc -p tsconfig.dev.json -w\" \"nodemon build-dev/app.js\""

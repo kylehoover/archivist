@@ -13,7 +13,7 @@ class User extends Model {
     super(id, createdAt, modifiedAt)
   }
 
-  public static fromMongoDocument(doc: any): User {
+  public static fromMongo(doc: any): User {
     return new User(doc._id, doc.createdAt, doc.modifiedAt, doc.name, doc.email, doc.password)
   }
 

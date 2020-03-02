@@ -11,7 +11,7 @@ class Campaign extends Model {
     super(id, createdAt, modifiedAt)
   }
 
-  public static fromMongoDocument(doc: any): Campaign {
+  public static fromMongo(doc: any): Campaign {
     return new Campaign(doc._id, doc.createdAt, doc.modifiedAt, doc.name)
   }
 

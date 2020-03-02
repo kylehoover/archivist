@@ -1,7 +1,9 @@
-import { Collection, Db, MongoClient } from 'mongodb'
+import { Collection, Db, MongoClient, ObjectId } from 'mongodb'
 import { Service } from 'typedi'
 
-enum ArchivistCollection {
+import { Model } from '../models'
+
+enum CollectionName {
   Campaigns = 'campaigns',
   Users = 'users',
 }
@@ -11,8 +13,10 @@ enum EnvVar {
   DbUrl = 'AR_MONGO_URL',
 }
 
+type mapDocumentToModelFn<T extends Model> = (doc: any) => T
+
 @Service()
-class MongoDB {
+class MongoDb {
   private conn?: Db
 
   private get db(): Db {
@@ -24,15 +28,27 @@ class MongoDB {
   }
 
   public get campaigns(): Collection {
-    return this.db.collection(ArchivistCollection.Campaigns)
+    return this.db.collection(CollectionName.Campaigns)
   }
 
   public get users(): Collection {
-    return this.db.collection(ArchivistCollection.Users)
+    return this.db.collection(CollectionName.Users)
   }
 
-  public static findAll<T>(collection: Collection, transform: (doc: any) => T): Promise<T[]> {
-    return collection.find().map(transform).toArray()
+  public static findAll<T extends Model>(
+    collection: Collection,
+    mapFn: mapDocumentToModelFn<T>,
+  ): Promise<T[]> {
+    return collection.find().map(mapFn).toArray()
+  }
+
+  public static async findById<T extends Model>(
+    id: string,
+    collection: Collection,
+    mapFn: mapDocumentToModelFn<T>,
+  ): Promise<T | null> {
+    const doc = await collection.findOne({ _id: new ObjectId(id) })
+    return doc !== null ? mapFn(doc) : null
   }
 
   public async init(): Promise<void> {
@@ -51,7 +67,7 @@ class MongoDB {
     try {
       client = await MongoClient.connect(url, { useUnifiedTopology: true })
     } catch (err) {
-      console.error('Failed to connect to MongoDB')
+      console.error('Failed to connect to MongoDb')
       throw err
     }
 
@@ -59,4 +75,4 @@ class MongoDB {
   }
 }
 
-export default MongoDB
+export default MongoDb

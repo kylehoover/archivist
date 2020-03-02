@@ -1,21 +1,19 @@
-import { ObjectId } from 'mongodb'
 import { Service } from 'typedi'
 
+import MongoDb from './MongoDb'
 import { User } from '../models'
 import { UserService } from '../services'
-import MongoDB from './MongoDB'
 
 @Service()
 class MongoUserService implements UserService {
-  constructor(private readonly db: MongoDB) {}
+  constructor(private readonly db: MongoDb) {}
 
   public findAll(): Promise<User[]> {
-    return MongoDB.findAll(this.db.users, User.fromMongoDocument)
+    return MongoDb.findAll(this.db.users, User.fromMongo)
   }
 
   public async findById(id: string): Promise<User | null> {
-    const doc = await this.db.users.findOne({ _id: new ObjectId(id) })
-    return doc ? User.fromMongoDocument(doc) : null
+    return MongoDb.findById(id, this.db.users, User.fromMongo)
   }
 }
 
