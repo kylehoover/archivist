@@ -1,4 +1,5 @@
 import Model from './Model'
+import { MongoDocument } from '../mongo'
 import { UserType } from '../graphql/types/'
 
 class User extends Model {
@@ -13,7 +14,7 @@ class User extends Model {
     super(id, createdAt, modifiedAt)
   }
 
-  public static fromMongo(doc: any): User {
+  public static fromMongo(doc: MongoDocument): User {
     return new User(doc._id, doc.createdAt, doc.modifiedAt, doc.name, doc.email, doc.password)
   }
 

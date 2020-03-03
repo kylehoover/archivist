@@ -2,6 +2,7 @@ import { Collection, Db, MongoClient, ObjectId } from 'mongodb'
 import { Service } from 'typedi'
 
 import { Model } from '../models'
+import MongoDocument from './MongoDocument'
 
 enum CollectionName {
   Campaigns = 'campaigns',
@@ -13,7 +14,7 @@ enum EnvVar {
   DbUrl = 'AR_MONGO_URL',
 }
 
-type mapDocumentToModelFn<T extends Model> = (doc: any) => T
+type mapDocumentToModelFn<T extends Model> = (doc: MongoDocument) => T
 
 @Service()
 class MongoDb {

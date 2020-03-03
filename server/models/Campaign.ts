@@ -1,5 +1,6 @@
 import Model from './Model'
 import { CampaignType } from '../graphql/types'
+import { MongoDocument } from '../mongo/'
 
 class Campaign extends Model {
   private constructor(
@@ -11,7 +12,7 @@ class Campaign extends Model {
     super(id, createdAt, modifiedAt)
   }
 
-  public static fromMongo(doc: any): Campaign {
+  public static fromMongo(doc: MongoDocument): Campaign {
     return new Campaign(doc._id, doc.createdAt, doc.modifiedAt, doc.name)
   }
 
