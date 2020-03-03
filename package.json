@@ -38,7 +38,7 @@
   "scripts": {
     "build": "yarn build:server && yarn build:client",
     "build:client": "cd client && yarn build",
-    "build:server": "yarn clean:server && tsc && cp .env build/",
+    "build:server": "yarn clean:server && mkdir build && cp .env build && tsc",
     "clean": "yarn clean:server && yarn clean:client",
     "clean:client": "cd client && rm -rf build",
     "clean:server": "rm -rf build",
@@ -46,7 +46,7 @@
     "lint:server": "eslint --ext .ts app.ts server",
     "lint:staged": "git diff --staged --name-only | xargs eslint --ext .ts --no-error-on-unmatched-pattern",
     "start:client": "cd client && yarn start",
-    "start:server": "rm -rf build-dev && mkdir build-dev && cp .env build-dev && tsc -p tsconfig.dev.json && concurrently \"tsc -p tsconfig.dev.json -w\" \"nodemon build-dev/app.js\""
+    "start:server": "yarn build:server && concurrently \"tsc -w\" \"nodemon build/app.js\""
   },
   "husky": {
     "hooks": {
