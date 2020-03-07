@@ -1,9 +1,10 @@
 import { Container, Service } from 'typedi'
 
-import { CampaignService, ServiceProvider, UserService } from '../services'
+import MongoAppSettingService from './MongoAppSettingService'
 import MongoCampaignService from './MongoCampaignService'
-import MongoUserService from './MongoUserService'
 import MongoDb from './MongoDb'
+import MongoUserService from './MongoUserService'
+import { ServiceProvider } from '../services'
 
 @Service()
 class MongoServiceProvider implements ServiceProvider {
@@ -13,11 +14,15 @@ class MongoServiceProvider implements ServiceProvider {
     await this.db.init()
   }
 
-  public getCampaignService(): CampaignService {
+  public getAppSettingService(): MongoAppSettingService {
+    return Container.get(MongoAppSettingService)
+  }
+
+  public getCampaignService(): MongoCampaignService {
     return Container.get(MongoCampaignService)
   }
 
-  public getUserService(): UserService {
+  public getUserService(): MongoUserService {
     return Container.get(MongoUserService)
   }
 }

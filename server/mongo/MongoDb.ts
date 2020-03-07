@@ -5,6 +5,7 @@ import { Model } from '../models'
 import MongoDocument from './MongoDocument'
 
 enum CollectionName {
+  AppSettings = 'appSettings',
   Campaigns = 'campaigns',
   Users = 'users',
 }
@@ -26,6 +27,10 @@ class MongoDb {
     }
 
     return this.conn
+  }
+
+  public get appSettings(): Collection {
+    return this.db.collection(CollectionName.AppSettings)
   }
 
   public get campaigns(): Collection {

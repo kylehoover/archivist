@@ -116,7 +116,7 @@ module.exports = {
                     "import-spacing": true,
                     "jsdoc-format": true,
                     "no-reference-import": true,
-                    "object-literal-sort-keys": true,
+                    "object-literal-sort-keys": false,
                     "one-line": [
                         true,
                         "check-catch",

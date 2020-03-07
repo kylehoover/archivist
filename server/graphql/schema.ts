@@ -2,8 +2,8 @@ import { GraphQLError, GraphQLSchema } from 'graphql'
 import { ArgumentValidationError, MiddlewareFn, buildSchema } from 'type-graphql'
 import { Container } from 'typedi'
 
+import { AppSettingResolver, CampaignResolver, UserResolver } from './resolvers'
 import { verifyRegisteredServices } from '../services'
-import { CampaignResolver, UserResolver } from './resolvers'
 
 const errorInterceptor: MiddlewareFn = async ({ context, info }, next) => {
   try {
@@ -25,6 +25,7 @@ export function getSchema(): Promise<GraphQLSchema> {
     container: Container,
     globalMiddlewares: [errorInterceptor],
     resolvers: [
+      AppSettingResolver,
       CampaignResolver,
       UserResolver,
     ],
