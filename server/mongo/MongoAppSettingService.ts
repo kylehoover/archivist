@@ -12,7 +12,7 @@ class MongoAppSettingService implements AppSettingService {
     return MongoDb.findAll(this.db.appSettings, AppSetting.fromMongo)
   }
 
-  public async findById(id: string): Promise<AppSetting | null> {
+  public findById(id: string): Promise<AppSetting | null> {
     return MongoDb.findById(id, this.db.appSettings, AppSetting.fromMongo)
   }
 }

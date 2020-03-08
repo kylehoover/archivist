@@ -12,7 +12,7 @@ class MongoUserService implements UserService {
     return MongoDb.findAll(this.db.users, User.fromMongo)
   }
 
-  public async findById(id: string): Promise<User | null> {
+  public findById(id: string): Promise<User | null> {
     return MongoDb.findById(id, this.db.users, User.fromMongo)
   }
 }

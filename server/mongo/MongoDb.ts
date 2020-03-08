@@ -2,7 +2,6 @@ import { Collection, Db, MongoClient, ObjectId } from 'mongodb'
 import { Service } from 'typedi'
 
 import { Model } from '../models'
-import MongoDocument from './MongoDocument'
 
 enum CollectionName {
   AppSettings = 'appSettings',
@@ -15,7 +14,7 @@ enum EnvVar {
   DbUrl = 'AR_MONGO_URL',
 }
 
-type mapDocumentToModelFn<T extends Model> = (doc: MongoDocument) => T
+type mapDocumentToModelFn<T extends Model> = (doc: any) => T
 
 @Service()
 class MongoDb {
@@ -55,6 +54,22 @@ class MongoDb {
   ): Promise<T | null> {
     const doc = await collection.findOne({ _id: new ObjectId(id) })
     return doc !== null ? mapFn(doc) : null
+  }
+
+  public static async insertOne<T extends Model>(
+    fields: any,
+    collection: Collection,
+    mapFn: mapDocumentToModelFn<T>,
+  ): Promise<T> {
+    let result
+
+    try {
+      result = await collection.insertOne(fields)
+    } catch (err) {
+      throw new Error('MongoDB Error: Failed to insert new document')
+    }
+
+    return mapFn(result.ops[0])
   }
 
   public async init(): Promise<void> {
