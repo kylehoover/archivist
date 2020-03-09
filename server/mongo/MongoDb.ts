@@ -2,6 +2,7 @@ import { Collection, Db, MongoClient, ObjectId } from 'mongodb'
 import { Service } from 'typedi'
 
 import { Model } from '../models'
+import MongoDocument from './MongoDocument'
 
 enum CollectionName {
   AppSettings = 'appSettings',
@@ -57,7 +58,7 @@ class MongoDb {
   }
 
   public static async insertOne<T extends Model>(
-    fields: any,
+    fields: MongoDocument,
     collection: Collection,
     mapFn: mapDocumentToModelFn<T>,
   ): Promise<T> {

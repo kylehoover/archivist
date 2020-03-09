@@ -1,6 +1,6 @@
 import { Service } from 'typedi'
 
-import Campaign, { CampaignFields } from '../models/Campaign'
+import Campaign, { NewCampaignModelFields } from '../models/Campaign'
 import MongoDb from './MongoDb'
 import { CampaignService } from '../services'
 
@@ -16,12 +16,8 @@ class MongoCampaignService implements CampaignService {
     return MongoDb.findById(id, this.db.campaigns, Campaign.fromMongo)
   }
 
-  public insertOne(fields: CampaignFields): Promise<Campaign> {
-    return MongoDb.insertOne(
-      Campaign.getNewCampaignModelFields(fields),
-      this.db.campaigns,
-      Campaign.fromMongo,
-    )
+  public insertOne(fields: NewCampaignModelFields): Promise<Campaign> {
+    return MongoDb.insertOne(fields, this.db.campaigns, Campaign.fromMongo)
   }
 }
 

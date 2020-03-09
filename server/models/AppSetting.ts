@@ -1,12 +1,22 @@
-import Model from './Model'
+import Model, { MongoModelFields, NewModelFields } from './Model'
 import { AppSettingType } from '../graphql/types'
-import { MongoDocument } from '../mongo/'
+
+export type AppSettingFields = {
+  name: AppSettingName
+  value: AppSettingValue
+  displayName: string
+  description: string
+}
 
 export enum AppSettingName {
   AllowOpenRegistration = 'allowOpenRegistration',
 }
 
 export type AppSettingValue = boolean | number | string
+
+export type NewAppSettingModelFields = NewModelFields & AppSettingFields
+
+type MongoAppSettingModelFields = MongoModelFields & AppSettingFields
 
 class AppSetting extends Model {
   private constructor(
@@ -21,7 +31,7 @@ class AppSetting extends Model {
     super(id, createdAt, modifiedAt)
   }
 
-  public static fromMongo(doc: MongoDocument): AppSetting {
+  public static fromMongo(doc: MongoAppSettingModelFields): AppSetting {
     return new AppSetting(doc._id, doc.createdAt, doc.modifiedAt, doc.name, doc.value, doc.displayName,
       doc.description)
   }

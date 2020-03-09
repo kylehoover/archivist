@@ -31,6 +31,14 @@ abstract class Model {
     }
   }
 
+  public static getNewModelFields<T>(fields: T): NewModelFields & T {
+    return {
+      createdAt: new Date(),
+      modifiedAt: new Date(),
+      ...fields,
+    }
+  }
+
   public abstract toGraphQLType(): ModelType
 }
 

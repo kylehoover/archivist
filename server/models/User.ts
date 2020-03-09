@@ -1,6 +1,15 @@
-import Model from './Model'
-import { MongoDocument } from '../mongo'
+import Model, { MongoModelFields, NewModelFields } from './Model'
 import { UserType } from '../graphql/types/'
+
+export type UserFields = {
+  name: string
+  email: string
+  password: string
+}
+
+export type NewUserModelFields = NewModelFields & UserFields
+
+type MongoUserModelFields = MongoModelFields & UserFields
 
 class User extends Model {
   private constructor(
@@ -14,7 +23,7 @@ class User extends Model {
     super(id, createdAt, modifiedAt)
   }
 
-  public static fromMongo(doc: MongoDocument): User {
+  public static fromMongo(doc: MongoUserModelFields): User {
     return new User(doc._id, doc.createdAt, doc.modifiedAt, doc.name, doc.email, doc.password)
   }
 

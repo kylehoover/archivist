@@ -1,8 +1,6 @@
 import DataService from './DataService'
-import Campaign, { CampaignFields } from '../models/Campaign'
+import Campaign, { NewCampaignModelFields } from '../models/Campaign'
 
-interface CampaignService extends DataService<Campaign> {
-  insertOne(fields: CampaignFields): Promise<Campaign>
-}
+interface CampaignService extends DataService<Campaign, NewCampaignModelFields> {}
 
 export default CampaignService

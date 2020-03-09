@@ -1,7 +1,7 @@
 import { Service } from 'typedi'
 
 import MongoDb from './MongoDb'
-import { User } from '../models'
+import User, { NewUserModelFields } from '../models/User'
 import { UserService } from '../services'
 
 @Service()
@@ -14,6 +14,10 @@ class MongoUserService implements UserService {
 
   public findById(id: string): Promise<User | null> {
     return MongoDb.findById(id, this.db.users, User.fromMongo)
+  }
+
+  public insertOne(fields: NewUserModelFields): Promise<User> {
+    return MongoDb.insertOne(fields, this.db.users, User.fromMongo)
   }
 }
 

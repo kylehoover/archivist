@@ -1,7 +1,7 @@
 import { Service } from 'typedi'
 
 import MongoDb from './MongoDb'
-import { AppSetting } from '../models'
+import AppSetting, { NewAppSettingModelFields } from '../models/AppSetting'
 import { AppSettingService } from '../services'
 
 @Service()
@@ -14,6 +14,10 @@ class MongoAppSettingService implements AppSettingService {
 
   public findById(id: string): Promise<AppSetting | null> {
     return MongoDb.findById(id, this.db.appSettings, AppSetting.fromMongo)
+  }
+
+  public insertOne(fields: NewAppSettingModelFields): Promise<AppSetting> {
+    return MongoDb.insertOne(fields, this.db.appSettings, AppSetting.fromMongo)
   }
 }
 

@@ -1,13 +1,13 @@
 import AppSettingType from './AppSettingType'
 import CampaignType from './CampaignType'
 import ModelType from './ModelType'
-import RegisterUserInput from './RegisterUserInput'
+import RegisterUserInputType from './RegisterUserInputType'
 import UserType from './UserType'
 
 export {
   AppSettingType,
   CampaignType,
   ModelType,
-  RegisterUserInput,
+  RegisterUserInputType,
   UserType,
 }

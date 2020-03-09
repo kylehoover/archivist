@@ -5,9 +5,9 @@ export type CampaignFields = {
   name: string
 }
 
-type MongoCampaignModelFields = MongoModelFields & CampaignFields
+export type NewCampaignModelFields = NewModelFields & CampaignFields
 
-type NewCampaignModelFields = NewModelFields & CampaignFields
+type MongoCampaignModelFields = MongoModelFields & CampaignFields
 
 class Campaign extends Model {
   private constructor(
@@ -17,13 +17,6 @@ class Campaign extends Model {
     public readonly name: string,
   ) {
     super(id, createdAt, modifiedAt)
-  }
-
-  public static getNewCampaignModelFields(fields: CampaignFields): NewCampaignModelFields {
-    return {
-      ...Model.newModelFields,
-      ...fields,
-    }
   }
 
   public static fromMongo(doc: MongoCampaignModelFields): Campaign {

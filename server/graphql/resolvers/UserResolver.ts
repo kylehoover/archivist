@@ -2,7 +2,7 @@ import { Arg, Mutation, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 
 import { ServiceName, UserService } from '../../services'
-import { RegisterUserInput, UserType } from '../types'
+import { RegisterUserInputType, UserType } from '../types'
 
 @Service()
 @Resolver(UserType)
@@ -22,7 +22,7 @@ class UserResolver {
   }
 
   @Mutation(returns => UserType)
-  public registerUser(@Arg('input') input: RegisterUserInput): number {
+  public registerUser(@Arg('input') input: RegisterUserInputType): number {
     return 22
   }
 }
