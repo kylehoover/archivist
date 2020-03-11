@@ -41,7 +41,7 @@ class AppSetting extends Model {
   }
 }
 
-export const defaultSettings = [
+export const defaultSettings: AppSettingFields[] = [
   {
     name: AppSettingName.AllowOpenRegistration,
     value: false,

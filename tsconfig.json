@@ -18,6 +18,7 @@
   },
   "include": [
     "app.ts",
+    "scripts",
     "server/**/*.ts"
   ]
 }

@@ -1,8 +1,8 @@
 import { Collection, Db, MongoClient, ObjectId } from 'mongodb'
 import { Service } from 'typedi'
 
-import { Model } from '../models'
 import MongoDocument from './MongoDocument'
+import { Model } from '../models'
 
 enum CollectionName {
   AppSettings = 'appSettings',
