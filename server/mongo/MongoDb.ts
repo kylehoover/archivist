@@ -19,14 +19,14 @@ type mapDocumentToModelFn<T extends Model> = (doc: any) => T
 
 @Service()
 class MongoDb {
-  private conn?: Db
+  private _db?: Db
 
   private get db(): Db {
-    if (!this.conn) {
+    if (!this._db) {
       throw new Error('MongoDB is not connected')
     }
 
-    return this.conn
+    return this._db
   }
 
   public get appSettings(): Collection {
@@ -89,11 +89,11 @@ class MongoDb {
     try {
       client = await MongoClient.connect(url, { useUnifiedTopology: true })
     } catch (err) {
-      console.error('Failed to connect to MongoDb')
+      console.error('Failed to connect to MongoDB')
       throw err
     }
 
-    this.conn = client.db(dbName)
+    this._db = client.db(dbName)
   }
 }
 
