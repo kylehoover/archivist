@@ -8,6 +8,10 @@ export type AppSettingFields = {
   description: string
 }
 
+export type AppSettingMap = {
+  [name in AppSettingName]: AppSettingValue
+}
+
 export enum AppSettingName {
   AllowOpenRegistration = 'allowOpenRegistration',
 }
@@ -34,6 +38,13 @@ class AppSetting extends Model {
   public static fromMongo(doc: MongoAppSettingModelFields): AppSetting {
     return new AppSetting(doc._id, doc.createdAt, doc.modifiedAt, doc.name, doc.value, doc.displayName,
       doc.description)
+  }
+
+  public static listToMap(appSettings: AppSetting[]): AppSettingMap {
+    return appSettings.reduce((map, setting) => ({
+      ...map,
+      [setting.name]: setting.value,
+    }), {} as AppSettingMap)
   }
 
   public toGraphQLType(): AppSettingType {
