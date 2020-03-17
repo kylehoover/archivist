@@ -1,32 +1,53 @@
 import { Container } from 'typedi'
 
+import AppSetting, { defaultSettings } from './models/AppSetting'
+import UserRole, { defaultUserRoles } from './models/UserRole'
 import { Model } from './models'
 import { MongoServiceProvider } from './mongo'
-import { defaultSettings } from './models/AppSetting'
 
-export async function addNewAppSettings(): Promise<void> {
+type ItemWithName = { name: string }
+
+function nameNotInList(item: ItemWithName, list: ItemWithName[]): boolean {
+  return list.every(i => i.name !== item.name)
+}
+
+export async function addDefaultUserRoles(options?: { overwrite: boolean }): Promise<UserRole[]> {
+  const serviceProvider = Container.get(MongoServiceProvider)
+  await serviceProvider.init()
+
+  const userRoleService = serviceProvider.getUserRoleService()
+  const installedUserRoles = await userRoleService.findAll()
+  const userRolesToAdd = options?.overwrite ?
+    defaultUserRoles :
+    defaultUserRoles.filter(userRole => nameNotInList(userRole, installedUserRoles))
+
+  const addedUserRoles: UserRole[] = []
+
+  if (userRolesToAdd.length > 0) {
+    for (const userRoleFields of userRolesToAdd) {
+      const userRole = await userRoleService.insertOne(Model.getNewModelFields(userRoleFields))
+      addedUserRoles.push(userRole)
+    }
+  }
+
+  return addedUserRoles
+}
+
+export async function addNewAppSettings(): Promise<AppSetting[]> {
   const serviceProvider = Container.get(MongoServiceProvider)
   await serviceProvider.init()
 
   const appSettingService = serviceProvider.getAppSettingService()
   const installedAppSettings = await appSettingService.findAll()
+  const appSettingsToAdd = defaultSettings.filter(setting => nameNotInList(setting, installedAppSettings))
+  const addedAppSettings: AppSetting[] = []
 
-  const appSettingsToAdd = defaultSettings.filter(setting => (
-    !installedAppSettings.some(installedSetting => installedSetting.name === setting.name)
-  ))
-
-  if (appSettingsToAdd.length === 0) {
-    console.log('No new app settings to add')
-    return
+  if (appSettingsToAdd.length > 0) {
+    for (const appSettingFields of appSettingsToAdd) {
+      const appSetting = await appSettingService.insertOne(Model.getNewModelFields(appSettingFields))
+      addedAppSettings.push(appSetting)
+    }
   }
 
-  appSettingsToAdd.forEach(setting => {
-    appSettingService.insertOne(Model.getNewModelFields(setting))
-  })
-
-  console.log('The following new app settings have been added:')
-
-  appSettingsToAdd.forEach(setting => {
-    console.log(`${setting.displayName} => ${setting.value}`)
-  })
+  return addedAppSettings
 }

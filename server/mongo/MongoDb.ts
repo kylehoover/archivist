@@ -7,6 +7,7 @@ import { Model } from '../models'
 enum CollectionName {
   AppSettings = 'appSettings',
   Campaigns = 'campaigns',
+  UserRoles = 'userRoles',
   Users = 'users',
 }
 
@@ -35,6 +36,10 @@ class MongoDb {
 
   public get campaigns(): Collection {
     return this.db.collection(CollectionName.Campaigns)
+  }
+
+  public get userRoles(): Collection {
+    return this.db.collection(CollectionName.UserRoles)
   }
 
   public get users(): Collection {
@@ -74,6 +79,10 @@ class MongoDb {
   }
 
   public async init(): Promise<void> {
+    if (this._db !== undefined) {
+      return
+    }
+
     const dbName = process.env[EnvVar.DbName]
     const url = process.env[EnvVar.DbUrl]
     let client: MongoClient

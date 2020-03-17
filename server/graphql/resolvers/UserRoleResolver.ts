@@ -1,19 +1,18 @@
 import { Query, Resolver } from 'type-graphql'
-import { Service } from 'typedi'
+import { Inject, Service } from 'typedi'
 
-import { UserRole } from '../../models'
+import { ServiceName, UserRoleService } from '../../services'
 import { UserRoleType } from '../types'
 
 @Service()
 @Resolver(UserRoleType)
 class UserRoleResolver {
+  constructor(@Inject(ServiceName.UserRole) private readonly userRoleService: UserRoleService) {}
+
   @Query(returns => [UserRoleType])
   public async userRoles(): Promise<UserRoleType[]> {
-    const roles: UserRole[] = [UserRole.fromMongo({_id: '1', createdAt: new Date(),
-    modifiedAt: new Date(), name: 'Admin',
-    permissions: { canAcceptUserRegistrationRequests: true, canEditAppSettings: true, canEditUserRoles: false,
-      canInviteUsers: true }})]
-    return roles.map(r => r.toGraphQLType())
+    const userRoles = await this.userRoleService.findAll()
+    return userRoles.map(u => u.toGraphQLType())
   }
 }
 
