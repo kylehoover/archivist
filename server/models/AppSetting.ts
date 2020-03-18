@@ -1,4 +1,4 @@
-import Model, { MongoModelFields, NewModelFields } from './Model'
+import Model, { MongoModelFields, NewModelFields, UpdatedModelFields } from './Model'
 import { AppSettingType } from '../graphql/types'
 
 export type AppSettingFields = {
@@ -19,6 +19,8 @@ export enum AppSettingName {
 export type AppSettingValue = boolean | number | string
 
 export type NewAppSettingModelFields = NewModelFields & AppSettingFields
+
+export type UpdatedAppSettingModelFields = UpdatedModelFields & AppSettingFields
 
 type MongoAppSettingModelFields = MongoModelFields & AppSettingFields
 
@@ -52,7 +54,7 @@ class AppSetting extends Model {
   }
 }
 
-export const defaultSettings: AppSettingFields[] = [
+export const defaultAppSettings: AppSettingFields[] = [
   {
     name: AppSettingName.AllowOpenRegistration,
     value: false,

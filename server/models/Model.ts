@@ -17,6 +17,10 @@ export type NewModelFields = {
   modifiedAt: Date
 }
 
+export type UpdatedModelFields = {
+  modifiedAt: Date
+}
+
 abstract class Model {
   protected constructor(
     public readonly id: string,
@@ -34,6 +38,13 @@ abstract class Model {
   public static getNewModelFields<T>(fields: T): NewModelFields & T {
     return {
       createdAt: new Date(),
+      modifiedAt: new Date(),
+      ...fields,
+    }
+  }
+
+  public static getUpdatedModelFields<T>(fields: T): UpdatedModelFields & T {
+    return {
       modifiedAt: new Date(),
       ...fields,
     }

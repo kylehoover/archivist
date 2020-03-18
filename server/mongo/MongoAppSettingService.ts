@@ -1,7 +1,8 @@
+import { MongoError, ObjectId } from 'mongodb'
 import { Service } from 'typedi'
 
 import MongoDb from './MongoDb'
-import AppSetting, { NewAppSettingModelFields } from '../models/AppSetting'
+import AppSetting, { NewAppSettingModelFields, UpdatedAppSettingModelFields } from '../models/AppSetting'
 import { AppSettingService } from '../services'
 
 @Service()
@@ -18,6 +19,27 @@ class MongoAppSettingService implements AppSettingService {
 
   public insertOne(fields: NewAppSettingModelFields): Promise<AppSetting> {
     return MongoDb.insertOne(fields, this.db.appSettings, AppSetting.fromMongo)
+  }
+
+  public async updateById(
+    id: string,
+    fields: UpdatedAppSettingModelFields,
+    options?: {
+      returnOriginal: false
+      upsert: false
+    },
+  ): Promise<AppSetting> {
+    const result = await this.db.appSettings.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $set: fields },
+      options
+    )
+
+    if (result.ok) {
+      return AppSetting.fromMongo(result.value)
+    }
+
+    throw new MongoError('MongoDB Error: Failed to update document')
   }
 }
 

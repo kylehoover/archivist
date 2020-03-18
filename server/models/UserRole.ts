@@ -1,4 +1,4 @@
-import Model, { MongoModelFields, NewModelFields } from './Model'
+import Model, { MongoModelFields, NewModelFields, UpdatedModelFields } from './Model'
 import { UserRoleType } from '../graphql/types'
 
 export type UserRoleFields = {
@@ -16,6 +16,8 @@ export enum PermissionName {
   CanEditUserRoles = 'canEditUserRoles',
   CanInviteUsers = 'canInviteUsers',
 }
+
+export type UpdatedUserRoleModelFields = UpdatedModelFields & UserRoleFields
 
 type Permissions = {
   [name in PermissionName]: boolean

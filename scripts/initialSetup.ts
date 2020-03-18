@@ -1,15 +1,17 @@
 import 'reflect-metadata'
 
-import { addNewAppSettings } from '../server/util'
-
-async function setupEnv(): Promise<void> {
-  const dotenv = await import('dotenv')
-  dotenv.config()
-}
+import { addDefaultAppSettings, addDefaultUserRoles } from '../server/util'
+import { logAppSettings, logUserRoles, setupEnv } from './util'
 
 async function runSetup(): Promise<void> {
   await setupEnv()
-  await addNewAppSettings()
+
+  const addedAppSettings = await addDefaultAppSettings({ overwrite: true })
+  const addedUserRoles = await addDefaultUserRoles({ overwrite: true })
+
+  logAppSettings(addedAppSettings)
+  logUserRoles(addedUserRoles)
+
   process.exit(0)
 }
 
