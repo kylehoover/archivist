@@ -8,7 +8,7 @@ export type AppSettingFields = {
   description: string
 }
 
-export type AppSettingMap = {
+export type AppSettingsMap = {
   [name in AppSettingName]: AppSettingValue
 }
 
@@ -42,11 +42,11 @@ class AppSetting extends Model {
       doc.description)
   }
 
-  public static listToMap(appSettings: AppSetting[]): AppSettingMap {
+  public static listToMap(appSettings: AppSetting[]): AppSettingsMap {
     return appSettings.reduce((map, setting) => ({
       ...map,
       [setting.name]: setting.value,
-    }), {} as AppSettingMap)
+    }), {} as AppSettingsMap)
   }
 
   public toGraphQLType(): AppSettingType {

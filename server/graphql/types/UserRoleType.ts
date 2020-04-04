@@ -1,21 +1,8 @@
 import { Field, ObjectType } from 'type-graphql'
 
 import ModelType from './ModelType'
+import PermissionType from './PermissionType'
 import UserRole, { PermissionName } from '../../models/UserRole'
-
-@ObjectType()
-class PermissionType {
-  @Field()
-  public name!: PermissionName
-
-  @Field()
-  public value!: boolean
-
-  constructor(name: PermissionName, value: boolean) {
-    this.name = name
-    this.value = value
-  }
-}
 
 @ObjectType()
 class UserRoleType extends ModelType {

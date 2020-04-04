@@ -19,6 +19,10 @@ export enum PermissionName {
 
 export type UpdatedUserRoleModelFields = UpdatedModelFields & UserRoleFields
 
+export type UserRolesMap = {
+  [key: string]: UserRole
+}
+
 type Permissions = {
   [name in PermissionName]: boolean
 }
@@ -41,6 +45,13 @@ class UserRole extends Model {
   public static fromMongo(doc: MongoUserRoleModelFields): UserRole {
     return new UserRole(doc._id, doc.createdAt, doc.modifiedAt, doc.name, doc.isDefault,
       doc.isReadonly, doc.permissions)
+  }
+
+  public static listToMap(userRoles: UserRole[]): UserRolesMap {
+    return userRoles.reduce((map, role) => ({
+      ...map,
+      [role.id]: role,
+    }), {})
   }
 
   public toGraphQLType(): UserRoleType {
