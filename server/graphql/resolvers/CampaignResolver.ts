@@ -1,4 +1,4 @@
-import { Arg, Query, Resolver } from 'type-graphql'
+import { Arg, ID, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 
 import { CampaignService, ServiceName } from '../../services'
@@ -10,7 +10,7 @@ class CampaignResolver {
   constructor(@Inject(ServiceName.Campaign) private readonly campaignService: CampaignService) {}
 
   @Query(returns => CampaignType, { nullable: true })
-  public async campaign(@Arg('id') id: string): Promise<CampaignType | undefined> {
+  public async campaign(@Arg('id', type => ID) id: string): Promise<CampaignType | undefined> {
     const campaign = await this.campaignService.findById(id)
     return campaign?.toGraphQLType()
   }

@@ -3,6 +3,7 @@ import { Container, Service } from 'typedi'
 import MongoAppSettingService from './MongoAppSettingService'
 import MongoCampaignService from './MongoCampaignService'
 import MongoDb from './MongoDb'
+import MongoUserRegistrationInvitationService from './MongoUserRegistrationInvitationService'
 import MongoUserRegistrationRequestService from './MongoUserRegistrationRequestService'
 import MongoUserRoleService from './MongoUserRoleService'
 import MongoUserService from './MongoUserService'
@@ -22,6 +23,10 @@ class MongoServiceProvider implements ServiceProvider {
 
   public getCampaignService(): MongoCampaignService {
     return Container.get(MongoCampaignService)
+  }
+
+  public getUserRegistrationInvitationService(): MongoUserRegistrationInvitationService {
+    return Container.get(MongoUserRegistrationInvitationService)
   }
 
   public getUserRegistrationRequestService(): MongoUserRegistrationRequestService {

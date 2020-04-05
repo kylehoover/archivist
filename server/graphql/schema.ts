@@ -5,6 +5,7 @@ import { Container } from 'typedi'
 import {
   AppSettingResolver,
   CampaignResolver,
+  UserRegistrationInvitationResolver,
   UserRegistrationRequestResolver,
   UserResolver,
   UserRoleResolver,
@@ -33,6 +34,7 @@ export function getSchema(): Promise<GraphQLSchema> {
     resolvers: [
       AppSettingResolver,
       CampaignResolver,
+      UserRegistrationInvitationResolver,
       UserRegistrationRequestResolver,
       UserResolver,
       UserRoleResolver,

@@ -1,4 +1,4 @@
-import { Arg, Query, Resolver } from 'type-graphql'
+import { Arg, ID, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 
 import { ServiceName, UserRegistrationRequestService } from '../../services'
@@ -9,8 +9,10 @@ import { UserRegistrationRequestType } from '../types'
 class UserRegistrationRequestResolver {
   constructor(@Inject(ServiceName.User) private readonly userService: UserRegistrationRequestService) {}
 
-  @Query(returns => UserRegistrationRequestType)
-  public async userRegistrationRequest(@Arg('id') id: string): Promise<UserRegistrationRequestType | undefined> {
+  @Query(returns => UserRegistrationRequestType, { nullable: true })
+  public async userRegistrationRequest(
+    @Arg('id', type => ID) id: string,
+  ): Promise<UserRegistrationRequestType | undefined> {
     const user = await this.userService.findById(id)
     return user?.toGraphQLType()
   }
