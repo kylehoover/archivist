@@ -99,6 +99,7 @@ module.exports = {
         "@typescript-eslint/member-ordering": "error",
         "@typescript-eslint/no-empty-interface": ["error", { "allowSingleExtends": true }],
         "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-parameter-properties": "off",
         "@typescript-eslint/no-unused-vars": ["warn", { "args": "none" }],
         "@typescript-eslint/no-use-before-define": "off",

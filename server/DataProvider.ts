@@ -7,6 +7,7 @@ import UserRole, { UserRolesMap } from './models/UserRole'
 @Service()
 class DataProvider {
   private appSettingsMap?: AppSettingsMap
+  private defaultUserRoleId?: string
   private isInitialized = false
   private userRolesMap?: UserRolesMap
 
@@ -16,13 +17,12 @@ class DataProvider {
   ) {}
 
   public static getAppSettingsMap(): AppSettingsMap {
+    return DataProvider.getInstance().appSettingsMap!
+  }
+
+  public static getDefaultUserRole(): UserRole {
     const dataProvider = DataProvider.getInstance()
-
-    if (dataProvider.appSettingsMap === undefined) {
-      throw new Error('DataProvider has not been initialized')
-    }
-
-    return dataProvider.appSettingsMap
+    return dataProvider.userRolesMap![dataProvider.defaultUserRoleId!]
   }
 
   public static getUserRoleById(id: string): UserRole {
@@ -30,29 +30,29 @@ class DataProvider {
   }
 
   public static getUserRolesMap(): UserRolesMap {
-    const dataProvider = DataProvider.getInstance()
-
-    if (dataProvider.userRolesMap === undefined) {
-      throw new Error('DataProvider has not been initialized')
-    }
-
-    return dataProvider.userRolesMap
+    return DataProvider.getInstance().userRolesMap!
   }
 
   public static async init(): Promise<void> {
-    const dataProvider = DataProvider.getInstance()
+    const dataProvider = Container.get(DataProvider)
 
     if (dataProvider.isInitialized) {
       return
     }
 
     await dataProvider.updateAppSettingsMap()
-    await dataProvider.updateUserRolesMap()
+    await dataProvider.updateUserRoleFields()
     dataProvider.isInitialized = true
   }
 
   private static getInstance(): DataProvider {
-    return Container.get(DataProvider)
+    const dataProvider = Container.get(DataProvider)
+
+    if (!dataProvider.isInitialized) {
+      throw new Error('DataProvider has not been initialized')
+    }
+
+    return dataProvider
   }
 
   private async updateAppSettingsMap(): Promise<void> {
@@ -60,8 +60,9 @@ class DataProvider {
     this.appSettingsMap = AppSetting.listToMap(appSettings)
   }
 
-  private async updateUserRolesMap(): Promise<void> {
+  private async updateUserRoleFields(): Promise<void> {
     const userRoles = await this.userRoleService.findAll()
+    this.defaultUserRoleId = UserRole.getDefaultRoleFromList(userRoles).id
     this.userRolesMap = UserRole.listToMap(userRoles)
   }
 }

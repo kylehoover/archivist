@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongodb'
+
 import { ModelType } from '../graphql/types'
 
 export type ModelFields = {
@@ -26,7 +28,11 @@ abstract class Model {
     public readonly id: string,
     public readonly createdAt: Date,
     public readonly modifiedAt: Date
-  ) {}
+  ) {
+    if ((id as any) instanceof ObjectId) {
+      this.id = id.toString()
+    }
+  }
 
   public static get newModelFields(): NewModelFields {
     return {

@@ -13,6 +13,7 @@ class Server {
     await this.serviceProvider.init()
     registerServices(this.serviceProvider)
     await DataProvider.init()
+    console.log(DataProvider.getDefaultUserRole())
 
     const app = express()
     const port = process.env.AR_PORT ?? 4000

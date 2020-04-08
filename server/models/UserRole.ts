@@ -46,6 +46,20 @@ class UserRole extends Model {
       doc.isReadonly, doc.permissions)
   }
 
+  public static getDefaultRoleFromList(userRoles: UserRole[]): UserRole {
+    const defaultRoles = userRoles.filter(role => role.isDefault)
+
+    if (defaultRoles.length === 0) {
+      throw new Error('Data Integrity Error: There is no default UserRole')
+    }
+
+    if (defaultRoles.length > 1) {
+      throw new Error('Data Integrity Error: There is more than one default UserRole')
+    }
+
+    return defaultRoles[0]
+  }
+
   public static listToMap(userRoles: UserRole[]): UserRolesMap {
     return userRoles.reduce((map, role) => ({
       ...map,
