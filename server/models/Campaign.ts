@@ -1,4 +1,4 @@
-import Model, { MongoModelFields, NewModelFields } from './Model'
+import Model, { MongoModelFields, NewModelFields, UpdatedModelFields } from './Model'
 import { CampaignType } from '../graphql/types'
 
 export type CampaignFields = {
@@ -6,6 +6,7 @@ export type CampaignFields = {
 }
 
 export type NewCampaignModelFields = NewModelFields & CampaignFields
+export type UpdatedCampaignModelFields = UpdatedModelFields & Partial<CampaignFields>
 
 type MongoCampaignModelFields = MongoModelFields & CampaignFields
 

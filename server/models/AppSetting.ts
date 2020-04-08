@@ -1,6 +1,10 @@
 import Model, { MongoModelFields, NewModelFields, UpdatedModelFields } from './Model'
 import { AppSettingType } from '../graphql/types'
 
+export enum AppSettingName {
+  AllowOpenRegistration = 'allowOpenRegistration',
+}
+
 export type AppSettingFields = {
   name: AppSettingName
   value: AppSettingValue
@@ -12,15 +16,9 @@ export type AppSettingsMap = {
   [name in AppSettingName]: AppSettingValue
 }
 
-export enum AppSettingName {
-  AllowOpenRegistration = 'allowOpenRegistration',
-}
-
 export type AppSettingValue = boolean | number | string
-
 export type NewAppSettingModelFields = NewModelFields & AppSettingFields
-
-export type UpdatedAppSettingModelFields = UpdatedModelFields & AppSettingFields
+export type UpdatedAppSettingModelFields = UpdatedModelFields & Partial<AppSettingFields>
 
 type MongoAppSettingModelFields = MongoModelFields & AppSettingFields
 

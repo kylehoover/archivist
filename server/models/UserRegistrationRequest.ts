@@ -1,4 +1,4 @@
-import Model, { MongoModelFields, NewModelFields } from './Model'
+import Model, { MongoModelFields, NewModelFields, UpdatedModelFields } from './Model'
 import { UserRegistrationRequestType } from '../graphql/types'
 
 export type UserRegistrationRequestFields = {
@@ -8,6 +8,7 @@ export type UserRegistrationRequestFields = {
 }
 
 export type NewUserRegistrationRequestModelFields = NewModelFields & UserRegistrationRequestFields
+export type UpdatedUserRegistrationRequestModelFields = UpdatedModelFields & UserRegistrationRequestFields
 
 type MongoUserRegistrationRequestModelFields = MongoModelFields & UserRegistrationRequestFields
 

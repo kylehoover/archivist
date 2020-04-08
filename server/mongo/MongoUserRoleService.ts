@@ -1,4 +1,3 @@
-import { MongoError, ObjectId } from 'mongodb'
 import { Service } from 'typedi'
 
 import MongoDb from './MongoDb'
@@ -25,25 +24,11 @@ class MongoUserRoleService implements UserRoleService {
     return MongoDb.insertOne(fields, this.db.userRoles, UserRole.fromMongo)
   }
 
-  public async updateById(
-    id: string,
-    fields: UpdatedUserRoleModelFields,
-    options?: {
-      returnOriginal: false
-      upsert: false
-    },
-  ): Promise<UserRole> {
-    const result = await this.db.userRoles.findOneAndUpdate(
-      { _id: new ObjectId(id) },
-      { $set: fields },
-      options
-    )
-
-    if (result.lastErrorObject.updatedExisting) {
-      return UserRole.fromMongo(result.value)
-    }
-
-    throw new MongoError('MongoDB Error: Failed to update UserRole document')
+  public async updateById(id: string, fields: UpdatedUserRoleModelFields, options?: {
+    returnOriginal: false
+    upsert: false
+  }): Promise<UserRole> {
+    return MongoDb.updateById(id, fields, this.db.userRoles, UserRole.fromMongo, options)
   }
 }
 

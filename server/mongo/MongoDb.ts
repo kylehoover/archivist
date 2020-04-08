@@ -1,4 +1,4 @@
-import { Collection, Db, MongoClient, ObjectId } from 'mongodb'
+import { Collection, Db, FindOneAndUpdateOption, MongoClient, MongoError, ObjectId } from 'mongodb'
 import { Service } from 'typedi'
 
 import MongoDocument from './MongoDocument'
@@ -7,6 +7,8 @@ import { Model } from '../models'
 enum CollectionName {
   AppSettings = 'appSettings',
   Campaigns = 'campaigns',
+  UserRegistrationInvitations = 'userRegistrationInvitations',
+  UserRegistrationRequests = 'UserRegistrationRequests',
   UserRoles = 'userRoles',
   Users = 'users',
 }
@@ -36,6 +38,14 @@ class MongoDb {
 
   public get campaigns(): Collection {
     return this.db.collection(CollectionName.Campaigns)
+  }
+
+  public get userRegistrationInvitations(): Collection {
+    return this.db.collection(CollectionName.UserRegistrationInvitations)
+  }
+
+  public get userRegistrationRequests(): Collection {
+    return this.db.collection(CollectionName.UserRegistrationRequests)
   }
 
   public get userRoles(): Collection {
@@ -76,6 +86,26 @@ class MongoDb {
     }
 
     return mapFn(result.ops[0])
+  }
+
+  public static async updateById<T extends Model>(
+    id: string,
+    fields: MongoDocument,
+    collection: Collection,
+    mapFn: mapDocumentToModelFn<T>,
+    options?: FindOneAndUpdateOption,
+  ): Promise<T> {
+    const result = await collection.findOneAndUpdate(
+      { _id: new ObjectId(id) },
+      { $set: fields },
+      options
+    )
+
+    if (result.ok) {
+      return mapFn(result.value)
+    }
+
+    throw new MongoError('MongoDB Error: Failed to update document')
   }
 
   public async init(): Promise<void> {

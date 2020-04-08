@@ -1,4 +1,4 @@
-import Model, { MongoModelFields, NewModelFields } from './Model'
+import Model, { MongoModelFields, NewModelFields, UpdatedModelFields } from './Model'
 import { UserRegistrationInvitationType } from '../graphql/types'
 
 export type UserRegistrationInvitationFields = {
@@ -7,6 +7,8 @@ export type UserRegistrationInvitationFields = {
 }
 
 export type NewUserRegistrationInvitationModelFields = NewModelFields & UserRegistrationInvitationFields
+export type UpdatedUserRegistrationInvitationModelFields =
+  UpdatedModelFields & Partial<UserRegistrationInvitationFields>
 
 type MongoUserRegistrationInvitationModelFields = MongoModelFields & UserRegistrationInvitationFields
 

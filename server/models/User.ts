@@ -1,5 +1,5 @@
 import DataProvider from '../DataProvider'
-import Model, { MongoModelFields, NewModelFields } from './Model'
+import Model, { MongoModelFields, NewModelFields, UpdatedModelFields } from './Model'
 import UserRole from './UserRole'
 import { UserType } from '../graphql/types/'
 
@@ -11,6 +11,7 @@ export type UserFields = {
 }
 
 export type NewUserModelFields = NewModelFields & UserFields
+export type UpdatedUserModelFields = UpdatedModelFields & Partial<UserFields>
 
 type MongoUserModelFields = MongoModelFields & UserFields
 
