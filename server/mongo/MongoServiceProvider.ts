@@ -14,7 +14,7 @@ class MongoServiceProvider implements ServiceProvider {
   constructor(private readonly db: MongoDb) {}
 
   public async init(): Promise<void> {
-    await this.db.init()
+    await this.db.initFromEnv()
   }
 
   public getAppSettingService(): MongoAppSettingService {

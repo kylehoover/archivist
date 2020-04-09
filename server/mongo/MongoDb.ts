@@ -122,14 +122,9 @@ class MongoDb {
     throw new MongoError('MongoDB Error: Failed to update document')
   }
 
-  public async init(): Promise<void> {
-    if (this._db !== undefined) {
-      return
-    }
-
+  public initFromEnv(): Promise<void> {
     const dbName = process.env[EnvVar.DbName]
     const url = process.env[EnvVar.DbUrl]
-    let client: MongoClient
 
     if (!dbName) {
       throw new Error(`${EnvVar.DbName} environment variable is not set`)
@@ -138,6 +133,16 @@ class MongoDb {
     if (!url) {
       throw new Error(`${EnvVar.DbUrl} environment variable is not set`)
     }
+
+    return this.init(dbName, url)
+  }
+
+  public async init(dbName: string, url: string): Promise<void> {
+    if (this._db !== undefined) {
+      return
+    }
+
+    let client: MongoClient
 
     try {
       client = await MongoClient.connect(url, { useUnifiedTopology: true })

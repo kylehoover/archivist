@@ -1,3 +1,4 @@
+babel.config.js
 package.json
 README.md
 tsconfig.json
@@ -6,3 +7,4 @@ yarn.lock
 build/
 client/
 node_modules/
+server/**/*.test.ts

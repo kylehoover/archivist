@@ -20,5 +20,8 @@
     "app.ts",
     "scripts/**/*.ts",
     "server/**/*.ts",
+  ],
+  "exclude": [
+    "server/**/*.test.ts"
   ]
 }
