@@ -11,6 +11,10 @@ import { UserRegistrationRequestService } from '../services'
 class MongoUserRegistrationRequestService implements UserRegistrationRequestService {
   constructor(private readonly db: MongoDb) {}
 
+  public deleteById(id: string): Promise<UserRegistrationRequest> {
+    return MongoDb.deleteById(id, this.db.userRegistrationRequests, UserRegistrationRequest.fromMongo)
+  }
+
   public findAll(): Promise<UserRegistrationRequest[]> {
     return MongoDb.findAll(this.db.userRegistrationRequests, UserRegistrationRequest.fromMongo)
   }

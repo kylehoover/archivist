@@ -8,6 +8,10 @@ import { CampaignService } from '../services'
 class MongoCampaignService implements CampaignService {
   constructor(private readonly db: MongoDb) {}
 
+  public deleteById(id: string): Promise<Campaign> {
+    return MongoDb.deleteById(id, this.db.campaigns, Campaign.fromMongo)
+  }
+
   public findAll(): Promise<Campaign[]> {
     return MongoDb.findAll(this.db.campaigns, Campaign.fromMongo)
   }

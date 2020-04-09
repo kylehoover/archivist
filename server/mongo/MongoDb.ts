@@ -56,6 +56,20 @@ class MongoDb {
     return this.db.collection(CollectionName.Users)
   }
 
+  public static async deleteById<T extends Model>(
+    id: string,
+    collection: Collection,
+    mapFn: mapDocumentToModelFn<T>,
+  ): Promise<T> {
+    const result = await collection.findOneAndDelete({ _id: new ObjectId(id) })
+
+    if (result.ok) {
+      return mapFn(result.value)
+    }
+
+    throw new MongoError('MongoDB Error: Failed to delete document')
+  }
+
   public static findAll<T extends Model>(
     collection: Collection,
     mapFn: mapDocumentToModelFn<T>,

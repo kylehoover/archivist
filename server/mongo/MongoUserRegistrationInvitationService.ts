@@ -11,6 +11,10 @@ import { UserRegistrationInvitationService } from '../services'
 class MongoUserRegistrationInvitationService implements UserRegistrationInvitationService {
   constructor(private readonly db: MongoDb) {}
 
+  public deleteById(id: string): Promise<UserRegistrationInvitation> {
+    return MongoDb.deleteById(id, this.db.userRegistrationInvitations, UserRegistrationInvitation.fromMongo)
+  }
+
   public findAll(): Promise<UserRegistrationInvitation[]> {
     return MongoDb.findAll(this.db.userRegistrationInvitations, UserRegistrationInvitation.fromMongo)
   }

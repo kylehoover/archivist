@@ -1,4 +1,5 @@
 interface DataService<DataType, NewDataFields, UpdatedDataFields> {
+  deleteById(id: string): Promise<DataType>
   findAll(): Promise<DataType[]>
   findById(id: string): Promise<DataType | null>
   insertOne(fields: NewDataFields): Promise<DataType>

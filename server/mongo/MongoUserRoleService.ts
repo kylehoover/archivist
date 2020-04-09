@@ -8,6 +8,10 @@ import { UserRoleService } from '../services'
 class MongoUserRoleService implements UserRoleService {
   constructor(private readonly db: MongoDb) {}
 
+  public deleteById(id: string): Promise<UserRole> {
+    return MongoDb.deleteById(id, this.db.userRoles, UserRole.fromMongo)
+  }
+
   public findAll(): Promise<UserRole[]> {
     return MongoDb.findAll(this.db.userRoles, UserRole.fromMongo)
   }

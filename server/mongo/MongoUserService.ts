@@ -8,6 +8,10 @@ import { UserService } from '../services'
 class MongoUserService implements UserService {
   constructor(private readonly db: MongoDb) {}
 
+  public deleteById(id: string): Promise<User> {
+    return MongoDb.deleteById(id, this.db.users, User.fromMongo)
+  }
+
   public findAll(): Promise<User[]> {
     return MongoDb.findAll(this.db.users, User.fromMongo)
   }

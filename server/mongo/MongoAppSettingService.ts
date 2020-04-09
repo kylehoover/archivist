@@ -8,6 +8,10 @@ import { AppSettingService } from '../services'
 class MongoAppSettingService implements AppSettingService {
   constructor(private readonly db: MongoDb) {}
 
+  public deleteById(id: string): Promise<AppSetting> {
+    return MongoDb.deleteById(id, this.db.appSettings, AppSetting.fromMongo)
+  }
+
   public findAll(): Promise<AppSetting[]> {
     return MongoDb.findAll(this.db.appSettings, AppSetting.fromMongo)
   }
