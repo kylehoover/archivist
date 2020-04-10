@@ -7,4 +7,3 @@ yarn.lock
 build/
 client/
 node_modules/
-server/**/*.test.ts

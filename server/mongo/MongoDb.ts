@@ -15,13 +15,15 @@ enum CollectionName {
 
 enum EnvVar {
   DbName = 'AR_MONGO_DB',
-  DbUrl = 'AR_MONGO_URL',
+  DbUri = 'AR_MONGO_URI',
+  DbUriTesting = 'MONGO_URL', // set by jest-mongodb
 }
 
 type mapDocumentToModelFn<T extends Model> = (doc: any) => T
 
 @Service()
 class MongoDb {
+  private client?: MongoClient
   private _db?: Db
 
   private get db(): Db {
@@ -122,36 +124,48 @@ class MongoDb {
     throw new MongoError('MongoDB Error: Failed to update document')
   }
 
-  public initFromEnv(): Promise<void> {
-    const dbName = process.env[EnvVar.DbName]
-    const url = process.env[EnvVar.DbUrl]
-
-    if (!dbName) {
-      throw new Error(`${EnvVar.DbName} environment variable is not set`)
-    }
-
-    if (!url) {
-      throw new Error(`${EnvVar.DbUrl} environment variable is not set`)
-    }
-
-    return this.init(dbName, url)
+  public async close(): Promise<void> {
+    await this.client?.close()
   }
 
-  public async init(dbName: string, url: string): Promise<void> {
+  public async init(uri: string, dbName: string): Promise<void> {
     if (this._db !== undefined) {
       return
     }
 
-    let client: MongoClient
-
     try {
-      client = await MongoClient.connect(url, { useUnifiedTopology: true })
+      this.client = await MongoClient.connect(uri, { useUnifiedTopology: true })
     } catch (err) {
       console.error('Failed to connect to MongoDB')
       throw err
     }
 
-    this._db = client.db(dbName)
+    this._db = this.client.db(dbName)
+  }
+
+  public initForTesting(): Promise<void> {
+    const uri = process.env[EnvVar.DbUriTesting]
+
+    if (!uri) {
+      throw new Error(`${EnvVar.DbUri} environment variable should have been set by jest-mongodb`)
+    }
+
+    return this.init(uri, '')
+  }
+
+  public initFromEnv(): Promise<void> {
+    const dbName = process.env[EnvVar.DbName]
+    const uri = process.env[EnvVar.DbUri]
+
+    if (!dbName) {
+      throw new Error(`${EnvVar.DbName} environment variable is not set`)
+    }
+
+    if (!uri) {
+      throw new Error(`${EnvVar.DbUri} environment variable is not set`)
+    }
+
+    return this.init(uri, dbName)
   }
 }
 
