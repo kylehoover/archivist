@@ -32,15 +32,18 @@ describe('MongoAppSettingService', () => {
   test('deleteById removes a document from the appSettings collection if the id exists', async () => {
     const id = initialAppSettings[0].id
     const appSetting = await appSettingService.deleteById(id)
+    const appSettings = await db.appSettings.find().map(AppSetting.fromMongo).toArray()
+    const deletedAppSetting = appSettings.find(setting => setting.id === id)
     expect(appSetting).toEqual(initialAppSettings[0])
-
-    const appSettingDoc = await db.appSettings.findOne({ _id: new ObjectId(id) })
-    expect(appSettingDoc).toBeNull()
+    expect(deletedAppSetting).toBeUndefined()
+    expect(appSettings).toEqual(initialAppSettings.filter(as => as.id !== id))
   })
 
   test('deleteById throws an error if the id does not exist', async () => {
     const appSettingPromise = appSettingService.deleteById((new ObjectId()).toHexString())
     await expect(appSettingPromise).rejects.toThrowError()
+    const appSettings = await db.appSettings.find().map(AppSetting.fromMongo).toArray()
+    expect(appSettings).toEqual(initialAppSettings)
   })
 
   test('findAll returns all documents in the appSettings collection', async () => {
@@ -65,12 +68,13 @@ describe('MongoAppSettingService', () => {
       displayName: 'displayName',
       description: 'description',
     })
-
     const appSetting = await appSettingService.insertOne(appSettingFields)
-    expect(appSetting).toEqual(AppSetting.fromMongo(appSettingFields as MongoAppSettingModelFields))
-
-    const appSettingDoc = await db.appSettings.findOne({ _id: new ObjectId(appSetting.id) })
-    expect(appSettingDoc).toEqual(appSettingFields as MongoAppSettingModelFields)
+    const fieldsAsModel = AppSetting.fromMongo(appSettingFields as MongoAppSettingModelFields)
+    const appSettings = await db.appSettings.find().map(AppSetting.fromMongo).toArray()
+    const insertedAppSetting = appSettings.find(as => as.id === fieldsAsModel.id)
+    expect(appSetting).toEqual(fieldsAsModel)
+    expect(insertedAppSetting).toEqual(fieldsAsModel)
+    expect(appSettings).toEqual([...initialAppSettings, fieldsAsModel])
   })
 
   test('updateById updates a document in the appSettings collection if the id exists', async () => {
@@ -79,18 +83,19 @@ describe('MongoAppSettingService', () => {
       displayName: 'Updated Display Name',
       description: 'Updated description.',
     })
-    const appSettingUpdated = await appSettingService.updateById(appSetting.id, updatedFields)
-
-    expect(appSettingUpdated.id).toEqual(appSetting.id)
-    expect(appSettingUpdated.createdAt).toEqual(appSetting.createdAt)
-    expect(appSettingUpdated.modifiedAt).toEqual(updatedFields.modifiedAt)
-    expect(appSettingUpdated.name).toEqual(appSetting.name)
-    expect(appSettingUpdated.value).toEqual(appSetting.value)
-    expect(appSettingUpdated.displayName).toEqual(updatedFields.displayName)
-    expect(appSettingUpdated.description).toEqual(updatedFields.description)
-
-    const appSettingDoc = await db.appSettings.findOne({ _id: new ObjectId(appSetting.id) })
-    expect(AppSetting.fromMongo(appSettingDoc)).toEqual(appSettingUpdated)
+    const updatedAppSetting = await appSettingService.updateById(appSetting.id, updatedFields)
+    const appSettings = await db.appSettings.find().map(AppSetting.fromMongo).toArray()
+    const updatedAppSettingFromDb = appSettings.find(as => as.id === appSetting.id)
+    const updatedInitialAppSettings = initialAppSettings.map(as => as.id === appSetting.id ? updatedAppSetting : as)
+    expect(updatedAppSetting.id).toEqual(appSetting.id)
+    expect(updatedAppSetting.createdAt).toEqual(appSetting.createdAt)
+    expect(updatedAppSetting.modifiedAt).toEqual(updatedFields.modifiedAt)
+    expect(updatedAppSetting.name).toEqual(appSetting.name)
+    expect(updatedAppSetting.value).toEqual(appSetting.value)
+    expect(updatedAppSetting.displayName).toEqual(updatedFields.displayName)
+    expect(updatedAppSetting.description).toEqual(updatedFields.description)
+    expect(updatedAppSettingFromDb).toEqual(updatedAppSetting)
+    expect(appSettings).toEqual(updatedInitialAppSettings)
   })
 
   test('updateById throws an error if the id does not exist', async () => {
@@ -100,5 +105,7 @@ describe('MongoAppSettingService', () => {
     })
     const appSettingPromise = appSettingService.updateById((new ObjectId()).toHexString(), updatedFields)
     await expect(appSettingPromise).rejects.toThrowError()
+    const appSettings = await db.appSettings.find().map(AppSetting.fromMongo).toArray()
+    expect(appSettings).toEqual(initialAppSettings)
   })
 })

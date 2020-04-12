@@ -19,14 +19,13 @@ export type UserRolesMap = {
   [key: string]: UserRole
 }
 
+export type MongoUserRoleModelFields = MongoModelFields & UserRoleFields
 export type NewUserRoleModelFields = NewModelFields & UserRoleFields
-export type UpdatedUserRoleModelFields = UpdatedModelFields & UserRoleFields
+export type UpdatedUserRoleModelFields = UpdatedModelFields & Partial<UserRoleFields>
 
 type Permissions = {
   [name in PermissionName]: boolean
 }
-
-type MongoUserRoleModelFields = MongoModelFields & UserRoleFields
 
 class UserRole extends Model {
   private constructor(

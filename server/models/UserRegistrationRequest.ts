@@ -7,10 +7,9 @@ export type UserRegistrationRequestFields = {
   password: string
 }
 
+export type MongoUserRegistrationRequestModelFields = MongoModelFields & UserRegistrationRequestFields
 export type NewUserRegistrationRequestModelFields = NewModelFields & UserRegistrationRequestFields
-export type UpdatedUserRegistrationRequestModelFields = UpdatedModelFields & UserRegistrationRequestFields
-
-type MongoUserRegistrationRequestModelFields = MongoModelFields & UserRegistrationRequestFields
+export type UpdatedUserRegistrationRequestModelFields = UpdatedModelFields & Partial<UserRegistrationRequestFields>
 
 class UserRegistrationRequest extends Model {
   private constructor(

@@ -5,10 +5,9 @@ export type CampaignFields = {
   name: string
 }
 
+export type MongoCampaignModelFields = MongoModelFields & CampaignFields
 export type NewCampaignModelFields = NewModelFields & CampaignFields
 export type UpdatedCampaignModelFields = UpdatedModelFields & Partial<CampaignFields>
-
-type MongoCampaignModelFields = MongoModelFields & CampaignFields
 
 class Campaign extends Model {
   private constructor(

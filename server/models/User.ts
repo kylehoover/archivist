@@ -10,10 +10,9 @@ export type UserFields = {
   password: string
 }
 
+export type MongoUserModelFields = MongoModelFields & UserFields
 export type NewUserModelFields = NewModelFields & UserFields
 export type UpdatedUserModelFields = UpdatedModelFields & Partial<UserFields>
-
-type MongoUserModelFields = MongoModelFields & UserFields
 
 class User extends Model {
   private constructor(

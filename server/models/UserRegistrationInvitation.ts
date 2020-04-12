@@ -6,11 +6,10 @@ export type UserRegistrationInvitationFields = {
   invitationId: string
 }
 
+export type MongoUserRegistrationInvitationModelFields = MongoModelFields & UserRegistrationInvitationFields
 export type NewUserRegistrationInvitationModelFields = NewModelFields & UserRegistrationInvitationFields
 export type UpdatedUserRegistrationInvitationModelFields =
   UpdatedModelFields & Partial<UserRegistrationInvitationFields>
-
-type MongoUserRegistrationInvitationModelFields = MongoModelFields & UserRegistrationInvitationFields
 
 class UserRegistrationInvitation extends Model {
   private constructor(
