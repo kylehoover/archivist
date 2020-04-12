@@ -24,9 +24,9 @@ class MongoAppSettingService implements AppSettingService {
     return MongoDb.insertOne(fields, this.db.appSettings, AppSetting.fromMongo)
   }
 
-  public async updateById(id: string, fields: UpdatedAppSettingModelFields, options?: {
-    returnOriginal: false
-    upsert: false
+  public async updateById(id: string, fields: UpdatedAppSettingModelFields, options = {
+    returnOriginal: false,
+    upsert: false,
   }): Promise<AppSetting> {
     return MongoDb.updateById(id, fields, this.db.appSettings, AppSetting.fromMongo, options)
   }

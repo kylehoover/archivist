@@ -29,9 +29,9 @@ class MongoUserRoleService implements UserRoleService {
     return MongoDb.insertOne(fields, this.db.userRoles, UserRole.fromMongo)
   }
 
-  public async updateById(id: string, fields: UpdatedUserRoleModelFields, options?: {
-    returnOriginal: false
-    upsert: false
+  public async updateById(id: string, fields: UpdatedUserRoleModelFields, options = {
+    returnOriginal: false,
+    upsert: false,
   }): Promise<UserRole> {
     return MongoDb.updateById(id, fields, this.db.userRoles, UserRole.fromMongo, options)
   }

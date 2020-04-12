@@ -17,10 +17,9 @@ export type AppSettingsMap = {
 }
 
 export type AppSettingValue = boolean | number | string
+export type MongoAppSettingModelFields = MongoModelFields & AppSettingFields
 export type NewAppSettingModelFields = NewModelFields & AppSettingFields
 export type UpdatedAppSettingModelFields = UpdatedModelFields & Partial<AppSettingFields>
-
-type MongoAppSettingModelFields = MongoModelFields & AppSettingFields
 
 class AppSetting extends Model {
   private constructor(

@@ -65,11 +65,11 @@ class MongoDb {
   ): Promise<T> {
     const result = await collection.findOneAndDelete({ _id: new ObjectId(id) })
 
-    if (result.ok) {
-      return mapFn(result.value)
+    if (result.value === null) {
+      throw new MongoError('MongoDB Error: Failed to delete document')
     }
 
-    throw new MongoError('MongoDB Error: Failed to delete document')
+    return mapFn(result.value)
   }
 
   public static findAll<T extends Model>(
@@ -117,11 +117,11 @@ class MongoDb {
       options
     )
 
-    if (result.ok) {
-      return mapFn(result.value)
+    if (result.value === null) {
+      throw new MongoError('MongoDB Error: Failed to update document')
     }
 
-    throw new MongoError('MongoDB Error: Failed to update document')
+    return mapFn(result.value)
   }
 
   public async close(): Promise<void> {
@@ -147,7 +147,7 @@ class MongoDb {
     const uri = process.env[EnvVar.DbUriTesting]
 
     if (!uri) {
-      throw new Error(`${EnvVar.DbUri} environment variable should have been set by jest-mongodb`)
+      throw new Error(`${EnvVar.DbUriTesting} environment variable should have been set by jest-mongodb`)
     }
 
     return this.init(uri, '')

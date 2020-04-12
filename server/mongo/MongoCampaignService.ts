@@ -24,9 +24,9 @@ class MongoCampaignService implements CampaignService {
     return MongoDb.insertOne(fields, this.db.campaigns, Campaign.fromMongo)
   }
 
-  public async updateById(id: string, fields: UpdatedCampaignModelFields, options?: {
-    returnOriginal: false
-    upsert: false
+  public async updateById(id: string, fields: UpdatedCampaignModelFields, options = {
+    returnOriginal: false,
+    upsert: false,
   }): Promise<Campaign> {
     return MongoDb.updateById(id, fields, this.db.campaigns, Campaign.fromMongo, options)
   }

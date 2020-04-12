@@ -29,9 +29,9 @@ class MongoUserRegistrationInvitationService implements UserRegistrationInvitati
     )
   }
 
-  public async updateById(id: string, fields: UpdatedUserRegistrationInvitationModelFields, options?: {
-    returnOriginal: false
-    upsert: false
+  public async updateById(id: string, fields: UpdatedUserRegistrationInvitationModelFields, options = {
+    returnOriginal: false,
+    upsert: false,
   }): Promise<UserRegistrationInvitation> {
     return MongoDb.updateById(
       id, fields, this.db.userRegistrationInvitations, UserRegistrationInvitation.fromMongo, options

@@ -5,13 +5,13 @@ import { Model } from '../../models'
 @ObjectType()
 abstract class ModelType {
   @Field(type => ID)
-  public id!: string
+  public id: string
 
   @Field()
-  public createdAt!: Date
+  public createdAt: Date
 
   @Field()
-  public modifiedAt!: Date
+  public modifiedAt: Date
 
   protected constructor(model: Model) {
     this.id = model.id

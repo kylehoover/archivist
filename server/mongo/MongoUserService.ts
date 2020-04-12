@@ -24,9 +24,9 @@ class MongoUserService implements UserService {
     return MongoDb.insertOne(fields, this.db.users, User.fromMongo)
   }
 
-  public async updateById(id: string, fields: UpdatedUserModelFields, options?: {
-    returnOriginal: false
-    upsert: false
+  public async updateById(id: string, fields: UpdatedUserModelFields, options = {
+    returnOriginal: false,
+    upsert: false,
   }): Promise<User> {
     return MongoDb.updateById(id, fields, this.db.users, User.fromMongo, options)
   }

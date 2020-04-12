@@ -1,4 +1,4 @@
-babel.config.js
+jest.config.js
 package.json
 README.md
 tsconfig.json
