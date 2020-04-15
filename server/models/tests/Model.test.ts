@@ -8,7 +8,7 @@ beforeAll(() => {
 })
 
 afterAll(() => {
-  jest.spyOn(global, 'Date').mockReset()
+  jest.spyOn(global, 'Date').mockRestore()
 })
 
 describe('Model', () => {
