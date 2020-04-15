@@ -24,20 +24,13 @@ export type UpdatedModelFields = {
 }
 
 abstract class Model {
-  protected constructor(
+  constructor(
     public readonly id: string,
     public readonly createdAt: Date,
     public readonly modifiedAt: Date
   ) {
     if ((id as any) instanceof ObjectId) {
       this.id = id.toString()
-    }
-  }
-
-  public static get newModelFields(): NewModelFields {
-    return {
-      createdAt: new Date(),
-      modifiedAt: new Date(),
     }
   }
 

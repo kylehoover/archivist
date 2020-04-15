@@ -10,7 +10,7 @@ export type NewCampaignModelFields = NewModelFields & CampaignFields
 export type UpdatedCampaignModelFields = UpdatedModelFields & Partial<CampaignFields>
 
 class Campaign extends Model {
-  private constructor(
+  constructor(
     id: string,
     createdAt: Date,
     modifiedAt: Date,

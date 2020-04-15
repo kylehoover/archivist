@@ -28,7 +28,7 @@ type Permissions = {
 }
 
 class UserRole extends Model {
-  private constructor(
+  constructor(
     id: string,
     createdAt: Date,
     modifiedAt: Date,

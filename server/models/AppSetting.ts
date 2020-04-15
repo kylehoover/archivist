@@ -22,7 +22,7 @@ export type NewAppSettingModelFields = NewModelFields & AppSettingFields
 export type UpdatedAppSettingModelFields = UpdatedModelFields & Partial<AppSettingFields>
 
 class AppSetting extends Model {
-  private constructor(
+  constructor(
     id: string,
     createdAt: Date,
     modifiedAt: Date,

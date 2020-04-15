@@ -4,5 +4,6 @@ yarn-error.log
 .idea/
 build/
 build-dev/
+coverage/
 docs/
 node_modules/

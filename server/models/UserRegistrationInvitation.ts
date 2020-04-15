@@ -12,7 +12,7 @@ export type UpdatedUserRegistrationInvitationModelFields =
   UpdatedModelFields & Partial<UserRegistrationInvitationFields>
 
 class UserRegistrationInvitation extends Model {
-  private constructor(
+  constructor(
     id: string,
     createdAt: Date,
     modifiedAt: Date,

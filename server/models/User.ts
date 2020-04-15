@@ -15,7 +15,7 @@ export type NewUserModelFields = NewModelFields & UserFields
 export type UpdatedUserModelFields = UpdatedModelFields & Partial<UserFields>
 
 class User extends Model {
-  private constructor(
+  constructor(
     id: string,
     createdAt: Date,
     modifiedAt: Date,

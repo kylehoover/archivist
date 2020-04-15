@@ -12,7 +12,7 @@ export type NewUserRegistrationRequestModelFields = NewModelFields & UserRegistr
 export type UpdatedUserRegistrationRequestModelFields = UpdatedModelFields & Partial<UserRegistrationRequestFields>
 
 class UserRegistrationRequest extends Model {
-  private constructor(
+  constructor(
     id: string,
     createdAt: Date,
     modifiedAt: Date,
