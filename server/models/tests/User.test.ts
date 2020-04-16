@@ -42,7 +42,7 @@ describe('User', () => {
     expect(user.getRole()).toEqual(userRole)
   })
 
-  test('toGraphQLType returns a User as a UserType', () => {
+  test('toGraphQLType converts a User into a UserType', () => {
     const user = new User('1', new Date(), new Date(), 'Name', 'email@email.com', '1', 'password')
     const userType = new UserType(user)
     expect(user.toGraphQLType()).toEqual(userType)

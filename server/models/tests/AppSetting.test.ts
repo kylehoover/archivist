@@ -29,7 +29,7 @@ describe('AppSetting', () => {
     expect(appSettingsMap).toEqual({ [AppSettingName.AllowOpenRegistration]: false })
   })
 
-  test('toGraphQLType returns an AppSetting as an AppSettingType', () => {
+  test('toGraphQLType converts an AppSetting into an AppSettingType', () => {
     const appSetting = new AppSetting(
       '1', new Date(), new Date(), AppSettingName.AllowOpenRegistration, false, 'Display Name', 'Description'
     )

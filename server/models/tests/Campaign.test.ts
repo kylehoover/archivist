@@ -15,7 +15,7 @@ describe('Campaign', () => {
     expect(Campaign.fromMongo(doc)).toEqual(campaign)
   })
 
-  test('toGraphQLType returns a Campaign as a CampaignType', () => {
+  test('toGraphQLType converts a Campaign into a CampaignType', () => {
     const campaign = new Campaign('1', new Date(), new Date(), 'Campaign Name')
     const campaignType = new CampaignType(campaign)
     expect(campaign.toGraphQLType()).toEqual(campaignType)
