@@ -1,8 +1,8 @@
 import { Container, Inject, Service } from 'typedi'
 
-import { AppSettingService, ServiceName, UserRoleService } from './services'
 import AppSetting, { AppSettingsMap } from './models/AppSetting'
 import UserRole, { UserRolesMap } from './models/UserRole'
+import { AppSettingService, ServiceName, UserRoleService } from './services'
 
 @Service()
 class DataProvider {

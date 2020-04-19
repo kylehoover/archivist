@@ -10,7 +10,7 @@ import {
   UserResolver,
   UserRoleResolver,
 } from './resolvers'
-import { verifyRegisteredServices } from '../services'
+import { verifyRegisteredServices } from '../services/util'
 
 const errorInterceptor: MiddlewareFn = async ({ context, info }, next) => {
   try {

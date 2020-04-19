@@ -6,7 +6,6 @@ import UserRegistrationInvitationService from './UserRegistrationInvitationServi
 import UserRegistrationRequestService from './UserRegistrationRequestService'
 import UserRoleService from './UserRoleService'
 import UserService from './UserService'
-import { registerServices, verifyRegisteredServices } from './util'
 
 export {
   AppSettingService,
@@ -17,6 +16,4 @@ export {
   UserRegistrationRequestService,
   UserRoleService,
   UserService,
-  registerServices,
-  verifyRegisteredServices,
 }

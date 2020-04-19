@@ -1,9 +1,7 @@
-import { Container } from 'typedi'
-
-import AppSetting, { defaultAppSettings } from './models/AppSetting'
-import UserRole, { defaultUserRoles } from './models/UserRole'
-import { Model } from './models'
-import { MongoServiceProvider } from './mongo'
+import AppSetting, { defaultAppSettings } from '../models/AppSetting'
+import UserRole, { defaultUserRoles } from '../models/UserRole'
+import { Model } from '../models'
+import { getServiceProvider } from '../services/util'
 
 type ItemWithName = { name: string }
 
@@ -12,7 +10,7 @@ function nameNotInList(item: ItemWithName, list: ItemWithName[]): boolean {
 }
 
 export async function addDefaultAppSettings(options?: { overwrite: boolean }): Promise<AppSetting[]> {
-  const serviceProvider = Container.get(MongoServiceProvider)
+  const serviceProvider = getServiceProvider()
   await serviceProvider.init()
 
   const appSettingService = serviceProvider.getAppSettingService()
@@ -41,7 +39,7 @@ export async function addDefaultAppSettings(options?: { overwrite: boolean }): P
 }
 
 export async function addDefaultUserRoles(options?: { overwrite: boolean }): Promise<UserRole[]> {
-  const serviceProvider = Container.get(MongoServiceProvider)
+  const serviceProvider = getServiceProvider()
   await serviceProvider.init()
 
   const userRoleService = serviceProvider.getUserRoleService()

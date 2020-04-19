@@ -2,6 +2,15 @@ import { Container } from 'typedi'
 
 import ServiceProvider from './ServiceProvider'
 import ServiceName from './ServiceName'
+import { MongoServiceProvider } from '../mongo'
+
+/**
+ * This will eventually contain more complex logic for determining which implementation of
+ * ServiceProvider will be used
+ */
+export function getServiceProvider(): ServiceProvider {
+  return Container.get(MongoServiceProvider)
+}
 
 export function registerServices(serviceProvider: ServiceProvider): void {
   Container.set(ServiceName.AppSetting, serviceProvider.getAppSettingService())

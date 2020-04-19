@@ -3,15 +3,14 @@ import graphqlHTTP from 'express-graphql'
 import morgan from 'morgan'
 
 import DataProvider from './DataProvider'
-import { ServiceProvider, registerServices } from './services'
 import { getSchema } from './graphql'
+import { getServiceProvider, registerServices } from './services/util'
 
 class Server {
-  constructor(private readonly serviceProvider: ServiceProvider) {}
-
   public async run(): Promise<void> {
-    await this.serviceProvider.init()
-    registerServices(this.serviceProvider)
+    const serviceProvider = getServiceProvider()
+    await serviceProvider.init()
+    registerServices(serviceProvider)
     await DataProvider.init()
 
     const app = express()

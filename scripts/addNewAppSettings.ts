@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 
-import { addDefaultAppSettings } from '../server/util'
+import { addDefaultAppSettings } from '../server/helpers/db'
 import { logAppSettings, setupEnv } from './util'
 
 async function runSetup(): Promise<void> {
