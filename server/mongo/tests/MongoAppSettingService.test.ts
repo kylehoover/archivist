@@ -29,7 +29,7 @@ afterEach(async () => {
 })
 
 describe('MongoAppSettingService', () => {
-  test('deleteById removes a document from the appSettings collection if the id exists', async () => {
+  test('deleteById removes a document from the appSettings collection', async () => {
     const id = initialAppSettings[0].id
     const appSetting = await appSettingService.deleteById(id)
     const appSettings = await db.appSettings.find().map(AppSetting.fromMongo).toArray()
@@ -37,13 +37,6 @@ describe('MongoAppSettingService', () => {
     expect(appSetting).toEqual(initialAppSettings[0])
     expect(deletedAppSetting).toBeUndefined()
     expect(appSettings).toEqual(initialAppSettings.filter(as => as.id !== id))
-  })
-
-  test('deleteById throws an error if the id does not exist', async () => {
-    const appSettingPromise = appSettingService.deleteById((new ObjectId()).toHexString())
-    await expect(appSettingPromise).rejects.toThrowError()
-    const appSettings = await db.appSettings.find().map(AppSetting.fromMongo).toArray()
-    expect(appSettings).toEqual(initialAppSettings)
   })
 
   test('findAll returns all documents in the appSettings collection', async () => {
@@ -77,7 +70,7 @@ describe('MongoAppSettingService', () => {
     expect(appSettings).toEqual([...initialAppSettings, fieldsAsModel])
   })
 
-  test('updateById updates a document in the appSettings collection if the id exists', async () => {
+  test('updateById updates a document in the appSettings collection', async () => {
     const appSetting = initialAppSettings[0]
     const updatedFields = Model.getUpdatedModelFields({
       displayName: 'Updated Display Name',
@@ -96,16 +89,5 @@ describe('MongoAppSettingService', () => {
     expect(updatedAppSetting.description).toEqual(updatedFields.description)
     expect(updatedAppSettingFromDb).toEqual(updatedAppSetting)
     expect(appSettings).toEqual(updatedInitialAppSettings)
-  })
-
-  test('updateById throws an error if the id does not exist', async () => {
-    const updatedFields = Model.getUpdatedModelFields({
-      displayName: 'Updated Display Name',
-      description: 'Updated description.',
-    })
-    const appSettingPromise = appSettingService.updateById((new ObjectId()).toHexString(), updatedFields)
-    await expect(appSettingPromise).rejects.toThrowError()
-    const appSettings = await db.appSettings.find().map(AppSetting.fromMongo).toArray()
-    expect(appSettings).toEqual(initialAppSettings)
   })
 })

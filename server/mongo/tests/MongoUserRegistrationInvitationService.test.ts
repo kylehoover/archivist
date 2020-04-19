@@ -40,7 +40,7 @@ afterEach(async () => {
 })
 
 describe('MongoUserRegistrationInvitationService', () => {
-  test('deleteById removes a document from the userRegistrationInvitations collection if the id exists', async () => {
+  test('deleteById removes a document from the userRegistrationInvitations collection', async () => {
     const id = initialInvitations[0].id
     const invitation = await registrationInvitationService.deleteById(id)
     const invitations = await db.userRegistrationInvitations.find().map(UserRegistrationInvitation.fromMongo).toArray()
@@ -48,13 +48,6 @@ describe('MongoUserRegistrationInvitationService', () => {
     expect(invitation).toEqual(initialInvitations[0])
     expect(deletedInvitation).toBeUndefined()
     expect(invitations).toEqual(initialInvitations.filter(as => as.id !== id))
-  })
-
-  test('deleteById throws an error if the id does not exist', async () => {
-    const invitationPromise = registrationInvitationService.deleteById((new ObjectId()).toHexString())
-    await expect(invitationPromise).rejects.toThrowError()
-    const invitations = await db.userRegistrationInvitations.find().map(UserRegistrationInvitation.fromMongo).toArray()
-    expect(invitations).toEqual(initialInvitations)
   })
 
   test('findAll returns all documents in the userRegistrationInvitations collection', async () => {
@@ -88,7 +81,7 @@ describe('MongoUserRegistrationInvitationService', () => {
     expect(invitations).toEqual([...initialInvitations, fieldsAsModel])
   })
 
-  test('updateById updates a document in the userRegistrationInvitations collection if the id exists', async () => {
+  test('updateById updates a document in the userRegistrationInvitations collection', async () => {
     const invitation = initialInvitations[0]
     const updatedFields = Model.getUpdatedModelFields({ invitationId: uuid() })
     const updatedInvitation = await registrationInvitationService.updateById(invitation.id, updatedFields)
@@ -102,13 +95,5 @@ describe('MongoUserRegistrationInvitationService', () => {
     expect(updatedInvitation.invitationId).toEqual(updatedFields.invitationId)
     expect(updatedInvitationFromDb).toEqual(updatedInvitation)
     expect(invitations).toEqual(updatedInitialInvitations)
-  })
-
-  test('updateById throws an error if the id does not exist', async () => {
-    const updatedFields = Model.getUpdatedModelFields({ name: 'Updated Name' })
-    const invitationPromise = registrationInvitationService.updateById((new ObjectId()).toHexString(), updatedFields)
-    await expect(invitationPromise).rejects.toThrowError()
-    const invitations = await db.userRegistrationInvitations.find().map(UserRegistrationInvitation.fromMongo).toArray()
-    expect(invitations).toEqual(initialInvitations)
   })
 })

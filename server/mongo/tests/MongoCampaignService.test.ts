@@ -34,7 +34,7 @@ afterEach(async () => {
 })
 
 describe('MongoCampaignService', () => {
-  test('deleteById removes a document from the campaigns collection if the id exists', async () => {
+  test('deleteById removes a document from the campaigns collection', async () => {
     const id = initialCampaigns[0].id
     const campaign = await campaignService.deleteById(id)
     const campaigns = await db.campaigns.find().map(Campaign.fromMongo).toArray()
@@ -42,13 +42,6 @@ describe('MongoCampaignService', () => {
     expect(campaign).toEqual(initialCampaigns[0])
     expect(deletedCampaign).toBeUndefined()
     expect(campaigns).toEqual(initialCampaigns.filter(as => as.id !== id))
-  })
-
-  test('deleteById throws an error if the id does not exist', async () => {
-    const campaignPromise = campaignService.deleteById((new ObjectId()).toHexString())
-    await expect(campaignPromise).rejects.toThrowError()
-    const campaigns = await db.campaigns.find().map(Campaign.fromMongo).toArray()
-    expect(campaigns).toEqual(initialCampaigns)
   })
 
   test('findAll returns all documents in the campaigns collection', async () => {
@@ -77,7 +70,7 @@ describe('MongoCampaignService', () => {
     expect(campaigns).toEqual([...initialCampaigns, fieldsAsModel])
   })
 
-  test('updateById updates a document in the campaigns collection if the id exists', async () => {
+  test('updateById updates a document in the campaigns collection', async () => {
     const campaign = initialCampaigns[0]
     const updatedFields = Model.getUpdatedModelFields({ name: 'Updated Name' })
     const updatedCampaign = await campaignService.updateById(campaign.id, updatedFields)
@@ -90,13 +83,5 @@ describe('MongoCampaignService', () => {
     expect(updatedCampaign.name).toEqual(updatedFields.name)
     expect(updatedCampaignFromDb).toEqual(updatedCampaign)
     expect(campaigns).toEqual(updatedInitialCampaigns)
-  })
-
-  test('updateById throws an error if the id does not exist', async () => {
-    const updatedFields = Model.getUpdatedModelFields({ name: 'Updated Name' })
-    const campaignPromise = campaignService.updateById((new ObjectId()).toHexString(), updatedFields)
-    await expect(campaignPromise).rejects.toThrowError()
-    const campaigns = await db.campaigns.find().map(Campaign.fromMongo).toArray()
-    expect(campaigns).toEqual(initialCampaigns)
   })
 })

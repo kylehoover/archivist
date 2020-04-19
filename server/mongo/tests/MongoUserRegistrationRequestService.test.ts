@@ -39,7 +39,7 @@ afterEach(async () => {
 })
 
 describe('MongoUserRegistrationRequestService', () => {
-  test('deleteById removes a document from the userRegistrationRequests collection if the id exists', async () => {
+  test('deleteById removes a document from the userRegistrationRequests collection', async () => {
     const id = initialRequests[0].id
     const request = await registrationRequestService.deleteById(id)
     const requests = await db.userRegistrationRequests.find().map(UserRegistrationRequest.fromMongo).toArray()
@@ -47,13 +47,6 @@ describe('MongoUserRegistrationRequestService', () => {
     expect(request).toEqual(initialRequests[0])
     expect(deletedRequest).toBeUndefined()
     expect(requests).toEqual(initialRequests.filter(as => as.id !== id))
-  })
-
-  test('deleteById throws an error if the id does not exist', async () => {
-    const requestPromise = registrationRequestService.deleteById((new ObjectId()).toHexString())
-    await expect(requestPromise).rejects.toThrowError()
-    const requests = await db.userRegistrationRequests.find().map(UserRegistrationRequest.fromMongo).toArray()
-    expect(requests).toEqual(initialRequests)
   })
 
   test('findAll returns all documents in the userRegistrationRequests collection', async () => {
@@ -88,7 +81,7 @@ describe('MongoUserRegistrationRequestService', () => {
     expect(requests).toEqual([...initialRequests, fieldsAsModel])
   })
 
-  test('updateById updates a document in the userRegistrationRequests collection if the id exists', async () => {
+  test('updateById updates a document in the userRegistrationRequests collection', async () => {
     const request = initialRequests[0]
     const updatedFields = Model.getUpdatedModelFields({ name: 'Updated Name' })
     const updatedRequest = await registrationRequestService.updateById(request.id, updatedFields)
@@ -102,13 +95,5 @@ describe('MongoUserRegistrationRequestService', () => {
     expect(updatedRequest.email).toEqual(request.email)
     expect(updatedRequestFromDb).toEqual(updatedRequest)
     expect(requests).toEqual(updatedInitialRequests)
-  })
-
-  test('updateById throws an error if the id does not exist', async () => {
-    const updatedFields = Model.getUpdatedModelFields({ name: 'Updated Name' })
-    const requestPromise = registrationRequestService.updateById((new ObjectId()).toHexString(), updatedFields)
-    await expect(requestPromise).rejects.toThrowError()
-    const requests = await db.userRegistrationRequests.find().map(UserRegistrationRequest.fromMongo).toArray()
-    expect(requests).toEqual(initialRequests)
   })
 })

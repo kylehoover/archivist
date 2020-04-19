@@ -34,7 +34,7 @@ afterEach(async () => {
 })
 
 describe('MongoUserService', () => {
-  test('deleteById removes a document from the users collection if the id exists', async () => {
+  test('deleteById removes a document from the users collection', async () => {
     const id = initialUsers[0].id
     const user = await userService.deleteById(id)
     const users = await db.users.find().map(User.fromMongo).toArray()
@@ -42,13 +42,6 @@ describe('MongoUserService', () => {
     expect(user).toEqual(initialUsers[0])
     expect(deletedUser).toBeUndefined()
     expect(users).toEqual(initialUsers.filter(as => as.id !== id))
-  })
-
-  test('deleteById throws an error if the id does not exist', async () => {
-    const userPromise = userService.deleteById((new ObjectId()).toHexString())
-    await expect(userPromise).rejects.toThrowError()
-    const users = await db.users.find().map(User.fromMongo).toArray()
-    expect(users).toEqual(initialUsers)
   })
 
   test('findAll returns all documents in the users collection', async () => {
@@ -82,7 +75,7 @@ describe('MongoUserService', () => {
     expect(users).toEqual([...initialUsers, fieldsAsModel])
   })
 
-  test('updateById updates a document in the users collection if the id exists', async () => {
+  test('updateById updates a document in the users collection', async () => {
     const user = initialUsers[0]
     const updatedFields = Model.getUpdatedModelFields({ name: 'Updated Name', roleId: '54321' })
     const updatedUser = await userService.updateById(user.id, updatedFields)
@@ -97,13 +90,5 @@ describe('MongoUserService', () => {
     expect(updatedUser.roleId).toEqual(updatedFields.roleId)
     expect(updatedUserFromDb).toEqual(updatedUser)
     expect(users).toEqual(updatedInitialUsers)
-  })
-
-  test('updateById throws an error if the id does not exist', async () => {
-    const updatedFields = Model.getUpdatedModelFields({ name: 'Updated Name' })
-    const userPromise = userService.updateById((new ObjectId()).toHexString(), updatedFields)
-    await expect(userPromise).rejects.toThrowError()
-    const users = await db.users.find().map(User.fromMongo).toArray()
-    expect(users).toEqual(initialUsers)
   })
 })

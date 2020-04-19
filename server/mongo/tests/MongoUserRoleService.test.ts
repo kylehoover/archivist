@@ -61,6 +61,12 @@ describe('MongoUserRoleService', () => {
     expect(userRole).toBeNull()
   })
 
+  test('findDefaultRole returns the default UserRole', async () => {
+    const defaultRoleFromService = await userRoleService.findDefaultRole()
+    const defaultRole = initialUserRoles.find(role => role.isDefault)
+    expect(defaultRoleFromService).toEqual(defaultRole)
+  })
+
   test('insertOne adds a new document to the userRoles collection', async () => {
     const userRoleFields = Model.getNewModelFields({
       name: 'New User Role',

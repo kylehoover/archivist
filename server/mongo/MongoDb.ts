@@ -26,7 +26,7 @@ class MongoDb {
   private client?: MongoClient
   private _db?: Db
 
-  private get db(): Db {
+  public get db(): Db {
     if (!this._db) {
       throw new Error('MongoDB is not connected')
     }
