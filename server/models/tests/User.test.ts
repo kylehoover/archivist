@@ -1,9 +1,13 @@
 import 'reflect-metadata'
 
 import DataProvider from '../../DataProvider'
-import User, { MongoUserModelFields } from '../User'
+import User, { MongoUserModelFields, RegistrationInfo, RegistrationType } from '../User'
 import UserRole from '../UserRole'
 import { UserType } from '../../graphql/types'
+
+const registrationInfo: RegistrationInfo = {
+  type: RegistrationType.OpenRegistration,
+}
 
 const userRole = new UserRole('1', new Date(), new Date(), 'User Role Name', false, false, {
   canAcceptUserRegistrationRequests: false,
@@ -30,20 +34,25 @@ describe('User', () => {
       email: 'email@email.com',
       roleId: '1',
       password: 'password',
+      registration: registrationInfo,
     }
     const user = new User(
-      doc._id, doc.createdAt, doc.modifiedAt, doc.name, doc.email, doc.roleId, doc.password
+      doc._id, doc.createdAt, doc.modifiedAt, doc.name, doc.email, doc.roleId, doc.password, doc.registration
     )
     expect(User.fromMongo(doc)).toEqual(user)
   })
 
-  test('getRole returns the UserRole related to the User', () => {
-    const user = new User('1', new Date(), new Date(), 'Name', 'email@email.com', '1', 'password')
-    expect(user.getRole()).toEqual(userRole)
+  test('role accessor returns the UserRole related to the User', () => {
+    const user = new User(
+      '1', new Date(), new Date(), 'Name', 'email@email.com', '1', 'password', registrationInfo
+    )
+    expect(user.role).toEqual(userRole)
   })
 
   test('toGraphQLType converts a User into a UserType', () => {
-    const user = new User('1', new Date(), new Date(), 'Name', 'email@email.com', '1', 'password')
+    const user = new User(
+      '1', new Date(), new Date(), 'Name', 'email@email.com', '1', 'password', registrationInfo
+    )
     const userType = new UserType(user)
     expect(user.toGraphQLType()).toEqual(userType)
   })

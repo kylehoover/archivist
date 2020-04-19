@@ -2,7 +2,7 @@ import 'reflect-metadata'
 
 import { ObjectId } from 'mongodb'
 
-import User, { MongoUserModelFields, UserFields } from '../../models/User'
+import User, { MongoUserModelFields, RegistrationInfo, RegistrationType, UserFields } from '../../models/User'
 import MongoUserService from '../MongoUserService'
 import MongoDb from '../MongoDb'
 import { Model } from '../../models'
@@ -12,8 +12,18 @@ const userService = new MongoUserService(db)
 let initialUsers: User[] = []
 const data: UserFields[] = []
 
+const registrationInfo: RegistrationInfo = {
+  type: RegistrationType.OpenRegistration,
+}
+
 for (let i = 0; i < 5; i++) {
-  data.push({ name: `Name ${i}`, email: `email${i}@email.com`, roleId: `${i}`, password: `password${i}` })
+  data.push({
+    name: `Name ${i}`,
+    email: `email${i}@email.com`,
+    roleId: `${i}`,
+    password: `password${i}`,
+    registration: registrationInfo,
+  })
 }
 
 beforeAll(async () => {
@@ -65,6 +75,7 @@ describe('MongoUserService', () => {
       email: 'newemail@email.com',
       roleId: '12345',
       password: 'newpassword',
+      registration: registrationInfo,
     })
     const user = await userService.insertOne(userFields)
     const fieldsAsModel = User.fromMongo(userFields as MongoUserModelFields)
@@ -88,6 +99,7 @@ describe('MongoUserService', () => {
     expect(updatedUser.name).toEqual(updatedFields.name)
     expect(updatedUser.email).toEqual(user.email)
     expect(updatedUser.roleId).toEqual(updatedFields.roleId)
+    expect(updatedUser.registration).toEqual(user.registration)
     expect(updatedUserFromDb).toEqual(updatedUser)
     expect(users).toEqual(updatedInitialUsers)
   })

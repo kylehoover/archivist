@@ -19,11 +19,10 @@ class UserType extends ModelType {
   constructor(user: User) {
     super(user)
 
-    const role = user.getRole()
     this.email = user.email
     this.name = user.name
     this.permissions = Object.values(PermissionName).map(
-      name => new PermissionType(name, role.permissions[name])
+      name => new PermissionType(name, user.role.permissions[name])
     )
   }
 }

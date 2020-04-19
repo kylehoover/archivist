@@ -4,6 +4,8 @@ import { UserRegistrationInvitationType } from '../graphql/types'
 export type UserRegistrationInvitationFields = {
   email: string
   invitationId: string
+  invitedByUserId: string
+  expiresAt: Date
 }
 
 export type MongoUserRegistrationInvitationModelFields = MongoModelFields & UserRegistrationInvitationFields
@@ -18,12 +20,16 @@ class UserRegistrationInvitation extends Model {
     modifiedAt: Date,
     public readonly email: string,
     public readonly invitationId: string,
+    public readonly invitedByUserId: string,
+    public readonly expiresAt: Date,
   ) {
     super(id, createdAt, modifiedAt)
   }
 
   public static fromMongo(doc: MongoUserRegistrationInvitationModelFields): UserRegistrationInvitation {
-    return new UserRegistrationInvitation(doc._id, doc.createdAt, doc.modifiedAt, doc.email, doc.invitationId)
+    return new UserRegistrationInvitation(
+      doc._id, doc.createdAt, doc.modifiedAt, doc.email, doc.invitationId, doc.invitedByUserId, doc.expiresAt
+    )
   }
 
   public toGraphQLType(): UserRegistrationInvitationType {

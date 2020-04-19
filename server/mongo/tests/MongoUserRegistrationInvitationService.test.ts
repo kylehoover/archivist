@@ -17,7 +17,7 @@ let initialInvitations: UserRegistrationInvitation[] = []
 const data: UserRegistrationInvitationFields[] = []
 
 for (let i = 0; i < 5; i++) {
-  data.push({ email: `email${i}@email.com`, invitationId: uuid() })
+  data.push({ email: `email${i}@email.com`, invitationId: uuid(), invitedByUserId: '1', expiresAt: new Date() })
 }
 
 beforeAll(async () => {
@@ -69,6 +69,8 @@ describe('MongoUserRegistrationInvitationService', () => {
     const invitationFields = Model.getNewModelFields({
       email: 'newemail@email.com',
       invitationId: uuid(),
+      invitedByUserId: '1',
+      expiresAt: new Date(),
     })
     const invitation = await registrationInvitationService.insertOne(invitationFields)
     const fieldsAsModel = UserRegistrationInvitation.fromMongo(
@@ -83,7 +85,7 @@ describe('MongoUserRegistrationInvitationService', () => {
 
   test('updateById updates a document in the userRegistrationInvitations collection', async () => {
     const invitation = initialInvitations[0]
-    const updatedFields = Model.getUpdatedModelFields({ invitationId: uuid() })
+    const updatedFields = Model.getUpdatedModelFields({ invitationId: uuid(), expiresAt: new Date() })
     const updatedInvitation = await registrationInvitationService.updateById(invitation.id, updatedFields)
     const invitations = await db.userRegistrationInvitations.find().map(UserRegistrationInvitation.fromMongo).toArray()
     const updatedInvitationFromDb = invitations.find(as => as.id === invitation.id)
@@ -93,6 +95,8 @@ describe('MongoUserRegistrationInvitationService', () => {
     expect(updatedInvitation.modifiedAt).toEqual(updatedFields.modifiedAt)
     expect(updatedInvitation.email).toEqual(invitation.email)
     expect(updatedInvitation.invitationId).toEqual(updatedFields.invitationId)
+    expect(updatedInvitation.invitedByUserId).toEqual(invitation.invitedByUserId)
+    expect(updatedInvitation.expiresAt).toEqual(updatedFields.expiresAt)
     expect(updatedInvitationFromDb).toEqual(updatedInvitation)
     expect(invitations).toEqual(updatedInitialInvitations)
   })
