@@ -1,8 +1,9 @@
 import { Arg, ID, Mutation, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 
+import { RegisterUserInputType } from '../inputTypes'
 import { ServiceName, UserService } from '../../services'
-import { RegisterUserInputType, UserType } from '../types'
+import { UserType } from '../types'
 
 @Service()
 @Resolver(UserType)

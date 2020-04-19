@@ -1,7 +1,10 @@
-import { Arg, ID, Query, Resolver } from 'type-graphql'
+import { Arg, ID, Mutation, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 
+import { Model } from '../../models'
 import { ServiceName, UserRegistrationRequestService } from '../../services'
+import { SubmitRegistrationRequestInputType } from '../inputTypes'
+import { UserRegistrationRequestFields } from '../../models/UserRegistrationRequest'
 import { UserRegistrationRequestType } from '../types'
 
 @Service()
@@ -24,6 +27,16 @@ class UserRegistrationRequestResolver {
   public async userRegistrationRequests(): Promise<UserRegistrationRequestType[]> {
     const users = await this.registrationRequestService.findAll()
     return users.map(u => u.toGraphQLType())
+  }
+
+  @Mutation(returns => UserRegistrationRequestType)
+  public async submitRegistrationRequest(
+    @Arg('input') input: SubmitRegistrationRequestInputType,
+  ): Promise<UserRegistrationRequestType> {
+    throw new Error('submitRegistrationRequest not implemented, need to hash password')
+
+    const registrationRequest = await this.registrationRequestService.insertOne(Model.getNewModelFields(input))
+    return registrationRequest.toGraphQLType()
   }
 }
 

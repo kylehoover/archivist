@@ -6,7 +6,8 @@ import { v4 as uuid } from 'uuid'
 import DataProvider from '../../DataProvider'
 import { Model } from '../../models'
 import { ServiceName, UserRegistrationInvitationService } from '../../services'
-import { SubmitInvitationInputType, UserRegistrationInvitationType } from '../types'
+import { SubmitInvitationInputType } from '../inputTypes'
+import { UserRegistrationInvitationType } from '../types'
 import { UserRegistrationInvitationFields } from '../../models/UserRegistrationInvitation'
 
 @Service()
