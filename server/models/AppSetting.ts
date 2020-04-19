@@ -3,6 +3,7 @@ import { AppSettingType } from '../graphql/types'
 
 export enum AppSettingName {
   AllowOpenRegistration = 'allowOpenRegistration',
+  NumDaysInvitationIsValid = 'numDaysInvitationIsValid'
 }
 
 export type AppSettingFields = {
@@ -59,6 +60,13 @@ export const defaultAppSettings: AppSettingFields[] = [
     description: 'If this setting is turned on, anyone will be allowed register as a user. ' +
     'If it is turned off, users will only be able to register by receiving an invitation or by ' +
     'having their registration request accepted.',
+  },
+  {
+    name: AppSettingName.NumDaysInvitationIsValid,
+    value: 30,
+    displayName: 'Number of Days Before Invitations Expire',
+    description: 'The number of days that an invitation is valid before it expires and can no longer ' +
+    'be used to register.',
   },
 ]
 
