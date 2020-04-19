@@ -3,6 +3,7 @@ import graphqlHTTP from 'express-graphql'
 import morgan from 'morgan'
 
 import DataProvider from './DataProvider'
+import { getEnv } from './Env'
 import { getSchema } from './graphql'
 import { getServiceProvider, registerServices } from './services/util'
 
@@ -14,7 +15,7 @@ class Server {
     await DataProvider.init()
 
     const app = express()
-    const port = process.env.AR_PORT ?? 4000
+    const port = getEnv().port
 
     app.use(morgan('tiny'))
 

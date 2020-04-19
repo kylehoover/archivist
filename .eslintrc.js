@@ -58,7 +58,7 @@ module.exports = {
         "object-shorthand": "error",
         "one-var": ["error", "never"],
         "quote-props": ["error", "consistent-as-needed"],
-        "radix": "error",
+        "radix": ["error", "as-needed"],
         "semi": "off",
         "sort-imports": ["error", { "ignoreDeclarationSort": true }],
         "space-before-function-paren": [

@@ -25,8 +25,3 @@ export function logUserRoles(userRoles: UserRole[]): void {
     })
   }
 }
-
-export async function setupEnv(): Promise<void> {
-  const dotenv = await import('dotenv')
-  dotenv.config()
-}

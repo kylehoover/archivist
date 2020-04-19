@@ -3,6 +3,7 @@ import { Service } from 'typedi'
 
 import MongoDocument from './MongoDocument'
 import { Model } from '../models'
+import { getEnv } from '../Env'
 
 enum CollectionName {
   AppSettings = 'appSettings',
@@ -11,12 +12,6 @@ enum CollectionName {
   UserRegistrationRequests = 'UserRegistrationRequests',
   UserRoles = 'userRoles',
   Users = 'users',
-}
-
-enum EnvVar {
-  DbName = 'AR_MONGO_DB',
-  DbUri = 'AR_MONGO_URI',
-  DbUriTesting = 'MONGO_URL', // set by jest-mongodb
 }
 
 type mapDocumentToModelFn<T extends Model> = (doc: any) => T
@@ -144,28 +139,18 @@ class MongoDb {
   }
 
   public initForTesting(): Promise<void> {
-    const uri = process.env[EnvVar.DbUriTesting]
+    const uri = process.env.MONGO_URL
 
-    if (!uri) {
-      throw new Error(`${EnvVar.DbUriTesting} environment variable should have been set by jest-mongodb`)
+    if (uri === undefined) {
+      throw new Error('MONGO_URL environment variable should have been set by jest-mongodb')
     }
 
     return this.init(uri, '')
   }
 
   public initFromEnv(): Promise<void> {
-    const dbName = process.env[EnvVar.DbName]
-    const uri = process.env[EnvVar.DbUri]
-
-    if (!dbName) {
-      throw new Error(`${EnvVar.DbName} environment variable is not set`)
-    }
-
-    if (!uri) {
-      throw new Error(`${EnvVar.DbUri} environment variable is not set`)
-    }
-
-    return this.init(uri, dbName)
+    const env = getEnv()
+    return this.init(env.mongoUri, env.mongoDbName)
   }
 }
 

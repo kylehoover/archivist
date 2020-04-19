@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt'
 import { Arg, ID, Mutation, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 
@@ -6,6 +7,7 @@ import { ServiceName, UserRegistrationRequestService } from '../../services'
 import { SubmitRegistrationRequestInputType } from '../inputTypes'
 import { UserRegistrationRequestFields } from '../../models/UserRegistrationRequest'
 import { UserRegistrationRequestType } from '../types'
+import { getEnv } from '../../Env'
 
 @Service()
 @Resolver(UserRegistrationRequestType)
@@ -33,9 +35,15 @@ class UserRegistrationRequestResolver {
   public async submitRegistrationRequest(
     @Arg('input') input: SubmitRegistrationRequestInputType,
   ): Promise<UserRegistrationRequestType> {
-    throw new Error('submitRegistrationRequest not implemented, need to hash password')
+    const hash = await bcrypt.hash(input.password, getEnv().saltRounds)
 
-    const registrationRequest = await this.registrationRequestService.insertOne(Model.getNewModelFields(input))
+    const fields: UserRegistrationRequestFields = {
+      name: input.name,
+      email: input.email,
+      password: hash,
+    }
+
+    const registrationRequest = await this.registrationRequestService.insertOne(Model.getNewModelFields(fields))
     return registrationRequest.toGraphQLType()
   }
 }

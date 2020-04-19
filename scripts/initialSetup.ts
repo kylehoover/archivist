@@ -1,11 +1,9 @@
 import 'reflect-metadata'
 
 import { addDefaultAppSettings, addDefaultUserRoles } from '../server/helpers/db'
-import { logAppSettings, logUserRoles, setupEnv } from './util'
+import { logAppSettings, logUserRoles } from './util'
 
 async function runSetup(): Promise<void> {
-  await setupEnv()
-
   const addedAppSettings = await addDefaultAppSettings({ overwrite: true })
   const addedUserRoles = await addDefaultUserRoles({ overwrite: true })
 
