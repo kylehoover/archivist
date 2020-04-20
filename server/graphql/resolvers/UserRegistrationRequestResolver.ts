@@ -7,7 +7,7 @@ import { ServiceName, UserRegistrationRequestService } from '../../services'
 import { SubmitRegistrationRequestInputType } from '../inputTypes'
 import { UserRegistrationRequestFields } from '../../models/UserRegistrationRequest'
 import { UserRegistrationRequestType } from '../types'
-import { getEnv } from '../../Env'
+import { hashPassword } from '../../helpers/auth'
 
 @Service()
 @Resolver(UserRegistrationRequestType)
@@ -35,12 +35,10 @@ class UserRegistrationRequestResolver {
   public async submitRegistrationRequest(
     @Arg('input') input: SubmitRegistrationRequestInputType,
   ): Promise<UserRegistrationRequestType> {
-    const hash = await bcrypt.hash(input.password, getEnv().saltRounds)
-
     const fields: UserRegistrationRequestFields = {
       name: input.name,
       email: input.email,
-      password: hash,
+      password: hashPassword(input.password),
     }
 
     const registrationRequest = await this.registrationRequestService.insertOne(Model.getNewModelFields(fields))

@@ -6,6 +6,7 @@ interface UserRoleService extends DataService<
   NewUserRoleModelFields,
   UpdatedUserRoleModelFields
 > {
+  findByName(name: string): Promise<UserRole | null>
   findDefaultRole(): Promise<UserRole>
 }
 

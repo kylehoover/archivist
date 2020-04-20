@@ -3,10 +3,10 @@ import 'reflect-metadata'
 import { addDefaultAppSettings } from '../server/helpers/db'
 import { logAppSettings } from './util'
 
-async function runSetup(): Promise<void> {
+async function run(): Promise<void> {
   const addedAppSettings = await addDefaultAppSettings()
   logAppSettings(addedAppSettings)
-  process.exit(0)
+  process.exit()
 }
 
-runSetup()
+run()

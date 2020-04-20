@@ -20,6 +20,11 @@ class MongoUserRoleService implements UserRoleService {
     return MongoDb.findById(id, this.db.userRoles, UserRole.fromMongo)
   }
 
+  public async findByName(name: string): Promise<UserRole | null> {
+    const userRole = await this.db.userRoles.findOne({ name })
+    return UserRole.fromMongo(userRole)
+  }
+
   public async findDefaultRole(): Promise<UserRole> {
     const userRoles = await this.db.userRoles.find({ isDefault: true }).map(UserRole.fromMongo).toArray()
     return UserRole.getDefaultRoleFromList(userRoles)

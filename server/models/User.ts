@@ -7,6 +7,7 @@ export enum RegistrationType {
   OpenRegistration = 'openRegistration',
   Invitation = 'invitation',
   Request = 'request',
+  Superuser = 'superuser',
 }
 
 export type RegistrationInfo = {

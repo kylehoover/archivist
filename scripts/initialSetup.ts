@@ -10,7 +10,7 @@ async function runSetup(): Promise<void> {
   logAppSettings(addedAppSettings)
   logUserRoles(addedUserRoles)
 
-  process.exit(0)
+  process.exit()
 }
 
 runSetup()
