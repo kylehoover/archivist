@@ -9,8 +9,8 @@ describe('AppSetting', () => {
       _id: '1',
       createdAt: new Date(),
       modifiedAt: new Date(),
-      name: AppSettingName.AllowOpenRegistration,
-      value: false,
+      name: AppSettingName.NumDaysInvitationIsValid,
+      value: 30,
       displayName: 'Display Name',
       description: 'Description',
     }
@@ -22,16 +22,16 @@ describe('AppSetting', () => {
 
   test('listToMap converts an AppSetting list to an AppSettingsMap', () => {
     const appSetting = new AppSetting(
-      '1', new Date(), new Date(), AppSettingName.AllowOpenRegistration, false, 'Display Name', 'Description'
+      '1', new Date(), new Date(), AppSettingName.NumDaysInvitationIsValid, 30, 'Display Name', 'Description'
     )
     const appSettings = [appSetting]
     const appSettingsMap = AppSetting.listToMap(appSettings)
-    expect(appSettingsMap).toEqual({ [AppSettingName.AllowOpenRegistration]: false })
+    expect(appSettingsMap).toEqual({ [AppSettingName.NumDaysInvitationIsValid]: 30 })
   })
 
   test('toGraphQLType converts an AppSetting into an AppSettingType', () => {
     const appSetting = new AppSetting(
-      '1', new Date(), new Date(), AppSettingName.AllowOpenRegistration, false, 'Display Name', 'Description'
+      '1', new Date(), new Date(), AppSettingName.NumDaysInvitationIsValid, 30, 'Display Name', 'Description'
     )
     const appSettingType = new AppSettingType(appSetting)
     expect(appSetting.toGraphQLType()).toEqual(appSettingType)

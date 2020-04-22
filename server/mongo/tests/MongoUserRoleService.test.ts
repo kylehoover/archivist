@@ -73,7 +73,7 @@ describe('MongoUserRoleService', () => {
       isDefault: false,
       isReadonly: false,
       permissions: {
-        canAcceptUserRegistrationRequests: false,
+        canApproveUserRegistrationRequests: false,
         canEditAppSettings: true,
         canEditUserRoles: true,
         canInviteUsers: false,

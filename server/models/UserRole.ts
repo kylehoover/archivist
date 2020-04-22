@@ -2,7 +2,7 @@ import Model, { MongoModelFields, NewModelFields, UpdatedModelFields } from './M
 import { UserRoleType } from '../graphql/types'
 
 export enum PermissionName {
-  CanAcceptUserRegistrationRequests = 'canAcceptUserRegistrationRequests',
+  CanApproveUserRegistrationRequests = 'canApproveUserRegistrationRequests',
   CanEditAppSettings = 'canEditAppSettings',
   CanEditUserRoles = 'canEditUserRoles',
   CanInviteUsers = 'canInviteUsers',
@@ -77,7 +77,7 @@ export const defaultUserRoles: UserRoleFields[] = [
     isDefault: false,
     isReadonly: false,
     permissions: {
-      canAcceptUserRegistrationRequests: true,
+      canApproveUserRegistrationRequests: true,
       canEditAppSettings: false,
       canEditUserRoles: false,
       canInviteUsers: true,
@@ -88,7 +88,7 @@ export const defaultUserRoles: UserRoleFields[] = [
     isDefault: true,
     isReadonly: false,
     permissions: {
-      canAcceptUserRegistrationRequests: false,
+      canApproveUserRegistrationRequests: false,
       canEditAppSettings: false,
       canEditUserRoles: false,
       canInviteUsers: false,
@@ -99,7 +99,7 @@ export const defaultUserRoles: UserRoleFields[] = [
     isDefault: false,
     isReadonly: true,
     permissions: {
-      canAcceptUserRegistrationRequests: true,
+      canApproveUserRegistrationRequests: true,
       canEditAppSettings: true,
       canEditUserRoles: true,
       canInviteUsers: true,

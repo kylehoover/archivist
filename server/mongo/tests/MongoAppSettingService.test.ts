@@ -56,8 +56,8 @@ describe('MongoAppSettingService', () => {
 
   test('insertOne adds a new document to the appSettings collection', async () => {
     const appSettingFields = Model.getNewModelFields({
-      name: AppSettingName.AllowOpenRegistration,
-      value: 'value',
+      name: AppSettingName.NumDaysInvitationIsValid,
+      value: 30,
       displayName: 'displayName',
       description: 'description',
     })

@@ -10,7 +10,7 @@ const registrationInfo: RegistrationInfo = {
 }
 
 const userRole = new UserRole('1', new Date(), new Date(), 'User Role Name', false, false, {
-  canAcceptUserRegistrationRequests: false,
+  canApproveUserRegistrationRequests: false,
   canEditAppSettings: false,
   canEditUserRoles: false,
   canInviteUsers: false,

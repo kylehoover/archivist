@@ -12,6 +12,7 @@ export enum RegistrationType {
 
 export type RegistrationInfo = {
   type: RegistrationType
+  approvedByUserId?: string
   invitedByUserId?: string
 }
 
