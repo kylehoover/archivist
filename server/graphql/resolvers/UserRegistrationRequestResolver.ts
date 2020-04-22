@@ -1,13 +1,14 @@
-import bcrypt from 'bcrypt'
 import { Arg, ID, Mutation, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 
-import { Model } from '../../models'
+import DataProvider from '../../DataProvider'
 import { ServiceName, UserRegistrationRequestService } from '../../services'
 import { SubmitRegistrationRequestInputType } from '../inputTypes'
 import { UserRegistrationRequestFields } from '../../models/UserRegistrationRequest'
 import { UserRegistrationRequestType } from '../types'
+import { UserRegistrationStatusValue } from '../../models/AppSetting'
 import { hashPassword } from '../../helpers/auth'
+import { withNewModelFields } from '../../models/Model'
 
 @Service()
 @Resolver(UserRegistrationRequestType)
@@ -35,13 +36,17 @@ class UserRegistrationRequestResolver {
   public async submitRegistrationRequest(
     @Arg('input') input: SubmitRegistrationRequestInputType,
   ): Promise<UserRegistrationRequestType> {
+    if (DataProvider.getAppSettingsMap().userRegistrationStatus !== UserRegistrationStatusValue.ByRequest) {
+      throw new Error('Not allowed')
+    }
+
     const fields: UserRegistrationRequestFields = {
       name: input.name,
       email: input.email,
       password: hashPassword(input.password),
     }
 
-    const registrationRequest = await this.registrationRequestService.insertOne(Model.getNewModelFields(fields))
+    const registrationRequest = await this.registrationRequestService.insertOne(withNewModelFields(fields))
     return registrationRequest.toGraphQLType()
   }
 }

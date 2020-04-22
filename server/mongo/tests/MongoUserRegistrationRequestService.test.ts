@@ -8,7 +8,7 @@ import UserRegistrationRequest, {
   MongoUserRegistrationRequestModelFields,
   UserRegistrationRequestFields,
 } from '../../models/UserRegistrationRequest'
-import { Model } from '../../models'
+import { withNewModelFields, withUpdatedModelFields } from '../../models/Model'
 
 const db = new MongoDb()
 const registrationRequestService = new MongoUserRegistrationRequestService(db)
@@ -29,7 +29,7 @@ afterAll(async () => {
 
 beforeEach(async () => {
   const result = await db.userRegistrationRequests.insertMany(
-    data.map(request => Model.getNewModelFields(request))
+    data.map(request => withNewModelFields(request))
   )
   initialRequests = result.ops.map(UserRegistrationRequest.fromMongo)
 })
@@ -65,7 +65,7 @@ describe('MongoUserRegistrationRequestService', () => {
   })
 
   test('insertOne adds a new document to the userRegistrationRequests collection', async () => {
-    const registrationRequestFields = Model.getNewModelFields({
+    const registrationRequestFields = withNewModelFields({
       name: 'New Name',
       email: 'newemail@email.com',
       password: 'newpassword',
@@ -83,7 +83,7 @@ describe('MongoUserRegistrationRequestService', () => {
 
   test('updateById updates a document in the userRegistrationRequests collection', async () => {
     const request = initialRequests[0]
-    const updatedFields = Model.getUpdatedModelFields({ name: 'Updated Name' })
+    const updatedFields = withUpdatedModelFields({ name: 'Updated Name' })
     const updatedRequest = await registrationRequestService.updateById(request.id, updatedFields)
     const requests = await db.userRegistrationRequests.find().map(UserRegistrationRequest.fromMongo).toArray()
     const updatedRequestFromDb = requests.find(as => as.id === request.id)

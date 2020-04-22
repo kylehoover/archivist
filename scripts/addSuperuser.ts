@@ -3,10 +3,10 @@ import 'reflect-metadata'
 import inquirer from 'inquirer'
 import { isEmail, isLength } from 'validator'
 
-import { Model } from '../server/models'
 import { RegistrationType, UserFields } from '../server/models/User'
 import { getServiceProvider } from '../server/services/util'
 import { hashPassword } from '../server/helpers/auth'
+import { withNewModelFields } from '../server/models/Model'
 
 async function run(): Promise<void> {
   const serviceProvider = getServiceProvider()
@@ -59,7 +59,7 @@ async function run(): Promise<void> {
     },
   }
 
-  userService.insertOne(Model.getNewModelFields(fields))
+  userService.insertOne(withNewModelFields(fields))
   console.log(`${answers.name} has been added as a superuser`)
   process.exit()
 }

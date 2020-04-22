@@ -5,7 +5,7 @@ import { ObjectId } from 'mongodb'
 import Campaign, { CampaignFields, MongoCampaignModelFields } from '../../models/Campaign'
 import MongoCampaignService from '../MongoCampaignService'
 import MongoDb from '../MongoDb'
-import { Model } from '../../models'
+import { withNewModelFields, withUpdatedModelFields } from '../../models/Model'
 
 const db = new MongoDb()
 const campaignService = new MongoCampaignService(db)
@@ -25,7 +25,7 @@ afterAll(async () => {
 })
 
 beforeEach(async () => {
-  const result = await db.campaigns.insertMany(data.map(campaign => Model.getNewModelFields(campaign)))
+  const result = await db.campaigns.insertMany(data.map(campaign => withNewModelFields(campaign)))
   initialCampaigns = result.ops.map(Campaign.fromMongo)
 })
 
@@ -60,7 +60,7 @@ describe('MongoCampaignService', () => {
   })
 
   test('insertOne adds a new document to the campaigns collection', async () => {
-    const campaignFields = Model.getNewModelFields({ name: 'New Campaign' })
+    const campaignFields = withNewModelFields({ name: 'New Campaign' })
     const campaign = await campaignService.insertOne(campaignFields)
     const fieldsAsModel = Campaign.fromMongo(campaignFields as MongoCampaignModelFields)
     const campaigns = await db.campaigns.find().map(Campaign.fromMongo).toArray()
@@ -72,7 +72,7 @@ describe('MongoCampaignService', () => {
 
   test('updateById updates a document in the campaigns collection', async () => {
     const campaign = initialCampaigns[0]
-    const updatedFields = Model.getUpdatedModelFields({ name: 'Updated Name' })
+    const updatedFields = withUpdatedModelFields({ name: 'Updated Name' })
     const updatedCampaign = await campaignService.updateById(campaign.id, updatedFields)
     const campaigns = await db.campaigns.find().map(Campaign.fromMongo).toArray()
     const updatedCampaignFromDb = campaigns.find(as => as.id === campaign.id)

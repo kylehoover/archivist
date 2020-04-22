@@ -9,7 +9,7 @@ import UserRegistrationInvitation, {
   MongoUserRegistrationInvitationModelFields,
   UserRegistrationInvitationFields,
 } from '../../models/UserRegistrationInvitation'
-import { Model } from '../../models'
+import { withNewModelFields, withUpdatedModelFields } from '../../models/Model'
 
 const db = new MongoDb()
 const registrationInvitationService = new MongoUserRegistrationInvitationService(db)
@@ -30,7 +30,7 @@ afterAll(async () => {
 
 beforeEach(async () => {
   const result = await db.userRegistrationInvitations.insertMany(
-    data.map(invitation => Model.getNewModelFields(invitation))
+    data.map(invitation => withNewModelFields(invitation))
   )
   initialInvitations = result.ops.map(UserRegistrationInvitation.fromMongo)
 })
@@ -66,7 +66,7 @@ describe('MongoUserRegistrationInvitationService', () => {
   })
 
   test('insertOne adds a new document to the userRegistrationInvitations collection', async () => {
-    const invitationFields = Model.getNewModelFields({
+    const invitationFields = withNewModelFields({
       email: 'newemail@email.com',
       invitationId: uuid(),
       invitedByUserId: '1',
@@ -85,7 +85,7 @@ describe('MongoUserRegistrationInvitationService', () => {
 
   test('updateById updates a document in the userRegistrationInvitations collection', async () => {
     const invitation = initialInvitations[0]
-    const updatedFields = Model.getUpdatedModelFields({ invitationId: uuid(), expiresAt: new Date() })
+    const updatedFields = withUpdatedModelFields({ invitationId: uuid(), expiresAt: new Date() })
     const updatedInvitation = await registrationInvitationService.updateById(invitation.id, updatedFields)
     const invitations = await db.userRegistrationInvitations.find().map(UserRegistrationInvitation.fromMongo).toArray()
     const updatedInvitationFromDb = invitations.find(as => as.id === invitation.id)

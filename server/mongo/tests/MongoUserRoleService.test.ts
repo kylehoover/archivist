@@ -5,7 +5,7 @@ import { ObjectId } from 'mongodb'
 import MongoUserRoleService from '../MongoUserRoleService'
 import MongoDb from '../MongoDb'
 import UserRole, { MongoUserRoleModelFields, defaultUserRoles } from '../../models/UserRole'
-import { Model } from '../../models'
+import { withNewModelFields, withUpdatedModelFields } from '../../models/Model'
 
 const db = new MongoDb()
 const userRoleService = new MongoUserRoleService(db)
@@ -20,7 +20,7 @@ afterAll(async () => {
 })
 
 beforeEach(async () => {
-  const result = await db.userRoles.insertMany(defaultUserRoles.map(role => Model.getNewModelFields(role)))
+  const result = await db.userRoles.insertMany(defaultUserRoles.map(role => withNewModelFields(role)))
   initialUserRoles = result.ops.map(UserRole.fromMongo)
 })
 
@@ -68,7 +68,7 @@ describe('MongoUserRoleService', () => {
   })
 
   test('insertOne adds a new document to the userRoles collection', async () => {
-    const userRoleFields = Model.getNewModelFields({
+    const userRoleFields = withNewModelFields({
       name: 'New User Role',
       isDefault: false,
       isReadonly: false,
@@ -90,7 +90,7 @@ describe('MongoUserRoleService', () => {
 
   test('updateById updates a document in the userRoles collection if the id exists', async () => {
     const userRole = initialUserRoles[0]
-    const updatedFields = Model.getUpdatedModelFields({ name: 'Updated Name', isReadonly: true })
+    const updatedFields = withUpdatedModelFields({ name: 'Updated Name', isReadonly: true })
     const updatedUserRole = await userRoleService.updateById(userRole.id, updatedFields)
     const userRoles = await db.userRoles.find().map(UserRole.fromMongo).toArray()
     const updatedUserRoleFromDb = userRoles.find(as => as.id === userRole.id)
@@ -107,7 +107,7 @@ describe('MongoUserRoleService', () => {
   })
 
   test('updateById throws an error if the id does not exist', async () => {
-    const updatedFields = Model.getUpdatedModelFields({ name: 'Updated Name' })
+    const updatedFields = withUpdatedModelFields({ name: 'Updated Name' })
     const userRolePromise = userRoleService.updateById((new ObjectId()).toHexString(), updatedFields)
     await expect(userRolePromise).rejects.toThrowError()
     const userRoles = await db.userRoles.find().map(UserRole.fromMongo).toArray()

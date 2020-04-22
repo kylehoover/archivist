@@ -4,11 +4,11 @@ import { Inject, Service } from 'typedi'
 import { v4 as uuid } from 'uuid'
 
 import DataProvider from '../../DataProvider'
-import { Model } from '../../models'
 import { ServiceName, UserRegistrationInvitationService } from '../../services'
 import { SubmitInvitationInputType } from '../inputTypes'
 import { UserRegistrationInvitationType } from '../types'
 import { UserRegistrationInvitationFields } from '../../models/UserRegistrationInvitation'
+import { withNewModelFields } from '../../models/Model'
 
 @Service()
 @Resolver(UserRegistrationInvitationType)
@@ -47,7 +47,7 @@ class UserRegistrationInvitationResolver {
       expiresAt: moment().add(numDays, 'days').toDate(),
     }
 
-    await this.invitationService.insertOne(Model.getNewModelFields(fields))
+    await this.invitationService.insertOne(withNewModelFields(fields))
   }
 }
 

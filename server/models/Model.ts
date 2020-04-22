@@ -23,6 +23,23 @@ export type UpdatedModelFields = {
   modifiedAt: Date
 }
 
+export function withNewModelFields<T>(fields: T): NewModelFields & T {
+  const date = new Date()
+
+  return {
+    createdAt: date,
+    modifiedAt: date,
+    ...fields,
+  }
+}
+
+export function withUpdatedModelFields<T>(fields: T): UpdatedModelFields & T {
+  return {
+    modifiedAt: new Date(),
+    ...fields,
+  }
+}
+
 abstract class Model {
   constructor(
     public readonly id: string,
@@ -31,21 +48,6 @@ abstract class Model {
   ) {
     if ((id as any) instanceof ObjectId) {
       this.id = id.toString()
-    }
-  }
-
-  public static getNewModelFields<T>(fields: T): NewModelFields & T {
-    return {
-      createdAt: new Date(),
-      modifiedAt: new Date(),
-      ...fields,
-    }
-  }
-
-  public static getUpdatedModelFields<T>(fields: T): UpdatedModelFields & T {
-    return {
-      modifiedAt: new Date(),
-      ...fields,
     }
   }
 

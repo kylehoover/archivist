@@ -2,8 +2,8 @@ import 'reflect-metadata'
 
 import { Collection, ObjectId } from 'mongodb'
 
+import Model, { withNewModelFields, withUpdatedModelFields } from '../../models/Model'
 import MongoDb from '../MongoDb'
-import { Model } from '../../models'
 import { ModelType } from '../../graphql/types'
 
 class MockModel extends Model {
@@ -35,7 +35,7 @@ afterAll(async () => {
 
 beforeEach(async () => {
   for (let i = 0; i < 5; i++) {
-    const result = await collection.insertOne(Model.getNewModelFields({}))
+    const result = await collection.insertOne(withNewModelFields({}))
     initialModels.push(MockModel.fromMongo(result.ops[0]))
   }
 })
@@ -79,7 +79,7 @@ describe('MongoDb', () => {
   })
 
   test('insertOne adds a new document to a collection', async () => {
-    const modelFields = Model.getNewModelFields({})
+    const modelFields = withNewModelFields({})
     const model = await MongoDb.insertOne(modelFields, collection, MockModel.fromMongo)
     const fieldsAsModel = MockModel.fromMongo(modelFields)
     const models = await collection.find().map(MockModel.fromMongo).toArray()
@@ -91,7 +91,7 @@ describe('MongoDb', () => {
 
   test('updateById updates a document in a collection if the id exists', async () => {
     const model = initialModels[0]
-    const updatedFields = Model.getUpdatedModelFields({})
+    const updatedFields = withUpdatedModelFields({})
     const updatedModel = await MongoDb.updateById(
       model.id, updatedFields, collection, MockModel.fromMongo, { returnOriginal: false }
     )
@@ -106,7 +106,7 @@ describe('MongoDb', () => {
   })
 
   test('updateById throws an error if the id does not exist', async () => {
-    const updatedFields = Model.getUpdatedModelFields({ name: 'Updated Name' })
+    const updatedFields = withUpdatedModelFields({ name: 'Updated Name' })
     const modelPromise = MongoDb.updateById(
       (new ObjectId()).toHexString(), updatedFields, collection, MockModel.fromMongo
     )

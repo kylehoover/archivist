@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 
-import Model from '../Model'
+import { withNewModelFields, withUpdatedModelFields } from '../Model'
 
 beforeAll(() => {
   const mockDate = new Date()
@@ -12,15 +12,15 @@ afterAll(() => {
 })
 
 describe('Model', () => {
-  test('getNewModelFields returns createdAt, modifiedAt, and the fields provided', () => {
+  test('withNewModelFields returns createdAt, modifiedAt, and the fields provided', () => {
     const fields = { name: 'Name', value: true }
     const expected = { createdAt: new Date(), modifiedAt: new Date(), ...fields }
-    expect(Model.getNewModelFields(fields)).toEqual(expected)
+    expect(withNewModelFields(fields)).toEqual(expected)
   })
 
-  test('getUpdatedModelFields returns modifiedAt and the fields provided', () => {
+  test('withUpdatedModelFields returns modifiedAt and the fields provided', () => {
     const fields = { name: 'Name', value: true }
     const expected = { modifiedAt: new Date(), ...fields }
-    expect(Model.getUpdatedModelFields(fields)).toEqual(expected)
+    expect(withUpdatedModelFields(fields)).toEqual(expected)
   })
 })

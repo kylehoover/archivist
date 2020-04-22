@@ -5,7 +5,7 @@ import { ObjectId } from 'mongodb'
 import User, { MongoUserModelFields, RegistrationInfo, RegistrationType, UserFields } from '../../models/User'
 import MongoUserService from '../MongoUserService'
 import MongoDb from '../MongoDb'
-import { Model } from '../../models'
+import { withNewModelFields, withUpdatedModelFields } from '../../models/Model'
 
 const db = new MongoDb()
 const userService = new MongoUserService(db)
@@ -35,7 +35,7 @@ afterAll(async () => {
 })
 
 beforeEach(async () => {
-  const result = await db.users.insertMany(data.map(user => Model.getNewModelFields(user)))
+  const result = await db.users.insertMany(data.map(user => withNewModelFields(user)))
   initialUsers = result.ops.map(User.fromMongo)
 })
 
@@ -70,7 +70,7 @@ describe('MongoUserService', () => {
   })
 
   test('insertOne adds a new document to the users collection', async () => {
-    const userFields = Model.getNewModelFields({
+    const userFields = withNewModelFields({
       name: 'New User',
       email: 'newemail@email.com',
       roleId: '12345',
@@ -88,7 +88,7 @@ describe('MongoUserService', () => {
 
   test('updateById updates a document in the users collection', async () => {
     const user = initialUsers[0]
-    const updatedFields = Model.getUpdatedModelFields({ name: 'Updated Name', roleId: '54321' })
+    const updatedFields = withUpdatedModelFields({ name: 'Updated Name', roleId: '54321' })
     const updatedUser = await userService.updateById(user.id, updatedFields)
     const users = await db.users.find().map(User.fromMongo).toArray()
     const updatedUserFromDb = users.find(as => as.id === user.id)

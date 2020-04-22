@@ -1,7 +1,7 @@
 import AppSetting, { defaultAppSettings } from '../models/AppSetting'
 import UserRole, { defaultUserRoles } from '../models/UserRole'
-import { Model } from '../models'
 import { getServiceProvider } from '../services/util'
+import { withNewModelFields, withUpdatedModelFields } from '../models/Model'
 
 type ItemWithName = { name: string }
 
@@ -26,9 +26,9 @@ export async function addDefaultAppSettings(options?: { overwrite: boolean }): P
 
       if (options?.overwrite && appSetting !== undefined) {
         appSetting = await appSettingService.updateById(appSetting.id,
-          Model.getUpdatedModelFields(appSettingFields))
+          withUpdatedModelFields(appSettingFields))
       } else {
-        appSetting = await appSettingService.insertOne(Model.getNewModelFields(appSettingFields))
+        appSetting = await appSettingService.insertOne(withNewModelFields(appSettingFields))
       }
 
       addedAppSettings.push(appSetting)
@@ -54,10 +54,9 @@ export async function addDefaultUserRoles(options?: { overwrite: boolean }): Pro
       let userRole = installedUserRoles.find(u => u.name === userRoleFields.name)
 
       if (options?.overwrite && userRole !== undefined) {
-        userRole = await userRoleService.updateById(userRole.id,
-          Model.getUpdatedModelFields(userRoleFields))
+        userRole = await userRoleService.updateById(userRole.id, withUpdatedModelFields(userRoleFields))
       } else {
-        userRole = await userRoleService.insertOne(Model.getNewModelFields(userRoleFields))
+        userRole = await userRoleService.insertOne(withNewModelFields(userRoleFields))
       }
 
       addedUserRoles.push(userRole)

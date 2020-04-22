@@ -5,7 +5,7 @@ import { ObjectId } from 'mongodb'
 import AppSetting, { AppSettingName, MongoAppSettingModelFields, defaultAppSettings } from '../../models/AppSetting'
 import MongoAppSettingService from '../MongoAppSettingService'
 import MongoDb from '../MongoDb'
-import { Model } from '../../models'
+import { withNewModelFields, withUpdatedModelFields } from '../../models/Model'
 
 const db = new MongoDb()
 const appSettingService = new MongoAppSettingService(db)
@@ -20,7 +20,7 @@ afterAll(async () => {
 })
 
 beforeEach(async () => {
-  const result = await db.appSettings.insertMany(defaultAppSettings.map(setting => Model.getNewModelFields(setting)))
+  const result = await db.appSettings.insertMany(defaultAppSettings.map(setting => withNewModelFields(setting)))
   initialAppSettings = result.ops.map(AppSetting.fromMongo)
 })
 
@@ -55,7 +55,7 @@ describe('MongoAppSettingService', () => {
   })
 
   test('insertOne adds a new document to the appSettings collection', async () => {
-    const appSettingFields = Model.getNewModelFields({
+    const appSettingFields = withNewModelFields({
       name: AppSettingName.NumDaysInvitationIsValid,
       value: 30,
       displayName: 'displayName',
@@ -72,7 +72,7 @@ describe('MongoAppSettingService', () => {
 
   test('updateById updates a document in the appSettings collection', async () => {
     const appSetting = initialAppSettings[0]
-    const updatedFields = Model.getUpdatedModelFields({
+    const updatedFields = withUpdatedModelFields({
       displayName: 'Updated Display Name',
       description: 'Updated description.',
     })
