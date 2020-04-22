@@ -7,3 +7,4 @@ yarn.lock
 build/
 client/
 node_modules/
+scripts/**/*.js

@@ -2,7 +2,7 @@
   "name": "archivist",
   "version": "0.0.0",
   "author": "Kyle Hoover",
-  "license": "MIT",
+  "license": "LGPL-3.0",
   "private": true,
   "devDependencies": {
     "@shelf/jest-mongodb": "^1.1.5",
@@ -61,7 +61,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "ts-node scripts/preCommitHook.ts"
+      "pre-commit": "node scripts/preCommitHook.js"
     }
   }
 }
