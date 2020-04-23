@@ -4,12 +4,18 @@ import jwt from 'jsonwebtoken'
 import { User } from '../models'
 import { getEnv } from '../Env'
 
-export function generateJwt(user: User): string {
-  return jwt.sign({ userId: user.id, roleId: user.roleId }, getEnv().JwtSecret, { expiresIn: '1 day' })
+export function generateAccessToken(user: User): string {
+  const { AccessTokenExpirationTime, JwtSecret } = getEnv()
+  return jwt.sign(
+    { userId: user.id, roleId: user.roleId },
+    JwtSecret,
+    { expiresIn: AccessTokenExpirationTime },
+  )
 }
 
 export function generateRefreshToken(): string {
-  return jwt.sign({}, getEnv().JwtSecret, { expiresIn: '30 days' })
+  const { JwtSecret, RefreshTokenExpirationTime } = getEnv()
+  return jwt.sign({}, JwtSecret, { expiresIn: RefreshTokenExpirationTime })
 }
 
 export function hashPassword(password: string): string {

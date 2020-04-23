@@ -6,7 +6,7 @@ import { User } from '../../models'
 @ObjectType()
 class LoginType {
   @Field()
-  public jwt: string
+  public accessToken: string
 
   @Field()
   public refreshToken: string
@@ -14,8 +14,8 @@ class LoginType {
   @Field(type => UserType)
   public user: UserType
 
-  constructor(jwt: string, refreshToken: string, user: User) {
-    this.jwt = jwt
+  constructor(accessToken: string, refreshToken: string, user: User) {
+    this.accessToken = accessToken
     this.refreshToken = refreshToken
     this.user = user.toGraphQLType()
   }

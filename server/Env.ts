@@ -7,19 +7,27 @@ export function getEnv(): Env {
 
 @Service()
 class Env {
+  private accessTokenExpirationTime: string
   private jwtSecret: string
   private mongoDbName: string
   private mongoUri: string
   private port: number
+  private refreshTokenExpirationTime: string
   private saltRounds: number
 
   constructor() {
     dotenv.config()
+    this.accessTokenExpirationTime = this.loadEnvVar('AR_ACCESS_TOKEN_EXPIRATION_TIME')
     this.jwtSecret = this.loadEnvVar('AR_JWT_SECRET')
     this.mongoDbName = this.loadEnvVar('AR_MONGO_DB_NAME')
     this.mongoUri = this.loadEnvVar('AR_MONGO_URI')
     this.port = this.loadEnvVarAsNumber('AR_PORT')
+    this.refreshTokenExpirationTime = this.loadEnvVar('AR_REFRESH_TOKEN_EXPIRATION_TIME')
     this.saltRounds = this.loadEnvVarAsNumber('AR_SALT_ROUNDS')
+  }
+
+  public get AccessTokenExpirationTime(): string {
+    return this.accessTokenExpirationTime
   }
 
   public get JwtSecret(): string {
@@ -36,6 +44,10 @@ class Env {
 
   public get Port(): number {
     return this.port
+  }
+
+  public get RefreshTokenExpirationTime(): string {
+    return this.refreshTokenExpirationTime
   }
 
   public get SaltRounds(): number {

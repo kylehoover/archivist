@@ -8,7 +8,7 @@ import { LoginType, UserType } from '../types'
 import { RegistrationType, UserFields } from '../../models/User'
 import { ServiceName, UserService } from '../../services'
 import { UserRegistrationStatusValue } from '../../models/AppSetting'
-import { generateJwt, generateRefreshToken, hashPassword } from '../../helpers/auth'
+import { generateAccessToken, generateRefreshToken, hashPassword } from '../../helpers/auth'
 import { withNewModelFields } from '../../models/Model'
 
 @Service()
@@ -42,7 +42,7 @@ class UserResolver {
       throw new Error('Invalid credentials')
     }
 
-    return new LoginType(generateJwt(user), generateRefreshToken(), user)
+    return new LoginType(generateAccessToken(user), generateRefreshToken(), user)
   }
 
   @Mutation(returns => UserType)
