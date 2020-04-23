@@ -1,3 +1,5 @@
+import bcrypt from 'bcrypt'
+
 import DataProvider from '../DataProvider'
 import Model, { MongoModelFields, NewModelFields, UpdatedModelFields } from './Model'
 import UserRole from './UserRole'
@@ -50,6 +52,10 @@ class User extends Model {
     return new User(
       doc._id, doc.createdAt, doc.modifiedAt, doc.name, doc.email, doc.roleId, doc.password, doc.registration
     )
+  }
+
+  public passwordMatches(password: string): boolean {
+    return bcrypt.compareSync(password, this.password)
   }
 
   public toGraphQLType(): UserType {

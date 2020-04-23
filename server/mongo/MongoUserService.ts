@@ -16,6 +16,11 @@ class MongoUserService implements UserService {
     return MongoDb.findAll(this.db.users, User.fromMongo)
   }
 
+  public async findByEmail(email: string): Promise<User | null> {
+    const user = await this.db.users.findOne({ email })
+    return user === null ? null : User.fromMongo(user)
+  }
+
   public findById(id: string): Promise<User | null> {
     return MongoDb.findById(id, this.db.users, User.fromMongo)
   }

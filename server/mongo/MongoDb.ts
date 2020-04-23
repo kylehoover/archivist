@@ -150,7 +150,7 @@ class MongoDb {
 
   public initFromEnv(): Promise<void> {
     const env = getEnv()
-    return this.init(env.mongoUri, env.mongoDbName)
+    return this.init(env.MongoUri, env.MongoDbName)
   }
 }
 

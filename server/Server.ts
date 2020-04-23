@@ -15,7 +15,7 @@ class Server {
     await DataProvider.init()
 
     const app = express()
-    const port = getEnv().port
+    const port = process.env.PORT || getEnv().Port
 
     app.use(morgan('tiny'))
 

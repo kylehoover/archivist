@@ -36,7 +36,7 @@ class UserRegistrationInvitationResolver {
   public async submitRegistrationInvitation(
     @Arg('input') input: SubmitInvitationInputType
   ): Promise<UserRegistrationInvitationType> {
-    throw new Error('submitRegistrationInvitation not implemented, need to get invitedByUserId from ctx')
+    throw new Error('submitRegistrationInvitation not implemented, need to get user from ctx')
 
     const numDays = DataProvider.getAppSettingsMap().numDaysInvitationIsValid as number
 

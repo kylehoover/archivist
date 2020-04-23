@@ -7,33 +7,39 @@ export function getEnv(): Env {
 
 @Service()
 class Env {
-  private _mongoDbName: string
-  private _mongoUri: string
-  private _port: number
-  private _saltRounds: number
+  private jwtSecret: string
+  private mongoDbName: string
+  private mongoUri: string
+  private port: number
+  private saltRounds: number
 
   constructor() {
     dotenv.config()
-    this._mongoDbName = this.loadEnvVar('AR_MONGO_DB_NAME')
-    this._mongoUri = this.loadEnvVar('AR_MONGO_URI')
-    this._port = this.loadEnvVarAsNumber('AR_PORT')
-    this._saltRounds = this.loadEnvVarAsNumber('AR_SALT_ROUNDS')
+    this.jwtSecret = this.loadEnvVar('AR_JWT_SECRET')
+    this.mongoDbName = this.loadEnvVar('AR_MONGO_DB_NAME')
+    this.mongoUri = this.loadEnvVar('AR_MONGO_URI')
+    this.port = this.loadEnvVarAsNumber('AR_PORT')
+    this.saltRounds = this.loadEnvVarAsNumber('AR_SALT_ROUNDS')
   }
 
-  public get mongoDbName(): string {
-    return this._mongoDbName
+  public get JwtSecret(): string {
+    return this.jwtSecret
   }
 
-  public get mongoUri(): string {
-    return this._mongoUri
+  public get MongoDbName(): string {
+    return this.mongoDbName
   }
 
-  public get port(): number {
-    return this._port
+  public get MongoUri(): string {
+    return this.mongoUri
   }
 
-  public get saltRounds(): number {
-    return this._saltRounds
+  public get Port(): number {
+    return this.port
+  }
+
+  public get SaltRounds(): number {
+    return this.saltRounds
   }
 
   private loadEnvVar(name: string): string {

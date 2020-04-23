@@ -25,6 +25,10 @@ class DataProvider {
     return dataProvider.userRolesMap![dataProvider.defaultUserRoleId!]
   }
 
+  public static getDefaultUserRoleId(): string {
+    return DataProvider.getInstance().defaultUserRoleId!
+  }
+
   public static getUserRoleById(id: string): UserRole {
     return DataProvider.getUserRolesMap()[id]
   }
