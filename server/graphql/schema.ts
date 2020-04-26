@@ -1,6 +1,6 @@
-import { ArgumentValidationError, MiddlewareFn, buildSchema } from 'type-graphql'
 import { Container } from 'typedi'
-import { GraphQLError, GraphQLSchema } from 'graphql'
+import { GraphQLSchema } from 'graphql'
+import { buildSchema } from 'type-graphql'
 
 import {
   AppSettingResolver,
@@ -10,20 +10,9 @@ import {
   UserResolver,
   UserRoleResolver,
 } from './resolvers'
+
+import { errorInterceptor } from './middleware'
 import { verifyRegisteredServices } from '../services/util'
-
-const errorInterceptor: MiddlewareFn = async ({ context, info }, next) => {
-  try {
-    return await next()
-  } catch (err) {
-    if (err instanceof ArgumentValidationError) {
-      const extensions = { validationErrors: err.validationErrors }
-      throw new GraphQLError(err.message, undefined, undefined, undefined, undefined, undefined, extensions)
-    }
-
-    throw err
-  }
-}
 
 export function getSchema(): Promise<GraphQLSchema> {
   verifyRegisteredServices()

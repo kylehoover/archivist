@@ -53,6 +53,7 @@ export function hashPassword(password: string): string {
 }
 
 export function setRefreshTokenCookie(req: Request): void {
+  // eslint-disable-next-line no-unused-expressions
   req.res?.cookie('refreshToken', generateRefreshToken(), {
     httpOnly: true,
     maxAge: ms(getEnv().RefreshTokenExpirationTime),

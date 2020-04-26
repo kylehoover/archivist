@@ -36,7 +36,7 @@ class Server {
             permissions: DataProvider.getUserRoleById(payload.roleId).permissions,
           }
         } catch (err) {
-          console.log(err)
+          // do nothing
         }
       }
 
@@ -45,7 +45,7 @@ class Server {
     })
 
     app.use('/graphql', graphqlHTTP({
-      graphiql: true,
+      graphiql: app.get('env') === 'development',
       schema: await getSchema(),
     }))
 
