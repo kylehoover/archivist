@@ -4,21 +4,17 @@ import UserType from './UserType'
 import { User } from '../../models'
 
 @ObjectType()
-class LoginType {
+class LoginUserType {
   @Field()
   public accessToken: string
-
-  @Field()
-  public refreshToken: string
 
   @Field(type => UserType)
   public user: UserType
 
-  constructor(accessToken: string, refreshToken: string, user: User) {
+  constructor(accessToken: string, user: User) {
     this.accessToken = accessToken
-    this.refreshToken = refreshToken
     this.user = user.toGraphQLType()
   }
 }
 
-export default LoginType
+export default LoginUserType

@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 import DataProvider from '../DataProvider'
 import Model, { MongoModelFields, NewModelFields, UpdatedModelFields } from './Model'
 import UserRole from './UserRole'
+import { Permissions } from './UserRole'
 import { UserType } from '../graphql/types/'
 
 export enum RegistrationType {
@@ -16,6 +17,12 @@ export type RegistrationInfo = {
   type: RegistrationType
   approvedByUserId?: string
   invitedByUserId?: string
+}
+
+export type RequestUserInfo = {
+  id: string
+  roleId: string
+  permissions: Permissions
 }
 
 export type UserFields = {

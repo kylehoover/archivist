@@ -15,10 +15,15 @@
     "sourceMap": true,
     "strict": true,
     "target": "es2016",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./types",
+    ]
   },
   "include": [
     "app.ts",
     "scripts/**/*.ts",
     "server/**/*.ts",
-  ]
+    "types/**/*.ts",
+  ],
 }

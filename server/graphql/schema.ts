@@ -1,6 +1,6 @@
-import { GraphQLError, GraphQLSchema } from 'graphql'
 import { ArgumentValidationError, MiddlewareFn, buildSchema } from 'type-graphql'
 import { Container } from 'typedi'
+import { GraphQLError, GraphQLSchema } from 'graphql'
 
 import {
   AppSettingResolver,

@@ -52,7 +52,7 @@ module.exports = {
         "no-undef-init": "error",
         "no-underscore-dangle": "off",
         "no-unsafe-finally": "error",
-        "no-unused-expressions": "error",
+        "no-unused-expressions": "off",
         "no-unused-labels": "error",
         "no-unused-vars": "off",
         "object-shorthand": "error",

@@ -8,6 +8,10 @@ export enum PermissionName {
   CanInviteUsers = 'canInviteUsers',
 }
 
+export type Permissions = {
+  [name in PermissionName]: boolean
+}
+
 export type UserRoleFields = {
   name: string
   isDefault: boolean
@@ -22,10 +26,6 @@ export type UserRolesMap = {
 export type MongoUserRoleModelFields = MongoModelFields & UserRoleFields
 export type NewUserRoleModelFields = NewModelFields & UserRoleFields
 export type UpdatedUserRoleModelFields = UpdatedModelFields & Partial<UserRoleFields>
-
-type Permissions = {
-  [name in PermissionName]: boolean
-}
 
 class UserRole extends Model {
   constructor(

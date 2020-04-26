@@ -4,6 +4,8 @@ import { Inject, Service } from 'typedi'
 import { v4 as uuid } from 'uuid'
 
 import DataProvider from '../../DataProvider'
+import { Authorized, CanInviteUsers } from '../auth'
+import { CurrentUser, RequestUserInfo } from '../decorators'
 import { ServiceName, UserRegistrationInvitationService } from '../../services'
 import { SubmitInvitationInputType } from '../inputTypes'
 import { UserRegistrationInvitationType } from '../types'
@@ -33,21 +35,22 @@ class UserRegistrationInvitationResolver {
   }
 
   @Mutation(returns => UserRegistrationInvitationType)
+  @Authorized(CanInviteUsers)
   public async submitRegistrationInvitation(
-    @Arg('input') input: SubmitInvitationInputType
+    @Arg('input') input: SubmitInvitationInputType,
+    @CurrentUser() user: RequestUserInfo,
   ): Promise<UserRegistrationInvitationType> {
-    throw new Error('submitRegistrationInvitation not implemented, need to get user from ctx')
-
     const numDays = DataProvider.getAppSettingsMap().numDaysInvitationIsValid as number
 
     const fields: UserRegistrationInvitationFields = {
       email: input.email,
       invitationId: uuid(),
-      invitedByUserId: '1',
+      invitedByUserId: user.id,
       expiresAt: moment().add(numDays, 'days').toDate(),
     }
 
-    await this.invitationService.insertOne(withNewModelFields(fields))
+    const invitation = await this.invitationService.insertOne(withNewModelFields(fields))
+    return invitation.toGraphQLType()
   }
 }
 

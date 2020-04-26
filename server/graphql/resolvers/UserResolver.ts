@@ -3,12 +3,13 @@ import { Inject, Service } from 'typedi'
 import { Request } from 'express'
 
 import DataProvider from '../../DataProvider'
-import { LoginInputType, RegisterUserInputType } from '../inputTypes'
-import { LoginType, UserType } from '../types'
+import { LoginUserInputType, RegisterUserInputType } from '../inputTypes'
+import { LoginUserType, UserType } from '../types'
+import { NotLoggedIn } from '../decorators'
 import { RegistrationType, UserFields } from '../../models/User'
 import { ServiceName, UserService } from '../../services'
 import { UserRegistrationStatusValue } from '../../models/AppSetting'
-import { generateAccessToken, generateRefreshToken, hashPassword } from '../../helpers/auth'
+import { generateAccessToken, hashPassword, setRefreshTokenCookie } from '../../helpers/auth'
 import { withNewModelFields } from '../../models/Model'
 
 @Service()
@@ -32,17 +33,31 @@ class UserResolver {
 
   // MUTATIONS //
 
-  @Mutation(returns => LoginType)
-  public async login(@Arg('input') input: LoginInputType, @Ctx() ctx: Request): Promise<LoginType> {
-    // TODO: check if user already logged in, store refresh token in db
-
+  @Mutation(returns => LoginUserType)
+  @NotLoggedIn()
+  public async loginUser(
+    @Arg('input') input: LoginUserInputType,
+    @Ctx() req: Request,
+  ): Promise<LoginUserType> {
     const user = await this.userService.findByEmail(input.email)
 
     if (user === null || !user.passwordMatches(input.password)) {
       throw new Error('Invalid credentials')
     }
 
-    return new LoginType(generateAccessToken(user), generateRefreshToken(), user)
+    // TODO: save refreshToken to db
+    setRefreshTokenCookie(req)
+    return new LoginUserType(generateAccessToken(user), user)
+  }
+
+  @Mutation(returns => LoginUserType)
+  public async refreshTokens(@Ctx() req: Request): Promise<LoginUserType> {
+    if (req.cookies.refreshToken === undefined) {
+      throw new Error('refreshToken not present in cookies')
+    }
+
+    // check refresh token against db; if present, send back new tokens
+    throw new Error('UserResolver.refreshTokens not implemented')
   }
 
   @Mutation(returns => UserType)

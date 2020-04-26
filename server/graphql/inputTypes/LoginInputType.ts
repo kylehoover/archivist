@@ -2,7 +2,7 @@ import { Field, InputType } from 'type-graphql'
 import { IsEmail, IsNotEmpty, MaxLength } from 'class-validator'
 
 @InputType()
-class LoginInputType {
+class LoginUserInputType {
   @Field()
   @IsEmail()
   public email!: string
@@ -13,4 +13,4 @@ class LoginInputType {
   public password!: string
 }
 
-export default LoginInputType
+export default LoginUserInputType
