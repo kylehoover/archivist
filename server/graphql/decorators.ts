@@ -2,20 +2,21 @@ import { Request } from 'express'
 import { createMethodDecorator, createParamDecorator } from 'type-graphql'
 
 import { PermissionName } from '../models/UserRole'
+import { UnauthorizedError } from './errors'
 
 export { RequestUserInfo } from '../models/User'
 
 export function Authorized(...requiredPermissions: PermissionName[]): MethodDecorator {
   return createMethodDecorator<Request>(({ context }, next) => {
-    const { user } = context
+    const { accessTokenState, userInfo } = context
 
-    if (user === null) {
-      throw new Error('Unauthorized')
+    if (userInfo === null) {
+      throw new UnauthorizedError(accessTokenState)
     }
 
     requiredPermissions.forEach(permission => {
-      if (!user.permissions[permission]) {
-        throw new Error('Unauthorized')
+      if (!userInfo.permissions[permission]) {
+        throw new UnauthorizedError(accessTokenState)
       }
     })
 
@@ -24,12 +25,12 @@ export function Authorized(...requiredPermissions: PermissionName[]): MethodDeco
 }
 
 export function CurrentUser(): ParameterDecorator {
-  return createParamDecorator<Request>(({ context }) => context.user)
+  return createParamDecorator<Request>(({ context }) => context.userInfo)
 }
 
 export function NotLoggedIn(): MethodDecorator {
   return createMethodDecorator<Request>(({ context }, next) => {
-    if (context.user !== null) {
+    if (context.userInfo !== null) {
       throw new Error('User already logged in')
     }
 

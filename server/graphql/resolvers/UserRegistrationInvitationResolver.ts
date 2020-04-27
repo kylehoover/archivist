@@ -38,14 +38,14 @@ class UserRegistrationInvitationResolver {
   @Authorized(CanInviteUsers)
   public async submitRegistrationInvitation(
     @Arg('input') input: SubmitInvitationInputType,
-    @CurrentUser() user: RequestUserInfo,
+    @CurrentUser() userInfo: RequestUserInfo,
   ): Promise<UserRegistrationInvitationType> {
     const numDays = DataProvider.getAppSettingsMap().numDaysInvitationIsValid as number
 
     const fields: UserRegistrationInvitationFields = {
       email: input.email,
       invitationId: uuid(),
-      invitedByUserId: user.id,
+      invitedByUserId: userInfo.userId,
       expiresAt: moment().add(numDays, 'days').toDate(),
     }
 

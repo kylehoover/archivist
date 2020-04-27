@@ -7,7 +7,7 @@ import DataProvider from './DataProvider'
 import { getEnv } from './Env'
 import { getSchema } from './graphql'
 import { getServiceProvider, registerServices } from './services/util'
-import { verifyAccessToken } from './helpers/auth'
+import { parseAccessToken } from './middleware'
 
 class Server {
   public async run(): Promise<void> {
@@ -21,28 +21,7 @@ class Server {
 
     app.use(cookieParser())
     app.use(morgan('tiny'))
-
-    app.use((req, res, next) => {
-      const accessToken = req.headers.authorization?.split(' ')[1]
-      let userInfo = null
-
-      if (accessToken !== undefined) {
-        try {
-          const payload = verifyAccessToken(accessToken)
-
-          userInfo = {
-            id: payload.userId,
-            roleId: payload.roleId,
-            permissions: DataProvider.getUserRoleById(payload.roleId).permissions,
-          }
-        } catch (err) {
-          // do nothing
-        }
-      }
-
-      req.user = userInfo
-      next()
-    })
+    app.use(parseAccessToken)
 
     app.use('/graphql', graphqlHTTP({
       graphiql: app.get('env') === 'development',

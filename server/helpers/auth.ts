@@ -1,15 +1,22 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import ms from 'ms'
+import { Request } from 'express'
 import { v4 as uuid } from 'uuid'
 
 import { User } from '../models'
 import { getEnv } from '../Env'
-import { Request } from 'express'
 
 interface TokenPayload {
   iat: number
   exp: number
+}
+
+export enum AccessTokenState {
+  Expired = 'expired',
+  Invalid = 'invalid',
+  NotPresent = 'notPresent',
+  Valid = 'valid',
 }
 
 export interface AccessTokenPayload extends TokenPayload {
