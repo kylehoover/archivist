@@ -2,7 +2,7 @@ import { Request } from 'express'
 import { createMethodDecorator, createParamDecorator } from 'type-graphql'
 
 import { PermissionName } from '../models/UserRole'
-import { UnauthorizedError } from './errors'
+import { AlreadyLoggedInError, UnauthorizedError } from './errors'
 
 export { RequestUserInfo } from '../models/User'
 
@@ -31,7 +31,7 @@ export function CurrentUser(): ParameterDecorator {
 export function NotLoggedIn(): MethodDecorator {
   return createMethodDecorator<Request>(({ context }, next) => {
     if (context.userInfo !== null) {
-      throw new Error('User already logged in')
+      throw new AlreadyLoggedInError()
     }
 
     return next()

@@ -2,6 +2,7 @@ import { Arg, ID, Mutation, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 
 import DataProvider from '../../DataProvider'
+import { NotAllowedError } from '../errors'
 import { ServiceName, UserRegistrationRequestService } from '../../services'
 import { SubmitRegistrationRequestInputType } from '../inputTypes'
 import { UserRegistrationRequestFields } from '../../models/UserRegistrationRequest'
@@ -37,7 +38,7 @@ class UserRegistrationRequestResolver {
     @Arg('input') input: SubmitRegistrationRequestInputType,
   ): Promise<UserRegistrationRequestType> {
     if (DataProvider.getAppSettingsMap().userRegistrationStatus !== UserRegistrationStatusValue.ByRequest) {
-      throw new Error('Not allowed')
+      throw new NotAllowedError()
     }
 
     const fields: UserRegistrationRequestFields = {

@@ -3,6 +3,7 @@ import { Inject, Service } from 'typedi'
 import { Request } from 'express'
 
 import DataProvider from '../../DataProvider'
+import { InvalidCredentialsError, NotAllowedError, UnauthorizedError } from '../errors'
 import { LoginUserInputType, RegisterUserInputType } from '../inputTypes'
 import { LoginUserType, UserType } from '../types'
 import { NotLoggedIn } from '../decorators'
@@ -42,7 +43,7 @@ class UserResolver {
     const user = await this.userService.findByEmail(input.email)
 
     if (user === null || !user.passwordMatches(input.password)) {
-      throw new Error('Invalid credentials')
+      throw new InvalidCredentialsError()
     }
 
     // TODO: save refreshToken to db
@@ -53,7 +54,7 @@ class UserResolver {
   @Mutation(returns => LoginUserType)
   public async refreshTokens(@Ctx() req: Request): Promise<LoginUserType> {
     if (req.cookies.refreshToken === undefined) {
-      throw new Error('refreshToken not present in cookies')
+      throw new UnauthorizedError(req.accessTokenState)
     }
 
     // check refresh token against db; if present, send back new tokens
@@ -63,7 +64,7 @@ class UserResolver {
   @Mutation(returns => UserType)
   public async registerUser(@Arg('input') input: RegisterUserInputType): Promise<UserType> {
     if (DataProvider.getAppSettingsMap().userRegistrationStatus !== UserRegistrationStatusValue.Open) {
-      throw new Error('Not allowed')
+      throw new NotAllowedError()
     }
 
     const fields: UserFields = {
