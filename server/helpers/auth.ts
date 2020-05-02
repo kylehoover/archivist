@@ -59,9 +59,9 @@ export function hashPassword(password: string): string {
   return bcrypt.hashSync(password, getEnv().SaltRounds)
 }
 
-export function setRefreshTokenCookie(req: Request): void {
+export function setRefreshTokenCookie(req: Request, refreshToken: string): void {
   // eslint-disable-next-line no-unused-expressions
-  req.res?.cookie('refreshToken', generateRefreshToken(), {
+  req.res?.cookie('refreshToken', refreshToken, {
     httpOnly: true,
     maxAge: ms(getEnv().RefreshTokenExpirationTime),
   })

@@ -18,11 +18,16 @@ class MongoUserService implements UserService {
 
   public async findByEmail(email: string): Promise<User | null> {
     const user = await this.db.users.findOne({ email })
-    return user === null ? null : User.fromMongo(user)
+    return this.userOrNull(user)
   }
 
   public findById(id: string): Promise<User | null> {
     return MongoDb.findById(id, this.db.users, User.fromMongo)
+  }
+
+  public async findByRefreshToken(refreshToken: string): Promise<User | null> {
+    const user = await this.db.users.findOne({ refreshToken })
+    return this.userOrNull(user)
   }
 
   public insertOne(fields: NewUserModelFields): Promise<User> {
@@ -34,6 +39,10 @@ class MongoUserService implements UserService {
     upsert: false,
   }): Promise<User> {
     return MongoDb.updateById(id, fields, this.db.users, User.fromMongo, options)
+  }
+
+  private userOrNull(user: any): User | null {
+    return user === null ? null : User.fromMongo(user)
   }
 }
 

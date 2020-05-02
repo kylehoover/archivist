@@ -5,13 +5,13 @@ import { Request } from 'express'
 import DataProvider from '../../DataProvider'
 import { InvalidCredentialsError, NotAllowedError, UnauthorizedError } from '../errors'
 import { LoginUserInputType, RegisterUserInputType } from '../inputTypes'
-import { LoginUserType, UserType } from '../types'
+import { LoginUserType, RefreshTokensType, UserType } from '../types'
 import { NotLoggedIn } from '../decorators'
 import { RegistrationType, UserFields } from '../../models/User'
 import { ServiceName, UserService } from '../../services'
 import { UserRegistrationStatusValue } from '../../models/AppSetting'
-import { generateAccessToken, hashPassword, setRefreshTokenCookie } from '../../helpers/auth'
-import { withNewModelFields } from '../../models/Model'
+import { generateRefreshToken, hashPassword, setRefreshTokenCookie } from '../../helpers/auth'
+import { withNewModelFields, withUpdatedModelFields } from '../../models/Model'
 
 @Service()
 @Resolver(UserType)
@@ -46,19 +46,28 @@ class UserResolver {
       throw new InvalidCredentialsError()
     }
 
-    // TODO: save refreshToken to db
-    setRefreshTokenCookie(req)
-    return new LoginUserType(generateAccessToken(user), user)
+    const refreshToken = generateRefreshToken()
+    await this.userService.updateById(user.id, withUpdatedModelFields({ refreshToken }))
+    setRefreshTokenCookie(req, refreshToken)
+    return new LoginUserType(user)
   }
 
-  @Mutation(returns => LoginUserType)
-  public async refreshTokens(@Ctx() req: Request): Promise<LoginUserType> {
+  @Mutation(returns => RefreshTokensType)
+  public async refreshTokens(@Ctx() req: Request): Promise<RefreshTokensType> {
     if (req.cookies.refreshToken === undefined) {
       throw new UnauthorizedError(req.accessTokenState)
     }
 
-    // check refresh token against db; if present, send back new tokens
-    throw new Error('UserResolver.refreshTokens not implemented')
+    const user = await this.userService.findByRefreshToken(req.cookies.refreshToken)
+
+    if (user === null) {
+      throw new UnauthorizedError(req.accessTokenState)
+    }
+
+    const newRefreshToken = generateRefreshToken()
+    await this.userService.updateById(user.id, withUpdatedModelFields({ refreshToken: newRefreshToken }))
+    setRefreshTokenCookie(req, newRefreshToken)
+    return new RefreshTokensType(user)
   }
 
   @Mutation(returns => UserType)

@@ -30,6 +30,7 @@ export type UserFields = {
   roleId: string
   password: string
   registration: RegistrationInfo
+  refreshToken?: string
 }
 
 export type MongoUserModelFields = MongoModelFields & UserFields
@@ -46,6 +47,7 @@ class User extends Model {
     public readonly roleId: string,
     private readonly password: string,
     public readonly registration: RegistrationInfo,
+    private readonly refreshToken?: string,
   ) {
     super(id, createdAt, modifiedAt)
   }
@@ -55,9 +57,8 @@ class User extends Model {
   }
 
   public static fromMongo(doc: MongoUserModelFields): User {
-    return new User(
-      doc._id, doc.createdAt, doc.modifiedAt, doc.name, doc.email, doc.roleId, doc.password, doc.registration
-    )
+    return new User(doc._id, doc.createdAt, doc.modifiedAt, doc.name, doc.email, doc.roleId, doc.password,
+      doc.registration, doc.refreshToken)
   }
 
   public passwordMatches(password: string): boolean {
