@@ -3,10 +3,10 @@ import { AppSettingType } from '../graphql/types'
 
 export enum AppSettingName {
   NumDaysInvitationIsValid = 'numDaysInvitationIsValid',
-  UserRegistrationStatus = 'userRegistrationStatus',
+  UserRegistrationState = 'userRegistrationState',
 }
 
-export enum UserRegistrationStatusValue {
+export enum RegistrationState {
   ByRequest = 'byRequest',
   Closed = 'closed',
   Open = 'open',
@@ -67,12 +67,12 @@ export const defaultAppSettings: AppSettingFields[] = [
     'be used to register.',
   },
   {
-    name: AppSettingName.UserRegistrationStatus,
-    value: UserRegistrationStatusValue.Closed,
-    displayName: 'User Registration Status',
-    description: 'The current status of new user registration. If "open," then anyone can register. ' +
-    'If "byRequest", then new users can submit a registration request which must then be approved. ' +
-    'If "closed", then new users will have no means to initiate registration; new users will only be ' +
+    name: AppSettingName.UserRegistrationState,
+    value: RegistrationState.Closed,
+    displayName: 'User Registration State',
+    description: 'The current state of new user registration. If Open, then anyone can register. ' +
+    'If By Request, then new users can submit a registration request which must then be approved. ' +
+    'If Closed, then new users will have no means to initiate registration; new users will only be ' +
     'able to register if sent a registration invitation.',
   },
 ]

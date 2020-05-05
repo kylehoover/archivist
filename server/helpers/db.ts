@@ -1,6 +1,6 @@
 import AppSetting, { defaultAppSettings } from '../models/AppSetting'
 import UserRole, { defaultUserRoles } from '../models/UserRole'
-import { AppSettingService, UserRoleService, UserService } from '../services'
+import { AppSettingService, UserRoleService } from '../services'
 import { withNewModelFields, withUpdatedModelFields } from '../models/Model'
 
 type ItemWithName = { name: string }
@@ -66,9 +66,4 @@ export async function addDefaultUserRoles(
   }
 
   return addedUserRoles
-}
-
-export async function isEmailAvailable(email: string, userService: UserService): Promise<boolean> {
-  const user = await userService.findByEmail(email)
-  return user === null
 }

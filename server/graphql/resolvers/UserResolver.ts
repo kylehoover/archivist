@@ -4,13 +4,13 @@ import { Request } from 'express'
 
 import DataProvider from '../../DataProvider'
 import User, { RegistrationType, UserFields } from '../../models/User'
-import { EmailAlreadyInUseError, InvalidCredentialsError, NotAllowedError, UnauthorizedError } from '../errors'
+import { InvalidCredentialsError, NotAllowedError, UnauthorizedError } from '../errors'
 import { LoginUserInputType, RegisterUserInputType } from '../inputTypes'
 import { LoginUserType, RefreshTokensType, UserType } from '../types'
 import { NotLoggedIn } from '../decorators'
+import { RegistrationState } from '../../models/AppSetting'
 import { ServiceName, UserService } from '../../services'
-import { UserRegistrationStatusValue } from '../../models/AppSetting'
-import { isEmailAvailable } from '../../helpers/db'
+import { validateEmailIsAvailable } from '../auth'
 import { verifyRefreshToken } from '../../helpers/auth'
 import { withNewModelFields, withUpdatedModelFields } from '../../models/Model'
 
@@ -87,15 +87,12 @@ class UserResolver {
     @Arg('input') input: RegisterUserInputType,
     @Ctx() req: Request,
   ): Promise<LoginUserType> {
-    if (DataProvider.getAppSettingsMap().userRegistrationStatus !== UserRegistrationStatusValue.Open) {
+    if (DataProvider.getAppSettingsMap().userRegistrationState !== RegistrationState.Open) {
       throw new NotAllowedError()
     }
 
     const email = getNormalizedEmail(input.email)
-
-    if (!(await isEmailAvailable(email, this.userService))) {
-      throw new EmailAlreadyInUseError()
-    }
+    await validateEmailIsAvailable(email, this.userService)
 
     const fields: UserFields = {
       name: input.name,

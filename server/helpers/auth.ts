@@ -6,6 +6,7 @@ import { normalizeEmail } from 'validator'
 import { v4 as uuid } from 'uuid'
 
 import { User } from '../models'
+import { UserService } from '../services'
 import { getEnv } from '../Env'
 
 interface TokenPayload {
@@ -68,6 +69,11 @@ export function getNormalizedEmail(email: string): string {
 
 export function hashPassword(password: string): string {
   return bcrypt.hashSync(password, getEnv().SaltRounds)
+}
+
+export async function isEmailAvailable(email: string, userService: UserService): Promise<boolean> {
+  const user = await userService.findByEmail(email)
+  return user === null
 }
 
 export function setRefreshTokenCookie(req: Request, refreshToken: string): void {

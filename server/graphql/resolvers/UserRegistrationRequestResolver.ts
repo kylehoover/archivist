@@ -2,15 +2,15 @@ import { Arg, ID, Mutation, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 
 import DataProvider from '../../DataProvider'
-import { EmailAlreadyInUseError, NotAllowedError } from '../errors'
+import { NotAllowedError } from '../errors'
+import { RegistrationState } from '../../models/AppSetting'
 import { ServiceName, UserRegistrationRequestService, UserService } from '../../services'
 import { SubmitRegistrationRequestInputType } from '../inputTypes'
 import { UserRegistrationRequestFields } from '../../models/UserRegistrationRequest'
 import { UserRegistrationRequestType } from '../types'
-import { UserRegistrationStatusValue } from '../../models/AppSetting'
 import { getNormalizedEmail } from '../../helpers/auth'
 import { hashPassword } from '../../helpers/auth'
-import { isEmailAvailable } from '../../helpers/db'
+import { validateEmailIsAvailable } from '../auth'
 import { withNewModelFields } from '../../models/Model'
 
 @Service()
@@ -45,16 +45,12 @@ class UserRegistrationRequestResolver {
   public async submitRegistrationRequest(
     @Arg('input') input: SubmitRegistrationRequestInputType,
   ): Promise<UserRegistrationRequestType> {
-    if (DataProvider.getAppSettingsMap().userRegistrationStatus !== UserRegistrationStatusValue.ByRequest) {
+    if (DataProvider.getAppSettingsMap().userRegistrationState !== RegistrationState.ByRequest) {
       throw new NotAllowedError()
     }
 
     const email = getNormalizedEmail(input.email)
-
-    // turn into validateEmailIsAvailable, which will throw the error so that we're not throwing it every time
-    if (!(await isEmailAvailable(email, this.userService))) {
-      throw new EmailAlreadyInUseError()
-    }
+    await validateEmailIsAvailable(email, this.userService)
 
     const fields: UserRegistrationRequestFields = {
       name: input.name,

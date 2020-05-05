@@ -6,7 +6,7 @@ import { isEmail } from 'validator'
 import { RegistrationType, UserFields } from '../server/models/User'
 import { getNormalizedEmail, hashPassword } from '../server/helpers/auth'
 import { getServiceProvider } from '../server/services/util'
-import { isEmailAvailable } from '../server/helpers/db'
+import { isEmailAvailable } from '../server/helpers/auth'
 import { withNewModelFields } from '../server/models/Model'
 
 async function run(): Promise<void> {
