@@ -3,22 +3,30 @@ import { Inject, Service } from 'typedi'
 import { Request } from 'express'
 
 import DataProvider from '../../DataProvider'
-import { InvalidCredentialsError, NotAllowedError, UnauthorizedError } from '../errors'
+import User, { RegistrationType, UserFields } from '../../models/User'
+import { EmailAlreadyInUseError, InvalidCredentialsError, NotAllowedError, UnauthorizedError } from '../errors'
 import { LoginUserInputType, RegisterUserInputType } from '../inputTypes'
 import { LoginUserType, RefreshTokensType, UserType } from '../types'
 import { NotLoggedIn } from '../decorators'
-import { RegistrationType, UserFields } from '../../models/User'
 import { ServiceName, UserService } from '../../services'
 import { UserRegistrationStatusValue } from '../../models/AppSetting'
-import { generateRefreshToken, hashPassword, setRefreshTokenCookie } from '../../helpers/auth'
+import { isEmailAvailable } from '../../helpers/db'
+import { verifyRefreshToken } from '../../helpers/auth'
 import { withNewModelFields, withUpdatedModelFields } from '../../models/Model'
+
+import {
+  generateRefreshToken,
+  getNormalizedEmail,
+  hashPassword,
+  setRefreshTokenCookie,
+} from '../../helpers/auth'
 
 @Service()
 @Resolver(UserType)
 class UserResolver {
   constructor(@Inject(ServiceName.User) private readonly userService: UserService) {}
 
-  // QUERIES //
+  // Queries //
 
   @Query(returns => UserType, { nullable: true })
   public async user(@Arg('id', type => ID) id: string): Promise<UserType | undefined> {
@@ -32,7 +40,7 @@ class UserResolver {
     return users.map(u => u.toGraphQLType())
   }
 
-  // MUTATIONS //
+  // Mutations //
 
   @Mutation(returns => LoginUserType)
   @NotLoggedIn()
@@ -40,15 +48,14 @@ class UserResolver {
     @Arg('input') input: LoginUserInputType,
     @Ctx() req: Request,
   ): Promise<LoginUserType> {
-    const user = await this.userService.findByEmail(input.email)
+    const email = getNormalizedEmail(input.email)
+    const user = await this.userService.findByEmail(email)
 
     if (user === null || !user.passwordMatches(input.password)) {
       throw new InvalidCredentialsError()
     }
 
-    const refreshToken = generateRefreshToken()
-    await this.userService.updateById(user.id, withUpdatedModelFields({ refreshToken }))
-    setRefreshTokenCookie(req, refreshToken)
+    await this.setRefreshToken(req, user)
     return new LoginUserType(user)
   }
 
@@ -58,27 +65,41 @@ class UserResolver {
       throw new UnauthorizedError(req.accessTokenState)
     }
 
+    try {
+      verifyRefreshToken(req.cookies.refreshToken)
+    } catch (err) {
+      throw new UnauthorizedError(req.accessTokenState)
+    }
+
     const user = await this.userService.findByRefreshToken(req.cookies.refreshToken)
 
     if (user === null) {
       throw new UnauthorizedError(req.accessTokenState)
     }
 
-    const newRefreshToken = generateRefreshToken()
-    await this.userService.updateById(user.id, withUpdatedModelFields({ refreshToken: newRefreshToken }))
-    setRefreshTokenCookie(req, newRefreshToken)
+    await this.setRefreshToken(req, user)
     return new RefreshTokensType(user)
   }
 
-  @Mutation(returns => UserType)
-  public async registerUser(@Arg('input') input: RegisterUserInputType): Promise<UserType> {
+  @Mutation(returns => LoginUserType)
+  @NotLoggedIn()
+  public async registerUser(
+    @Arg('input') input: RegisterUserInputType,
+    @Ctx() req: Request,
+  ): Promise<LoginUserType> {
     if (DataProvider.getAppSettingsMap().userRegistrationStatus !== UserRegistrationStatusValue.Open) {
       throw new NotAllowedError()
     }
 
+    const email = getNormalizedEmail(input.email)
+
+    if (!(await isEmailAvailable(email, this.userService))) {
+      throw new EmailAlreadyInUseError()
+    }
+
     const fields: UserFields = {
       name: input.name,
-      email: input.email,
+      email,
       roleId: DataProvider.getDefaultUserRoleId(),
       password: hashPassword(input.password),
       registration: {
@@ -87,7 +108,14 @@ class UserResolver {
     }
 
     const user = await this.userService.insertOne(withNewModelFields(fields))
-    return user.toGraphQLType()
+    await this.setRefreshToken(req, user)
+    return new LoginUserType(user)
+  }
+
+  private async setRefreshToken(req: Request, user: User): Promise<void> {
+    const refreshToken = generateRefreshToken()
+    await this.userService.updateById(user.id, withUpdatedModelFields({ refreshToken }))
+    setRefreshTokenCookie(req, refreshToken)
   }
 }
 

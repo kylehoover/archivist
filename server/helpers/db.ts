@@ -1,6 +1,6 @@
 import AppSetting, { defaultAppSettings } from '../models/AppSetting'
 import UserRole, { defaultUserRoles } from '../models/UserRole'
-import { getServiceProvider } from '../services/util'
+import { AppSettingService, UserRoleService, UserService } from '../services'
 import { withNewModelFields, withUpdatedModelFields } from '../models/Model'
 
 type ItemWithName = { name: string }
@@ -9,11 +9,12 @@ function nameNotInList(item: ItemWithName, list: ItemWithName[]): boolean {
   return list.every(i => i.name !== item.name)
 }
 
-export async function addDefaultAppSettings(options?: { overwrite: boolean }): Promise<AppSetting[]> {
-  const serviceProvider = getServiceProvider()
-  await serviceProvider.init()
-
-  const appSettingService = serviceProvider.getAppSettingService()
+export async function addDefaultAppSettings(
+  appSettingService: AppSettingService,
+  options?: {
+    overwrite: boolean
+  },
+): Promise<AppSetting[]> {
   const installedAppSettings = await appSettingService.findAll()
   const addedAppSettings: AppSetting[] = []
   const appSettingsToAdd = options?.overwrite ?
@@ -38,11 +39,12 @@ export async function addDefaultAppSettings(options?: { overwrite: boolean }): P
   return addedAppSettings
 }
 
-export async function addDefaultUserRoles(options?: { overwrite: boolean }): Promise<UserRole[]> {
-  const serviceProvider = getServiceProvider()
-  await serviceProvider.init()
-
-  const userRoleService = serviceProvider.getUserRoleService()
+export async function addDefaultUserRoles(
+  userRoleService: UserRoleService,
+  options?: {
+    overwrite: boolean
+  }
+): Promise<UserRole[]> {
   const installedUserRoles = await userRoleService.findAll()
   const addedUserRoles: UserRole[] = []
   const userRolesToAdd = options?.overwrite ?
@@ -64,4 +66,9 @@ export async function addDefaultUserRoles(options?: { overwrite: boolean }): Pro
   }
 
   return addedUserRoles
+}
+
+export async function isEmailAvailable(email: string, userService: UserService): Promise<boolean> {
+  const user = await userService.findByEmail(email)
+  return user === null
 }

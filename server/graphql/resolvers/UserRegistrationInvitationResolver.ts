@@ -10,6 +10,7 @@ import { ServiceName, UserRegistrationInvitationService } from '../../services'
 import { SubmitInvitationInputType } from '../inputTypes'
 import { UserRegistrationInvitationType } from '../types'
 import { UserRegistrationInvitationFields } from '../../models/UserRegistrationInvitation'
+import { getNormalizedEmail } from '../../helpers/auth'
 import { withNewModelFields } from '../../models/Model'
 
 @Service()
@@ -19,6 +20,8 @@ class UserRegistrationInvitationResolver {
     @Inject(ServiceName.UserRegistrationInvitation)
     private readonly invitationService: UserRegistrationInvitationService,
   ) {}
+
+  // Queries //
 
   @Query(returns => UserRegistrationInvitationType, { nullable: true })
   public async userRegistrationInvitation(
@@ -34,16 +37,19 @@ class UserRegistrationInvitationResolver {
     return users.map(u => u.toGraphQLType())
   }
 
+  // Mutations //
+
   @Mutation(returns => UserRegistrationInvitationType)
   @Authorized(CanInviteUsers)
   public async submitRegistrationInvitation(
     @Arg('input') input: SubmitInvitationInputType,
     @CurrentUser() userInfo: RequestUserInfo,
   ): Promise<UserRegistrationInvitationType> {
+    const email = getNormalizedEmail(input.email)
     const numDays = DataProvider.getAppSettingsMap().numDaysInvitationIsValid as number
 
     const fields: UserRegistrationInvitationFields = {
-      email: input.email,
+      email,
       invitationId: uuid(),
       invitedByUserId: userInfo.userId,
       expiresAt: moment().add(numDays, 'days').toDate(),

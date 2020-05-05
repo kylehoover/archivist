@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import ms from 'ms'
 import { Request } from 'express'
+import { normalizeEmail } from 'validator'
 import { v4 as uuid } from 'uuid'
 
 import { User } from '../models'
@@ -53,6 +54,16 @@ export function generateRefreshToken(): string {
       expiresIn: RefreshTokenExpirationTime,
     }
   )
+}
+
+export function getNormalizedEmail(email: string): string {
+  const normalizedEmail = normalizeEmail(email)
+
+    if (!normalizedEmail) {
+      throw new Error('Failed to normalize email')
+    }
+
+    return normalizedEmail
 }
 
 export function hashPassword(password: string): string {

@@ -1,11 +1,12 @@
 import 'reflect-metadata'
 
 import inquirer from 'inquirer'
-import { isEmail, isLength } from 'validator'
+import { isEmail } from 'validator'
 
 import { RegistrationType, UserFields } from '../server/models/User'
+import { getNormalizedEmail, hashPassword } from '../server/helpers/auth'
 import { getServiceProvider } from '../server/services/util'
-import { hashPassword } from '../server/helpers/auth'
+import { isEmailAvailable } from '../server/helpers/db'
 import { withNewModelFields } from '../server/models/Model'
 
 async function run(): Promise<void> {
@@ -21,25 +22,65 @@ async function run(): Promise<void> {
       type: 'input',
       name: 'name',
       message: 'Name:',
-      validate: (input): boolean => isLength(input, 1, 50),
+      validate: (input): boolean | string => {
+        if (input.length === 0) {
+          return 'Name cannot be empty'
+        } else if (input.length > 50) {
+          return 'Name cannot be greater than 50 characters'
+        }
+
+        return true
+      },
     },
     {
       type: 'input',
       name: 'email',
       message: 'Email:',
-      validate: (input): boolean => isEmail(input),
+      validate: async (input): Promise<boolean | string> => {
+        if (isEmail(input)) {
+          let email
+
+          try {
+            email = getNormalizedEmail(input)
+          } catch (err) {
+            return 'Email is invalid'
+          }
+
+          if (await isEmailAvailable(email, userService)) {
+            return true
+          }
+
+          return 'Email is already being used'
+        }
+
+        return 'Email is invalid'
+      },
     },
     {
       type: 'password',
       name: 'password',
       message: 'Password:',
-      validate: (input): boolean => isLength(input, 1, 100),
+      validate: (input): boolean | string => {
+        if (input.length === 0) {
+          return 'Password cannot be empty'
+        } else if (input.length > 100) {
+          return 'Password cannot be greater than 100 characters'
+        }
+
+        return true
+      },
     },
     {
       type: 'password',
       name: 'passwordConfirmed',
       message: 'Confirm password:',
-      validate: (input, answersMap): boolean => input === answersMap?.password,
+      validate: (input, answersMap): boolean | string => {
+        if (input !== answersMap?.password) {
+          return 'Passwords must match'
+        }
+
+        return true
+      },
     },
   ])
 
@@ -51,7 +92,7 @@ async function run(): Promise<void> {
 
   const fields: UserFields = {
     name: answers.name,
-    email: answers.email,
+    email: getNormalizedEmail(answers.email),
     roleId: superuserRole.id,
     password: hashPassword(answers.password),
     registration: {

@@ -68,7 +68,7 @@ export const defaultAppSettings: AppSettingFields[] = [
   },
   {
     name: AppSettingName.UserRegistrationStatus,
-    value: UserRegistrationStatusValue.ByRequest,
+    value: UserRegistrationStatusValue.Closed,
     displayName: 'User Registration Status',
     description: 'The current status of new user registration. If "open," then anyone can register. ' +
     'If "byRequest", then new users can submit a registration request which must then be approved. ' +
