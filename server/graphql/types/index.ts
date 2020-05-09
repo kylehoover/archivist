@@ -3,6 +3,7 @@ import CampaignType from './CampaignType'
 import LoginUserType from './LoginUserType'
 import ModelType from './ModelType'
 import RefreshTokensType from './RefreshTokensType'
+import ResponseType from './ResponseType'
 import UserRegistrationInvitationType from './UserRegistrationInvitationType'
 import UserRegistrationRequestType from './UserRegistrationRequestType'
 import UserRoleType from './UserRoleType'
@@ -14,6 +15,7 @@ export {
   LoginUserType,
   ModelType,
   RefreshTokensType,
+  ResponseType,
   UserRegistrationInvitationType,
   UserRegistrationRequestType,
   UserRoleType,

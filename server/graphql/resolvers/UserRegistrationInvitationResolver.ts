@@ -4,13 +4,14 @@ import { Inject, Service } from 'typedi'
 import { v4 as uuid } from 'uuid'
 
 import DataProvider from '../../DataProvider'
+import { AcceptInvitationInputType, SubmitInvitationInputType } from '../inputTypes'
 import { Authorized, CanInviteUsers } from '../auth'
 import { CurrentUser, RequestUserInfo } from '../decorators'
-import { ServiceName, UserRegistrationInvitationService } from '../../services'
-import { SubmitInvitationInputType } from '../inputTypes'
-import { UserRegistrationInvitationType } from '../types'
+import { ResponseType, UserRegistrationInvitationType } from '../types'
+import { ServiceName, UserRegistrationInvitationService, UserService } from '../../services'
 import { UserRegistrationInvitationFields } from '../../models/UserRegistrationInvitation'
 import { getNormalizedEmail } from '../../helpers/auth'
+import { validateEmailIsAvailable } from '../auth'
 import { withNewModelFields } from '../../models/Model'
 
 @Service()
@@ -19,6 +20,8 @@ class UserRegistrationInvitationResolver {
   constructor(
     @Inject(ServiceName.UserRegistrationInvitation)
     private readonly invitationService: UserRegistrationInvitationService,
+    @Inject(ServiceName.User)
+    private readonly userService: UserService,
   ) {}
 
   // Queries //
@@ -39,6 +42,13 @@ class UserRegistrationInvitationResolver {
 
   // Mutations //
 
+  @Mutation(returns => ResponseType)
+  public async acceptRegistrationInvitation(
+    @Arg('input') input: AcceptInvitationInputType,
+  ): Promise<ResponseType> {
+    throw new Error('acceptRegistrationInvitation not implemented')
+  }
+
   @Mutation(returns => UserRegistrationInvitationType)
   @Authorized(CanInviteUsers)
   public async submitRegistrationInvitation(
@@ -46,6 +56,8 @@ class UserRegistrationInvitationResolver {
     @CurrentUser() userInfo: RequestUserInfo,
   ): Promise<UserRegistrationInvitationType> {
     const email = getNormalizedEmail(input.email)
+    await validateEmailIsAvailable(email, this.userService)
+
     const numDays = DataProvider.getAppSettingsMap().numDaysInvitationIsValid as number
 
     const fields: UserRegistrationInvitationFields = {
