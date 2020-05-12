@@ -109,6 +109,8 @@ class UserResolver {
     return new LoginUserType(user)
   }
 
+  // Helpers //
+
   private async setRefreshToken(req: Request, user: User): Promise<void> {
     const refreshToken = generateRefreshToken()
     await this.userService.updateById(user.id, withUpdatedModelFields({ refreshToken }))
