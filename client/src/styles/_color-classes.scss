@@ -1,6 +1,3 @@
-@import 'colors';
-@import 'theme';
-
 .black {
   background-color: black;
   &-border { border-color: black; }
@@ -43,9 +40,9 @@
 }
 
 .primary {
-  background-color: $primary;
-  &-border { border-color: $primary; }
-  &-text { color: $primary; }
+  background-color: $blue-600;
+  &-border { border-color: $blue-600; }
+  &-text { color: $blue-600; }
 }
 
 .purple {

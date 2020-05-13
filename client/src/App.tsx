@@ -6,8 +6,6 @@ import NavBar from './components/NavBar'
 import Test from './views/Test'
 
 import './styles/base.scss'
-import './styles/color-classes.scss'
-import './styles/spacing.scss'
 
 const App = () => {
   return (

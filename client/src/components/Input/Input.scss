@@ -1,31 +1,29 @@
 @import 'styles/colors';
-@import 'styles/theme';
 
-$focus-color: $indigo-400;
 $input-font-size: .85rem;
-$invalid-color: $pink-600;
 
 .Input {
   display: flex;
   flex-direction: row;
 
   input {
-    border: .0625rem solid $border-color;
+    border: .0625rem solid var(--input-border-color);
     border-radius: .2rem;
     box-sizing: border-box;
+    color: var(--input-text-color);
     font-size: $input-font-size;
     order: 2;
     padding: .3rem;
     width: 100%;
 
     &:focus {
-      border: .1rem solid $focus-color;
+      border: .1rem solid var(--input-border-focus-color);
       outline: none;
       padding: .2625rem;
     }
 
     &:invalid {
-      border-color: $invalid-color;
+      border-color: var(--input-border-invalid-color);
       border-left-width: .2rem;
       padding-left: .1625rem;
     }
@@ -52,11 +50,11 @@ $invalid-color: $pink-600;
         padding: .5625rem .4625rem .3625rem .4625rem;
 
         &:invalid + label {
-          color: $invalid-color;
+          color: var(--input-label-invalid-color);
         }
 
         + label {
-          color: $focus-color;
+          color: var(--input-label-focus-color);
           transition: all .1s ease-in-out;
         }
       }
@@ -73,7 +71,7 @@ $invalid-color: $pink-600;
 
     label {
       background-color: white;
-      color: $grey-600;
+      color: var(--input-label-color);
       font-size: $input-font-size;
       left: .4rem;
       padding: 0 .25rem;
