@@ -1,18 +1,18 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
+import { ValidationOptions, useFormContext } from 'react-hook-form'
 
-import { numToRem } from '../../util'
+import { isEmpty, numToRem } from '../../util'
 import './Input.scss'
 
 type Props = {
-  label: string,
-  labelPosition?: 'embedded' | 'left' | 'top',
-  maxWidth?: number,
-  name: string,
-  register: any,
-  type?: 'number' | 'text',
-  watch: any,
-  width?: number,
+  label: string
+  labelPosition?: 'embedded' | 'left' | 'top'
+  maxWidth?: number
+  name: string
+  type?: 'text'
+  validationOptions?: ValidationOptions
+  width?: number
 }
 
 const Input = ({
@@ -20,16 +20,27 @@ const Input = ({
   labelPosition = 'embedded',
   maxWidth,
   name,
-  register,
   type = 'text',
-  watch,
+  validationOptions = {},
   width,
 }: Props) => {
-  let hasValue = false
+  const { register } = useFormContext()
+  const [hasValue, setHasValue] = useState(false)
+  const inputElement = useRef<HTMLInputElement | null>(null)
 
-  if (labelPosition === 'embedded') {
-    hasValue = watch(name, '') !== ''
-  }
+  useEffect(() => {
+    if (inputElement.current !== null) {
+      inputElement.current.onblur = () => {
+        setHasValue(!isEmpty(inputElement.current?.value))
+      }
+
+      return () => {
+        if (inputElement.current !== null) {
+          inputElement.current.onblur = null
+        }
+      }
+    }
+  }, [])
 
   return (
     <div
@@ -42,8 +53,10 @@ const Input = ({
       <input
         className={classNames({ hasValue })}
         name={name}
-        ref={register}
-        step='any'
+        ref={(element) => {
+          register(element!, validationOptions)
+          inputElement.current = element
+        }}
         type={type}
       />
       <label htmlFor={name}>

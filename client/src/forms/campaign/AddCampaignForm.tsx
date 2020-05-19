@@ -2,7 +2,7 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 
 import Button from '../../components/Button'
-import Input from '../../components/Input'
+import { Input } from '../../components'
 
 import './AddCampaignForm.scss'
 
@@ -16,12 +16,12 @@ const AddCampaignForm = ({ onCancel, onSubmit }: Props) => {
 
   return (
     <form className='AddCampaignForm' onSubmit={handleSubmit(onSubmit)}>
-      <Input
+      {/* <Input
         label='Campaign Name'
         name='name'
         register={register({ required: true })}
         watch={watch}
-      />
+      /> */}
       <Button color='green' type='submit'>
         Add
       </Button>

@@ -1,8 +1,2 @@
-import Alert from './Alert'
-import Info from './Info'
-
-export default Alert
-
-export {
-  Info,
-}
+export { default as Alert } from './Alert'
+export { default as Info } from './Info'
