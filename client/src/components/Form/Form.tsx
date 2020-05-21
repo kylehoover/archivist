@@ -1,6 +1,8 @@
 import React from 'react'
 import { FormContext, useForm } from 'react-hook-form'
 
+import './Form.scss'
+
 type FormData = Record<string, any>
 
 type Props<T extends FormData> = {

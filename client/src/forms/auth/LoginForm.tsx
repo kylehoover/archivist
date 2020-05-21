@@ -1,12 +1,12 @@
 import React from 'react'
 
-import { Form, Input } from '../../components'
+import { Button, Form, Input } from '../../components'
 
-type Inputs = {
+type FormData = {
   email: string
 }
 
-const onSubmit = (data: Inputs) => {
+const onSubmit = (data: FormData) => {
   console.log(data)
 }
 
@@ -16,11 +16,24 @@ const LoginForm = () => {
       <Input
         label='Email'
         name='email'
+        className='mb-1'
         validationOptions={{
           maxLength: 100,
           required: true,
         }}
       />
+      <Input
+        label='Password'
+        name='password'
+        className='mb-1'
+        validationOptions={{
+          maxLength: 100,
+          required: true,
+        }}
+      />
+      <Button type='submit'>
+        Log In
+      </Button>
     </Form>
   )
 }

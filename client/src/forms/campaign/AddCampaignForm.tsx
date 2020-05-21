@@ -1,8 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 
-import Button from '../../components/Button'
-import { Input } from '../../components'
+import { Button, Input } from '../../components'
 
 import './AddCampaignForm.scss'
 

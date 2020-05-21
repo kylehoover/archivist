@@ -6,16 +6,18 @@ import { isEmpty, numToRem } from '../../util'
 import './Input.scss'
 
 type Props = {
+  className?: string
   label: string
   labelPosition?: 'embedded' | 'left' | 'top'
   maxWidth?: number
   name: string
-  type?: 'text'
+  type?: 'password' | 'text'
   validationOptions?: ValidationOptions
   width?: number
 }
 
 const Input = ({
+  className,
   label,
   labelPosition = 'embedded',
   maxWidth,
@@ -24,7 +26,7 @@ const Input = ({
   validationOptions = {},
   width,
 }: Props) => {
-  const { register } = useFormContext()
+  const { errors, register } = useFormContext()
   const [hasValue, setHasValue] = useState(false)
   const inputElement = useRef<HTMLInputElement | null>(null)
 
@@ -42,9 +44,11 @@ const Input = ({
     }
   }, [])
 
+  console.log(errors)
+
   return (
     <div
-      className={classNames(`Input label-${labelPosition}`)}
+      className={classNames('Input', `label-${labelPosition}`, className)}
       style={{
         maxWidth: numToRem(maxWidth),
         width: numToRem(width),

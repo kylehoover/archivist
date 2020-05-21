@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 
-import Button from '../Button'
+import { Button } from '../Button'
 import './Panel.scss'
 
 export type PanelAction = {

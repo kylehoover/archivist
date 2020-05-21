@@ -1,7 +1,7 @@
 import React from 'react'
 
-import Container from '../../components/Container'
 import { CampaignsPanel } from '../../panels'
+import { Container } from '../../components'
 
 const Home = () => {
   return (

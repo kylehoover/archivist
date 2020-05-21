@@ -1,7 +1,7 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 
-import Container from '../../components/Container'
+import { Container } from '../../components'
 // import Input from '../../components/Input'
 import Panel from '../../components/Panel'
 
