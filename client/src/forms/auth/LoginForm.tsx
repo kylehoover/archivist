@@ -16,7 +16,6 @@ const LoginForm = () => {
       <Input
         label='Email'
         name='email'
-        className='mb-1'
         validationOptions={{
           maxLength: 100,
           required: true,

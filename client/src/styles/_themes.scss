@@ -1,11 +1,17 @@
+// default light theme
+
 :root {
-  // default light theme
+  // General
   --border-color: #{$grey-400};
-  --input-border-color: black;
+  --surface-bg-color: #{$grey-100};
+  --text-color: black;
+
+  // Input
+  --input-border-color: #{$grey-500};
   --input-border-focus-color: #{$indigo-400};
   --input-border-invalid-color: #{$pink-600};
-  --input-label-color: black;
+  --input-label-color: #{$grey-600};
   --input-label-focus-color: var(--input-border-focus-color);
   --input-label-invalid-color: var(--input-border-invalid-color);
-  --input-text-color: black;
+  --input-text-color: var(--text-color);
 }

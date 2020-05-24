@@ -3,10 +3,13 @@
 $input-font-size: .85rem;
 
 .Input {
+  background-color: var(--surface-bg-color);
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 
   input {
+    background-color: inherit;
     border: .0625rem solid var(--input-border-color);
     border-radius: .2rem;
     box-sizing: border-box;
@@ -22,10 +25,14 @@ $input-font-size: .85rem;
       padding: .2625rem;
     }
 
-    &:invalid {
+    &.invalid {
       border-color: var(--input-border-invalid-color);
       border-left-width: .2rem;
       padding-left: .1625rem;
+    }
+
+    &:not(.invalid) {
+      margin-bottom: 1.05rem;
     }
   }
 
@@ -49,7 +56,7 @@ $input-font-size: .85rem;
       &:focus {
         padding: .5625rem .4625rem .3625rem .4625rem;
 
-        &:invalid + label {
+        &.invalid + label {
           color: var(--input-label-invalid-color);
         }
 
@@ -64,13 +71,13 @@ $input-font-size: .85rem;
         top: -.45rem;
       }
 
-      &:invalid {
+      &.invalid {
         padding-left: .3625rem;
       }
     }
 
     label {
-      background-color: white;
+      background-color: inherit;
       color: var(--input-label-color);
       font-size: $input-font-size;
       left: .4rem;
@@ -87,6 +94,7 @@ $input-font-size: .85rem;
 
     label {
       margin-right: .4rem;
+      white-space: nowrap;
     }
   }
 
@@ -96,5 +104,13 @@ $input-font-size: .85rem;
     label {
       margin-bottom: .1rem;
     }
+  }
+
+  .ErrorMessage {
+    color: var(--input-label-invalid-color);
+    font-size: .8rem;
+    margin-left: .3rem;
+    margin-top: .1rem;
+    order: 3;
   }
 }
