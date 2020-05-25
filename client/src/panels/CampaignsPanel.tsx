@@ -1,36 +1,33 @@
 import React from 'react'
 
-import CampaignStore from '../stores/CampaignStore'
 import List, { LinkItem } from '../components/List'
 import Panel, { PanelAction } from '../components/Panel'
 import { AddCampaignForm } from '../forms/campaign'
 
-const store = new CampaignStore()
+const panelActions: PanelAction[] = [
+  {
+    callback: () => console.log('New Campaign clicked'),
+    color: 'indigo',
+    icon: 'add',
+    label: 'New Campaign',
+  },
+]
 
 const CampaignsPanel = () => {
-  const panelActions: PanelAction[] = [
-    {
-      callback: () => console.log('New Campaign clicked'),
-      color: 'indigo',
-      icon: 'add',
-      label: 'New Campaign',
-    },
-  ]
-
   return (
     <Panel title='Campaigns' color='purple' actions={panelActions}>
       <div className='mb-1'>
         <AddCampaignForm
           onCancel={() => console.log('Cancel add campaign')}
-          onSubmit={data => { store.addCampaign(data.name) }}
+          onSubmit={data => { console.log(data) }}
         />
       </div>
       <List
-        items={store.campaigns}
+        items={[]}
         itemsEmptyText='There are no campaigns'
         renderItem={item => (
           <LinkItem to='/home/'>
-            {item.name}
+            {item}
           </LinkItem>
         )}
       />

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Container } from '../../components'
 import { LoginForm } from '../../forms'
@@ -19,10 +19,18 @@ const IntroductionSection = () => {
 }
 
 const FormsSection = () => {
+  const [loginFormDisabled, setLoginFormDisabled] = useState(false)
+
   return (
     <div className='FormsSection m-1'>
       <Container maxWidth={20}>
-        <LoginForm />
+        <LoginForm
+          disabled={loginFormDisabled}
+          onSubmit={data => {
+            setLoginFormDisabled(true)
+            console.log(data)
+          }}
+        />
       </Container>
     </div>
   )

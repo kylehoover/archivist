@@ -19,20 +19,25 @@ $input-font-size: .85rem;
     padding: .3rem;
     width: 100%;
 
+    &:disabled {
+      border-style: dashed;
+      color: var(--input-label-color);
+    }
+
     &:focus {
       border: .1rem solid var(--input-border-focus-color);
       outline: none;
       padding: .2625rem;
     }
 
+    &:not(.invalid) {
+      margin-bottom: 1.05rem;
+    }
+
     &.invalid {
       border-color: var(--input-border-invalid-color);
       border-left-width: .2rem;
       padding-left: .1625rem;
-    }
-
-    &:not(.invalid) {
-      margin-bottom: 1.05rem;
     }
   }
 

@@ -1426,6 +1426,11 @@
   resolved "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz#0a851d3bd96498fa25c33ab7278ed3bd65f06c3e"
   integrity sha512-l42BggppR6zLmpfU6fq9HEa2oGPEI8yrSPL3GITjfRInppYFahObbIQOQK3UGxEnyQpltZLaPe75046NOZQikw==
 
+"@types/validator@^13.0.0":
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/@types/validator/-/validator-13.0.0.tgz#365f1bf936aeaddd0856fc41aa1d6f82d88ee5b3"
+  integrity sha512-WAy5txG7aFX8Vw3sloEKp5p/t/Xt8jD3GRD9DacnFv6Vo8ubudAsRTXgxpQwU0mpzY/H8U4db3roDuCMjShBmw==
+
 "@types/yargs-parser@*":
   version "15.0.0"
   resolved "https://registry.yarnpkg.com/@types/yargs-parser/-/yargs-parser-15.0.0.tgz#cb3f9f741869e20cce330ffbeb9271590483882d"
@@ -6903,17 +6908,10 @@ mixin-object@^2.0.1:
   dependencies:
     minimist "^1.2.5"
 
-mobx-react-lite@2:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-2.0.6.tgz#e1307a2b271c6a6016c8ad815a25014b7f95997d"
-  integrity sha512-h/5GqxNIoSqnjt7SHxVtU7i1Kg0Xoxj853amzmzLgLRZKK9WwPc9tMuawW79ftmFSQhML0Zwt8kEuG1DIjQNBA==
-
-mobx-react@^6.1.4:
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/mobx-react/-/mobx-react-6.2.2.tgz#45e8e7c4894cac8399bba0a91060d7cfb8ea084b"
-  integrity sha512-Us6V4ng/iKIRJ8pWxdbdysC6bnS53ZKLKlVGBqzHx6J+gYPYbOotWvhHZnzh/W5mhpYXxlXif4kL2cxoWJOplQ==
-  dependencies:
-    mobx-react-lite "2"
+mobx-react-lite@^2.0.7:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-2.0.7.tgz#1bfb3b4272668e288047cf0c7940b14e91cba284"
+  integrity sha512-YKAh2gThC6WooPnVZCoC+rV1bODAKFwkhxikzgH18wpBjkgTkkR9Sb0IesQAH5QrAEH/JQVmy47jcpQkf2Au3Q==
 
 mobx@^5.15.0:
   version "5.15.4"
@@ -10669,6 +10667,11 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
+
+validator@^13.0.0:
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-13.0.0.tgz#0fb6c6bb5218ea23d368a8347e6d0f5a70e3bcab"
+  integrity sha512-anYx5fURbgF04lQV18nEQWZ/3wHGnxiKdG4aL8J+jEDsm98n/sU/bey+tYk6tnGJzm7ioh5FoqrAiQ6m03IgaA==
 
 value-equal@^1.0.1:
   version "1.0.1"

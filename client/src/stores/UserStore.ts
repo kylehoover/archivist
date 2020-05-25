@@ -1,11 +1,15 @@
 import RootStore from './RootStore'
 
-class CampaignStore {
+class UserStore {
   private rootStore: RootStore
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore
   }
+
+  public get userName(): string {
+    return 'The user\'s name'
+  }
 }
 
-export default CampaignStore
+export default UserStore

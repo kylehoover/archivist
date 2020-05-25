@@ -7,6 +7,7 @@ import './Input.scss'
 
 type Props = {
   className?: string
+  disabled?: boolean
   label: string
   labelPosition?: 'embedded' | 'left' | 'top'
   maxWidth?: number
@@ -53,6 +54,7 @@ const ErrorMessage = ({ error, validationOptions }: ErrorMessageProps) => {
 
 const Input = ({
   className,
+  disabled = false,
   label,
   labelPosition = 'embedded',
   maxWidth,
@@ -92,6 +94,7 @@ const Input = ({
         name={name}
         type={type}
         className={classNames({ hasValue, invalid: hasError })}
+        disabled={disabled}
         ref={(element) => {
           register(element!, validationOptions)
           inputElement.current = element
