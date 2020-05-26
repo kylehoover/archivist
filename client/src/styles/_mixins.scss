@@ -1,3 +1,10 @@
+@mixin centered-horizontally-vertically {
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
 @mixin elevated {
   background-color: white;
   border-radius: .5rem;

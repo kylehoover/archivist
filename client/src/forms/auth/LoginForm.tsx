@@ -3,8 +3,9 @@ import isEmail from 'validator/lib/isEmail'
 
 import { Button, Form, Input } from '../../components'
 
-type LoginFormData = {
+export type LoginFormData = {
   email: string
+  password: string
 }
 
 type Props = {

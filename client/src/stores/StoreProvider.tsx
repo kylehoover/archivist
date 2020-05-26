@@ -1,9 +1,9 @@
-import React, { createContext, useMemo } from 'react'
+import React, { ReactNode, createContext, useMemo } from 'react'
 
 import RootStore from './RootStore'
 
 type Props = {
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 export const StoreContext = createContext<RootStore | null>(null)

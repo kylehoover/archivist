@@ -1,8 +1,8 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-import { Home, LandingPage } from './views/'
-import NavBar from './components/NavBar'
+import { Authorized } from './components'
+import { Home, LandingPage } from './views'
 import Test from './views/Test'
 
 import './styles/base.scss'
@@ -12,9 +12,17 @@ const App = () => {
     <BrowserRouter>
       <main>
         <Switch>
-          <Route exact strict path='/' component={LandingPage} />
-          <Route exact strict path='/home/' component={Home} />
-          <Route exact strict path='/test/' component={Test} />
+          <Route exact strict path='/'>
+            <LandingPage />
+          </Route>
+          <Route exact strict path='/home/'>
+            <Authorized>
+              <Home />
+            </Authorized>
+          </Route>
+          <Route exact strict path='/test/'>
+            <Test />
+          </Route>
         </Switch>
       </main>
     </BrowserRouter>
