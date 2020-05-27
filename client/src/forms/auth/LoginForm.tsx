@@ -22,8 +22,8 @@ const LoginForm = ({ disabled = false, onSubmit }: Props) => {
         disabled={disabled}
         validationOptions={{
           maxLength: 100,
-          required: true,
-          validate: value => isEmail(value) || 'Invalid email'
+          required: false,
+          validate: value => true || isEmail(value) || 'Invalid email'
         }}
       />
       <Input
@@ -34,7 +34,7 @@ const LoginForm = ({ disabled = false, onSubmit }: Props) => {
         disabled={disabled}
         validationOptions={{
           maxLength: 100,
-          required: true,
+          required: false,
         }}
       />
       <Button type='submit'>
