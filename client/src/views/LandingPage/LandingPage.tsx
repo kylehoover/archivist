@@ -6,7 +6,7 @@ import { LoginForm, LoginFormData } from '../../forms'
 import { useStores } from '../../stores'
 import './LandingPage.scss'
 
-import { getUsers } from '../../graphql'
+import { getUsers, refreshTokens } from '../../graphql'
 
 type VerticalLineProps = {
   height?: string
@@ -28,7 +28,9 @@ const FormsSection = () => {
   const history = useHistory()
 
   const handleSubmit = async (data: LoginFormData) => {
-    await getUsers()
+    // await getUsers()
+    const r = await refreshTokens()
+    console.log(r)
 
     return
 
