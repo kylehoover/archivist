@@ -1,102 +1,106 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 
-import { AccessTokenState, GraphQLVariables, Response, ServerError, ServerErrorType } from './types'
+import { AccessTokenState, GraphQLVariables, RequestErrorType } from './types'
+import { AuthenticationRequiredError, RequestError } from './errors'
 import { refreshTokens } from './mutations'
 
 let accessToken: string | undefined = undefined
 
-// TODO: try creating function type for all of these functions
-
 export const authenticatedRequest = async<T>(
   query: string,
   variables?: GraphQLVariables,
-): Promise<Response<T>> => {
+): Promise<T> => {
+  console.log('authenticatedRequest')
   if (accessToken === undefined) {
-    return authenticatedRequestMissingAccessToken<T>(query, variables)
+    return authenticatedRequestAccessTokenMissing<T>(query, variables)
   }
 
-  return authenticatedRequestHasAccessToken<T>(query, variables)
+  return authenticatedRequestAccessTokenPresent<T>(query, variables)
 }
 
 export const request = async <T>(
   query: string,
   variables?: GraphQLVariables,
-): Promise<Response<T>> => {
-  let resp
+): Promise<T> => {
+  console.log('request')
+  let response
 
   try {
-    resp = await axios.post('/graphql', { query, variables })
+    response = await axios.post('/graphql', { query, variables }, getRequestConfig())
   } catch (err) {
-    resp = err.response
+    response = err.response
   }
 
-  const { data, errors } = resp.data
+  console.log(response.data)
+  const { data, errors } = response.data
 
-  const serverErrors: ServerError[] = errors?.map((error: any) => ({
-    accessTokenState: error?.extensions?.accessTokenState,
-    message: error.message,
-    type: error?.extensions?.errorType,
-  })) ?? []
-
-  return {
-    data: data ?? null,
-    errors: serverErrors,
-    hasError: serverErrors.length > 0
+  if (errors?.length > 0) {
+    throw new RequestError(
+      errors[0]?.extensions?.errorType ?? RequestErrorType.Unknown,
+      errors[0].message,
+      errors[0]?.extensions?.accessTokenState,
+    )
   }
+
+  return data as T
 }
 
 // Helpers //
 
-const authenticatedRequestHasAccessToken = async<T>(
+const authenticatedRequestAccessTokenMissing = async<T>(
   query: string,
   variables?: GraphQLVariables,
-): Promise<Response<T>> => {
-  // need to add Authorization header
-  const response = await request<T>(query, variables)
-
-  if (!shouldRefreshTokens(response)) {
-    return response
-  }
-
+): Promise<T> => {
+  console.log('accessToken: MISSING')
   await refreshTokensOrThrow()
-
-  // need to add Authorization header
   return request<T>(query, variables)
 }
 
-const authenticatedRequestMissingAccessToken = async<T>(
+const authenticatedRequestAccessTokenPresent = async<T>(
   query: string,
   variables?: GraphQLVariables,
-): Promise<Response<T>> => {
-  await refreshTokensOrThrow()
+): Promise<T> => {
+  console.log('accessToken: PRESENT')
+  try {
+    return request<T>(query, variables)
+  } catch (error) {
+    if (!(error instanceof RequestError) || !shouldRefreshTokens(error)) {
+      throw error
+    }
+  }
 
-  // need to add Authorization header
+  await refreshTokensOrThrow()
   return request<T>(query, variables)
+}
+
+const getRequestConfig = (): AxiosRequestConfig | undefined => {
+  return accessToken === undefined ? undefined : {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  }
 }
 
 const refreshTokensOrThrow = async (): Promise<void> => {
-  const response = await refreshTokens()
+  console.log('refreshTokensOrThrow')
+  let data
 
-  if (response.hasError) {
+  try {
+    data = await refreshTokens()
+  } catch (error) {
     // refresh token either isn't present or isn't valid; the user will need to log in before
     // any authenticated requests should be attempted again
-    throw new Error('User is not authenticated')
+    console.log('Failed to refresh tokens')
+    throw new AuthenticationRequiredError()
   }
 
-  accessToken = response.data?.refreshTokens.accessToken
+  console.log('Successfully refreshed tokens')
+  accessToken = data.accessToken
 }
 
-const shouldRefreshTokens = (response: Response<any>): boolean => {
-  if (response.hasError) {
-    response.errors.forEach(error => {
-      if (error.type === ServerErrorType.Unauthorized && (
-        error.accessTokenState === AccessTokenState.Expired ||
-        error.accessTokenState === AccessTokenState.Invalid
-      )) {
-        return true
-      }
-    })
-  }
-
-  return false
+const shouldRefreshTokens = (error: RequestError): boolean => {
+  return error.type === RequestErrorType.Unauthorized && (
+    error.accessTokenState === AccessTokenState.Expired ||
+    error.accessTokenState === AccessTokenState.Invalid
+  )
 }

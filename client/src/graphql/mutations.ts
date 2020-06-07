@@ -1,7 +1,7 @@
-import { RefreshTokensResponse, Response } from './types'
+import { RefreshTokensData, RefreshTokensType } from './types'
 import { request } from './util'
 
-export const refreshTokens = async (): Promise<Response<RefreshTokensResponse>> => {
+export const refreshTokens = async (): Promise<RefreshTokensType> => {
   const mutation = `
     mutation RefreshTokens {
       refreshTokens {
@@ -10,5 +10,6 @@ export const refreshTokens = async (): Promise<Response<RefreshTokensResponse>> 
     }
   `
 
-  return request<RefreshTokensResponse>(mutation)
+  const data = await request<RefreshTokensData>(mutation)
+  return data.refreshTokens
 }

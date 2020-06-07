@@ -1,7 +1,8 @@
-import { action, observable } from 'mobx'
+import { action, observable, runInAction } from 'mobx'
 
 import RootStore from './RootStore'
 import { User } from '../models'
+// import { getCurrentUser } from '../graphql'
 
 class UserStore {
   private rootStore: RootStore
@@ -17,9 +18,19 @@ class UserStore {
     this.currentUser = undefined
   }
 
-  public async loginUser(email: string, password: string): Promise<User> {
+  public async loadCurrentUser(): Promise<void> {
+    // if (this.currentUser !== undefined) {
+    //   return
+    // }
+
+    // const response = await getCurrentUser()
+
+    // if (!response.hasError)
+  }
+
+  public async loginUser(email: string, password: string): Promise<void> {
     if (this.currentUser !== undefined) {
-      throw new Error('User is already logged in')
+      return
     }
 
     this.currentUser = new User('1', 'Name', 'email', {
@@ -28,8 +39,6 @@ class UserStore {
       canEditUserRoles: false,
       canInviteUsers: false,
     })
-
-    return this.currentUser
   }
 }
 

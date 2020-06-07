@@ -6,7 +6,7 @@ import { LoginForm, LoginFormData } from '../../forms'
 import { useStores } from '../../stores'
 import './LandingPage.scss'
 
-import { getUsers, refreshTokens } from '../../graphql'
+import { getCurrentUser, getUsers, refreshTokens } from '../../graphql'
 
 type VerticalLineProps = {
   height?: string
@@ -28,12 +28,6 @@ const FormsSection = () => {
   const history = useHistory()
 
   const handleSubmit = async (data: LoginFormData) => {
-    // await getUsers()
-    const r = await refreshTokens()
-    console.log(r)
-
-    return
-
     setLoginFormDisabled(true)
 
     try {

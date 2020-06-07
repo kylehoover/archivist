@@ -3,8 +3,9 @@ import { Inject, Service } from 'typedi'
 import { Request } from 'express'
 
 import DataProvider from '../../DataProvider'
-import User, { RegistrationType, UserFields } from '../../models/User'
-import { InvalidCredentialsError, NotAllowedError, UnauthorizedError } from '../errors'
+import User, { RegistrationType, RequestUserInfo, UserFields } from '../../models/User'
+import { Authorized, CurrentUser } from '../decorators'
+import { InvalidCredentialsError, NotAllowedError, UnauthorizedError, UnknownError } from '../errors'
 import { LoginUserInputType, RegisterUserInputType } from '../inputTypes'
 import { LoginUserType, RefreshTokensType, UserType } from '../types'
 import { NotLoggedIn } from '../decorators'
@@ -28,6 +29,18 @@ class UserResolver {
 
   // Queries //
 
+  @Query(returns => UserType)
+  @Authorized()
+  public async currentUser(@CurrentUser() userInfo: RequestUserInfo): Promise<UserType> {
+    const user = await this.userService.findById(userInfo.userId)
+
+    if (user === null) {
+      throw new UnknownError('Data Integrity Error: The logged in user does not exist.')
+    }
+
+    return user.toGraphQLType()
+  }
+
   @Query(returns => UserType, { nullable: true })
   public async user(@Arg('id', type => ID) id: string): Promise<UserType | undefined> {
     const user = await this.userService.findById(id)
@@ -35,6 +48,7 @@ class UserResolver {
   }
 
   @Query(returns => [UserType])
+  @Authorized()
   public async users(): Promise<UserType[]> {
     const users = await this.userService.findAll()
     return users.map(u => u.toGraphQLType())

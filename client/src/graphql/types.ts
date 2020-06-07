@@ -9,6 +9,19 @@ export enum AccessTokenState {
 
 export type GraphQLVariables = Record<string, any>
 
+export type RequestError = {
+  accessTokenState?: AccessTokenState
+  message?: string
+  type: RequestErrorType
+}
+
+export enum RequestErrorType {
+  InvalidCredentials = 'invalidCredentials',
+  Unauthorized = 'unauthorized',
+  Unknown = 'unknown',
+  Validation = 'validation',
+}
+
 export type Response<T> = {
   data: T | null
   errors: ServerError[]
@@ -41,20 +54,26 @@ interface PermissionType {
   value: boolean
 }
 
+export interface RefreshTokensType {
+  accessToken: string
+}
+
 export interface UserType extends ModelType {
   email: string
   name: string
   permissions: PermissionType[]
 }
 
-// Response Data Types //
+// GraphQL Data Types //
 
-export type RefreshTokensResponse = {
-  refreshTokens: {
-    accessToken: string
-  }
+export type GetCurrentUserData = {
+  currentUser: UserType
 }
 
-export type UsersResponse = {
+export type GetUsersData = {
   users: UserType[]
+}
+
+export type RefreshTokensData = {
+  refreshTokens: RefreshTokensType
 }
