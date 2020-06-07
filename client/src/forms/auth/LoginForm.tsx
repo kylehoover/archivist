@@ -37,7 +37,7 @@ const LoginForm = ({ disabled = false, onSubmit }: Props) => {
           required: true,
         }}
       />
-      <Button type='submit'>
+      <Button type='submit' disabled={disabled}>
         Log In
       </Button>
     </Form>

@@ -1,4 +1,4 @@
-import { AccessTokenState, RequestErrorType, Response } from "./types";
+import { AccessTokenState, RequestErrorType } from "./types";
 
 export class AuthenticationRequiredError extends Error {
   constructor() {

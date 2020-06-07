@@ -1,7 +1,7 @@
 import { observable } from 'mobx'
 
-import Model from './Model'
-import { Permissions } from './UserRole'
+import { Model, Permissions, getPermissionsFromGraphQLType } from './'
+import { UserType } from '../graphql'
 
 class User extends Model {
   @observable public name: string
@@ -20,6 +20,11 @@ class User extends Model {
     this.name = name
     this.email = email
     this.permissions = permissions
+  }
+
+  public static fromGraphQLType(data: UserType): User {
+    return new User(data.id, data.name, data.email, getPermissionsFromGraphQLType(data.permissions),
+      data.createdAt, data.modifiedAt)
   }
 }
 

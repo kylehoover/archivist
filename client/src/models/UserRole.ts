@@ -1,4 +1,5 @@
 import Model from './Model'
+import { PermissionType } from '../graphql'
 
 export enum PermissionName {
   CanApproveUserRegistrationRequests = 'canApproveUserRegistrationRequests',
@@ -11,8 +12,13 @@ export type Permissions = {
   [name in PermissionName]: boolean
 }
 
-class UserRole extends Model {
-
+export function getPermissionsFromGraphQLType(data: PermissionType[]): Permissions {
+  return data.reduce((accumulator, permission) => ({
+    ...accumulator,
+    [permission.name]: permission.value,
+  }), {} as Permissions)
 }
+
+class UserRole extends Model {}
 
 export default UserRole

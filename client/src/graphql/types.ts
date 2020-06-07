@@ -1,3 +1,5 @@
+import { PermissionName } from '../models'
+
 // Request / Response Types //
 
 export enum AccessTokenState {
@@ -43,14 +45,19 @@ export enum ServerErrorType {
 
 // Model Types //
 
-interface ModelType {
+export interface ModelType {
   id: string
   createdAt: Date
   modifiedAt: Date
 }
 
-interface PermissionType {
-  name: string
+export interface LoginUserType {
+  accessToken: string
+  user: UserType
+}
+
+export interface PermissionType {
+  name: PermissionName
   value: boolean
 }
 
@@ -64,6 +71,13 @@ export interface UserType extends ModelType {
   permissions: PermissionType[]
 }
 
+// Input Types //
+
+export type LoginUserInputType = {
+  email: string
+  password: string
+}
+
 // GraphQL Data Types //
 
 export type GetCurrentUserData = {
@@ -72,6 +86,10 @@ export type GetCurrentUserData = {
 
 export type GetUsersData = {
   users: UserType[]
+}
+
+export type LoginUserData = {
+  loginUser: LoginUserType
 }
 
 export type RefreshTokensData = {

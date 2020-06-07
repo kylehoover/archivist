@@ -13,11 +13,16 @@
   padding: .3rem .7rem;
   text-decoration: none;
 
+  &:disabled {
+    background-color: var(--disabled-color);
+    border-color: var(--disabled-color);
+  }
+
   &:focus {
     outline: none;
   }
 
-  &:focus, &:hover {
+  &:focus:not(:disabled), &:hover:not(:disabled) {
     opacity: .9;
   }
 

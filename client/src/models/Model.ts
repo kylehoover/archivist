@@ -1,4 +1,4 @@
-class Model {
+abstract class Model {
   public readonly id: string
   public createdAt?: Date
   public modifiedAt?: Date

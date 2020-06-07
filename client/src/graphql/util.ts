@@ -45,6 +45,10 @@ export const request = async <T>(
   return data as T
 }
 
+export const setAccessToken = (token: string): void => {
+  accessToken = token
+}
+
 // Helpers //
 
 const authenticatedRequestAccessTokenMissing = async<T>(

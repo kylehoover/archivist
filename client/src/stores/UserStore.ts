@@ -2,7 +2,7 @@ import { action, observable, runInAction } from 'mobx'
 
 import RootStore from './RootStore'
 import { User } from '../models'
-// import { getCurrentUser } from '../graphql'
+import { getCurrentUser, loginUser } from '../graphql'
 
 class UserStore {
   private rootStore: RootStore
@@ -19,13 +19,15 @@ class UserStore {
   }
 
   public async loadCurrentUser(): Promise<void> {
-    // if (this.currentUser !== undefined) {
-    //   return
-    // }
+    if (this.currentUser !== undefined) {
+      return
+    }
 
-    // const response = await getCurrentUser()
+    const user = await getCurrentUser()
 
-    // if (!response.hasError)
+    runInAction(() => {
+      this.currentUser = User.fromGraphQLType(user)
+    })
   }
 
   public async loginUser(email: string, password: string): Promise<void> {
@@ -33,11 +35,10 @@ class UserStore {
       return
     }
 
-    this.currentUser = new User('1', 'Name', 'email', {
-      canApproveUserRegistrationRequests: false,
-      canEditAppSettings: false,
-      canEditUserRoles: false,
-      canInviteUsers: false,
+    const user = await loginUser({ email, password })
+
+    runInAction(() => {
+      this.currentUser = User.fromGraphQLType(user)
     })
   }
 }

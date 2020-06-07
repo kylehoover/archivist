@@ -7,6 +7,7 @@ import './Button.scss'
 type Props = {
   children?: ReactNode,
   color?: string,
+  disabled?: boolean,
   fillParent?: boolean,
   flat?: boolean,
   icon?: string,
@@ -19,6 +20,7 @@ type Props = {
 const Button = ({
   children,
   color = 'primary',
+  disabled = false,
   fillParent = false,
   flat = false,
   icon,
@@ -39,7 +41,7 @@ const Button = ({
   })
 
   return (
-    <ButtonTag className={btnClass} onClick={onClick} to={linkTo} type={type}>
+    <ButtonTag className={btnClass} onClick={onClick} to={linkTo} type={type} disabled={disabled}>
       {icon && <i className='material-icons'>{icon}</i>}
       {children}
     </ButtonTag>
