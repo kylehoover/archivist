@@ -2,18 +2,21 @@
 
 .NavBar {
   @include elevated;
+  align-items: center;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 2rem;
   padding: 1rem;
-}
 
-.NavBar header {
-  font-weight: 700;
-}
+  header {
+    font-weight: 700;
 
-.NavBar header a {
-  color: black;
-  font-weight: 700;
-  text-decoration: none;
+    a {
+      color: black;
+      font-weight: 700;
+      text-decoration: none;
+    }
+  }
 }

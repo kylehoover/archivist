@@ -5,7 +5,7 @@ import {
   RefreshTokensType,
   UserType
 } from './types'
-import { request, setAccessToken } from './util'
+import { clearAccessToken, request, setAccessToken, authenticatedRequest } from './util'
 
 export const loginUser = async (input: LoginUserInputType): Promise<UserType> => {
   const mutation = `
@@ -28,6 +28,17 @@ export const loginUser = async (input: LoginUserInputType): Promise<UserType> =>
   const data: LoginUserData = await request(mutation, { input })
   setAccessToken(data.loginUser.accessToken)
   return data.loginUser.user
+}
+
+export const logoutUser = async (): Promise<void> => {
+  const mutation = `
+    mutation LogoutUser {
+      logoutUser
+    }
+  `
+
+  await authenticatedRequest(mutation)
+  clearAccessToken()
 }
 
 export const refreshTokens = async (): Promise<RefreshTokensType> => {

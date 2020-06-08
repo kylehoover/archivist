@@ -45,6 +45,10 @@ export const request = async <T>(
   return data as T
 }
 
+export const clearAccessToken = (): void => {
+  accessToken = undefined
+}
+
 export const setAccessToken = (token: string): void => {
   accessToken = token
 }

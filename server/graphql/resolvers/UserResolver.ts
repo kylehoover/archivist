@@ -11,6 +11,7 @@ import { LoginUserType, RefreshTokensType, UserType } from '../types'
 import { NotLoggedIn } from '../decorators'
 import { RegistrationState } from '../../models/AppSetting'
 import { ServiceName, UserService } from '../../services'
+import { VoidScalar } from '../scalars'
 import { validateEmailIsAvailable } from '../auth'
 import { verifyRefreshToken } from '../../helpers/auth'
 import { withNewModelFields, withUpdatedModelFields } from '../../models/Model'
@@ -71,6 +72,15 @@ class UserResolver {
 
     await this.setRefreshToken(req, user)
     return new LoginUserType(user)
+  }
+
+  @Mutation(returns => VoidScalar, { nullable: true })
+  @Authorized()
+  public async logoutUser(@Ctx() req: Request): Promise<void> {
+    await this.userService.updateById(req.userInfo!.userId, withUpdatedModelFields({ refreshToken: undefined }))
+
+    // eslint-disable-next-line no-unused-expressions
+    req.res?.clearCookie('refreshToken')
   }
 
   @Mutation(returns => RefreshTokensType)

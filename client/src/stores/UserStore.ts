@@ -2,7 +2,7 @@ import { action, observable, runInAction } from 'mobx'
 
 import RootStore from './RootStore'
 import { User } from '../models'
-import { getCurrentUser, loginUser } from '../graphql'
+import { getCurrentUser, loginUser, logoutUser } from '../graphql'
 
 class UserStore {
   private rootStore: RootStore
@@ -32,13 +32,25 @@ class UserStore {
 
   public async loginUser(email: string, password: string): Promise<void> {
     if (this.currentUser !== undefined) {
-      return
+      throw new Error('User is already logged in')
     }
 
     const user = await loginUser({ email, password })
 
     runInAction(() => {
       this.currentUser = User.fromGraphQLType(user)
+    })
+  }
+
+  public async logoutUser(): Promise<void> {
+    if (this.currentUser === undefined) {
+      throw new Error('User is not logged in')
+    }
+
+    await logoutUser()
+
+    runInAction(() => {
+      this.currentUser = undefined
     })
   }
 }

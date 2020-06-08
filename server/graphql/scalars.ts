@@ -9,3 +9,11 @@ export const AppSettingValueScalar = new GraphQLScalarType({
   parseValue: (value: AppSettingValue): AppSettingValue => value,
   serialize: (value: AppSettingValue): AppSettingValue => value,
 })
+
+export const VoidScalar = new GraphQLScalarType({
+  description: 'Void scalar type. Useful for mutations that don\'t need to return anything.',
+  name: 'VoidScalar',
+  parseLiteral: (): null => null,
+  parseValue: (): null => null,
+  serialize: (): null => null,
+})
