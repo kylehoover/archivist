@@ -3,25 +3,42 @@ import { Inject, Service } from 'typedi'
 import { Request } from 'express'
 
 import DataProvider from '../../DataProvider'
-import User, { RegistrationType, RequestUserInfo, UserFields } from '../../models/User'
-import { Authorized, CurrentUser } from '../decorators'
-import { InvalidCredentialsError, NotAllowedError, UnauthorizedError, UnknownError } from '../errors'
-import { LoginUserInputType, RegisterUserInputType } from '../inputTypes'
-import { LoginUserType, RefreshTokensType, UserType } from '../types'
-import { NotLoggedIn } from '../decorators'
-import { RegistrationState } from '../../models/AppSetting'
 import { ServiceName, UserService } from '../../services'
-import { VoidScalar } from '../scalars'
-import { validateEmailIsAvailable } from '../auth'
-import { verifyRefreshToken } from '../../helpers/auth'
-import { withNewModelFields, withUpdatedModelFields } from '../../models/Model'
+
+import {
+  Authorized,
+  CurrentUser,
+  InvalidCredentialsError,
+  LoginUserInputType,
+  LoginUserType,
+  NotAllowedError,
+  NotLoggedIn,
+  RefreshTokensType,
+  RegisterUserInputType,
+  UnauthorizedError,
+  UnknownError,
+  UserType,
+  VoidScalar,
+  validateEmailIsAvailable,
+} from '../'
+
+import {
+  RegistrationState,
+  RegistrationType,
+  RequestUserInfo,
+  User,
+  UserFields,
+  withNewModelFields,
+  withUpdatedModelFields,
+} from '../../models'
 
 import {
   generateRefreshToken,
   getNormalizedEmail,
   hashPassword,
   setRefreshTokenCookie,
-} from '../../helpers/auth'
+  verifyRefreshToken,
+} from '../../helpers'
 
 @Service()
 @Resolver(UserType)

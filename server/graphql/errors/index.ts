@@ -1,19 +1,8 @@
-import AlreadyLoggedInError from './AlreadyLoggedInError'
-import BaseError from './BaseError'
-import EmailAlreadyInUseError from './EmailAlreadyInUseError'
-import InvalidCredentialsError from './InvalidCredentialsError'
-import NotAllowedError from './NotAllowedError'
-import UnauthorizedError from './UnauthorizedError'
-import UnknownError from './UnknownError'
-import ValidationError from './ValidationError'
-
-export {
-  AlreadyLoggedInError,
-  BaseError,
-  EmailAlreadyInUseError,
-  InvalidCredentialsError,
-  NotAllowedError,
-  UnauthorizedError,
-  UnknownError,
-  ValidationError,
-}
+export { default as AlreadyLoggedInError } from './AlreadyLoggedInError'
+export { default as BaseError } from './BaseError'
+export { default as EmailAlreadyInUseError } from './EmailAlreadyInUseError'
+export { default as InvalidCredentialsError } from './InvalidCredentialsError'
+export { default as NotAllowedError } from './NotAllowedError'
+export { default as UnauthorizedError } from './UnauthorizedError'
+export { default as UnknownError } from './UnknownError'
+export { default as ValidationError } from './ValidationError'

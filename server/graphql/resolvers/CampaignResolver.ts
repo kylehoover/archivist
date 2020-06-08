@@ -2,7 +2,7 @@ import { Arg, ID, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 
 import { CampaignService, ServiceName } from '../../services'
-import { CampaignType } from '../types'
+import { CampaignType } from '../'
 
 @Service()
 @Resolver(CampaignType)

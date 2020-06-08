@@ -1,5 +1,1 @@
-import Server from './Server'
-
-export {
-  Server,
-}
+export { default as Server } from './Server'

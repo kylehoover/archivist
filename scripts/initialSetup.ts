@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 
-import { addDefaultAppSettings, addDefaultUserRoles } from '../server/helpers/db'
-import { getServiceProvider } from '../server/services/util'
+import { addDefaultAppSettings, addDefaultUserRoles } from '../server/helpers'
+import { getServiceProvider } from '../server/services'
 import { logAppSettings, logUserRoles } from './util'
 
 async function runSetup(): Promise<void> {

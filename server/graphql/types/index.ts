@@ -1,23 +1,10 @@
-import AppSettingType from './AppSettingType'
-import CampaignType from './CampaignType'
-import LoginUserType from './LoginUserType'
-import ModelType from './ModelType'
-import RefreshTokensType from './RefreshTokensType'
-import ResponseType from './ResponseType'
-import UserRegistrationInvitationType from './UserRegistrationInvitationType'
-import UserRegistrationRequestType from './UserRegistrationRequestType'
-import UserRoleType from './UserRoleType'
-import UserType from './UserType'
-
-export {
-  AppSettingType,
-  CampaignType,
-  LoginUserType,
-  ModelType,
-  RefreshTokensType,
-  ResponseType,
-  UserRegistrationInvitationType,
-  UserRegistrationRequestType,
-  UserRoleType,
-  UserType,
-}
+export { default as AppSettingType } from './AppSettingType'
+export { default as CampaignType } from './CampaignType'
+export { default as LoginUserType } from './LoginUserType'
+export { default as ModelType } from './ModelType'
+export { default as RefreshTokensType } from './RefreshTokensType'
+export { default as ResponseType } from './ResponseType'
+export { default as UserRegistrationInvitationType } from './UserRegistrationInvitationType'
+export { default as UserRegistrationRequestType } from './UserRegistrationRequestType'
+export { default as UserRoleType } from './UserRoleType'
+export { default as UserType } from './UserType'

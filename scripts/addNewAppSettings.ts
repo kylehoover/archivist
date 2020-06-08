@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 
-import { addDefaultAppSettings } from '../server/helpers/db'
-import { getServiceProvider } from '../server/services/util'
+import { addDefaultAppSettings } from '../server/helpers'
+import { getServiceProvider } from '../server/services'
 import { logAppSettings } from './util'
 
 async function run(): Promise<void> {

@@ -1,19 +1,10 @@
-import AppSettingService from './AppSettingService'
-import CampaignService from './CampaignService'
-import ServiceProvider from './ServiceProvider'
-import ServiceName from './ServiceName'
-import UserRegistrationInvitationService from './UserRegistrationInvitationService'
-import UserRegistrationRequestService from './UserRegistrationRequestService'
-import UserRoleService from './UserRoleService'
-import UserService from './UserService'
+export { default as AppSettingService } from './AppSettingService'
+export { default as CampaignService } from './CampaignService'
+export { default as ServiceProvider } from './ServiceProvider'
+export { default as ServiceName } from './ServiceName'
+export { default as UserRegistrationInvitationService } from './UserRegistrationInvitationService'
+export { default as UserRegistrationRequestService } from './UserRegistrationRequestService'
+export { default as UserRoleService } from './UserRoleService'
+export { default as UserService } from './UserService'
 
-export {
-  AppSettingService,
-  CampaignService,
-  ServiceProvider,
-  ServiceName,
-  UserRegistrationInvitationService,
-  UserRegistrationRequestService,
-  UserRoleService,
-  UserService,
-}
+export * from './util'

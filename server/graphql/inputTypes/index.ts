@@ -1,13 +1,5 @@
-import AcceptInvitationInputType from './AcceptInvitationInputType'
-import LoginUserInputType from './LoginUserInputType'
-import RegisterUserInputType from './RegisterUserInputType'
-import SubmitInvitationInputType from './SubmitInvitationInputType'
-import SubmitRegistrationRequestInputType from './SubmitRegistrationRequestInputType'
-
-export {
-  AcceptInvitationInputType,
-  LoginUserInputType,
-  RegisterUserInputType,
-  SubmitInvitationInputType,
-  SubmitRegistrationRequestInputType,
-}
+export { default as AcceptInvitationInputType } from './AcceptInvitationInputType'
+export { default as LoginUserInputType } from './LoginUserInputType'
+export { default as RegisterUserInputType } from './RegisterUserInputType'
+export { default as SubmitInvitationInputType } from './SubmitInvitationInputType'
+export { default as SubmitRegistrationRequestInputType } from './SubmitRegistrationRequestInputType'

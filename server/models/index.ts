@@ -1,17 +1,15 @@
-import AppSetting from './AppSetting'
-import Campaign from './Campaign'
-import Model from './Model'
-import User from './User'
-import UserRegistrationInvitation from './UserRegistrationInvitation'
-import UserRegistrationRequest from './UserRegistrationRequest'
-import UserRole from './UserRole'
+export { default as AppSetting } from './AppSetting'
+export { default as Campaign } from './Campaign'
+export { default as Model } from './Model'
+export { default as User } from './User'
+export { default as UserRegistrationInvitation } from './UserRegistrationInvitation'
+export { default as UserRegistrationRequest } from './UserRegistrationRequest'
+export { default as UserRole } from './UserRole'
 
-export {
-  AppSetting,
-  Campaign,
-  Model,
-  User,
-  UserRegistrationInvitation,
-  UserRegistrationRequest,
-  UserRole,
-}
+export * from './AppSetting'
+export * from './Campaign'
+export * from './Model'
+export * from './User'
+export * from './UserRegistrationInvitation'
+export * from './UserRegistrationRequest'
+export * from './UserRole'

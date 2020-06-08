@@ -6,7 +6,7 @@ import morgan from 'morgan'
 import DataProvider from './DataProvider'
 import { getEnv } from './Env'
 import { getSchema } from './graphql'
-import { getServiceProvider, registerServices } from './services/util'
+import { getServiceProvider, registerServices } from './services'
 import { parseAccessToken } from './middleware'
 
 class Server {

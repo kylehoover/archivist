@@ -1,15 +1,6 @@
-import AppSettingResolver from './AppSettingResolver'
-import CampaignResolver from './CampaignResolver'
-import UserRegistrationInvitationResolver from './UserRegistrationInvitationResolver'
-import UserRegistrationRequestResolver from './UserRegistrationRequestResolver'
-import UserResolver from './UserResolver'
-import UserRoleResolver from './UserRoleResolver'
-
-export {
-  AppSettingResolver,
-  CampaignResolver,
-  UserRegistrationInvitationResolver,
-  UserRegistrationRequestResolver,
-  UserResolver,
-  UserRoleResolver,
-}
+export { default as AppSettingResolver } from './AppSettingResolver'
+export { default as CampaignResolver } from './CampaignResolver'
+export { default as UserRegistrationInvitationResolver } from './UserRegistrationInvitationResolver'
+export { default as UserRegistrationRequestResolver } from './UserRegistrationRequestResolver'
+export { default as UserResolver } from './UserResolver'
+export { default as UserRoleResolver } from './UserRoleResolver'
