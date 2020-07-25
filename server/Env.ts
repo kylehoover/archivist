@@ -13,6 +13,7 @@ class Env {
   private mongoUri: string
   private port: number
   private refreshTokenExpirationTime: string
+  private rootPath: string
   private saltRounds: number
 
   constructor() {
@@ -23,6 +24,7 @@ class Env {
     this.mongoUri = this.loadEnvVar('AR_MONGO_URI')
     this.port = this.loadEnvVarAsNumber('AR_PORT')
     this.refreshTokenExpirationTime = this.loadEnvVar('AR_REFRESH_TOKEN_EXPIRATION_TIME')
+    this.rootPath = this.loadEnvVar('AR_ROOT_PATH')
     this.saltRounds = this.loadEnvVarAsNumber('AR_SALT_ROUNDS')
   }
 
@@ -48,6 +50,10 @@ class Env {
 
   public get RefreshTokenExpirationTime(): string {
     return this.refreshTokenExpirationTime
+  }
+
+  public get RootPath(): string {
+    return this.rootPath
   }
 
   public get SaltRounds(): number {
