@@ -14,20 +14,67 @@ export default ${modelName}Service
 `
 }
 
-export function servicesIndex(modelName: string): string {
-  return `export { default as ${modelName}Service } from './${modelName}Service'\n`
+export function serviceProvderFile(modelName: string, buffer: Buffer): string {
+  let added1 = false
+  let added2 = false
+  let canAdd2 = false
+  let output = ''
+  const lines = buffer.toString().split('\n')
+  const str1 = `import ${modelName}Service from './${modelName}Service'\n`
+  const str2 = `  get${modelName}Service(): ${modelName}Service\n`
+
+  lines.forEach(line => {
+    const lineTrimmed = line.trim()
+
+    if (!added1 && (lineTrimmed === '' || str1 < line)) {
+      output += str1
+      added1 = true
+    }
+
+    if (canAdd2 && !added2 && (line === '}' || str2 < line)) {
+      output += str2
+      added2 = true
+    }
+
+    if (!canAdd2 && lineTrimmed.startsWith('init')) {
+      canAdd2 = true
+    }
+
+    output += line
+  })
+
+  return output
 }
 
 export function serviceNameFile(modelName: string, buffer: Buffer): string {
   let added = false
   let output = ''
   const lines = buffer.toString().split('\n')
+  const str = `  ${modelName} = 'service.${camelCase(modelName)}',\n`
 
   lines.forEach((line, index) => {
-    const firstSymbol = line.split('\s')[0].trim()
+    if (!added && index !== 0 && (line === '}' || str < line)) {
+      output += str
+      added = true
+    }
 
-    if (!added && index !== 0 && (firstSymbol === '}' || modelName < firstSymbol)) {
-      output += `  ${modelName} = 'service.${camelCase(modelName)}',\n`
+    output += line
+  })
+
+  return output
+}
+
+export function servicesIndex(modelName: string, buffer: Buffer): string {
+  let added = false
+  let output = ''
+  const lines = buffer.toString().split('\n')
+  const str = `export { default as ${modelName}Service } from './${modelName}Service'\n`
+
+  lines.forEach(line => {
+    const lineTrimmed = line.trim()
+
+    if (!added && (lineTrimmed === '' || str < line)) {
+      output += str
       added = true
     }
 
@@ -71,10 +118,36 @@ export default ${modelName}
 `
 }
 
-export function modelsIndex(modelName: string): string {
-  return `export { default as ${modelName} } from './${modelName}'
-export * from './${modelName}'
-`
+export function modelsIndex(modelName: string, buffer: Buffer): string {
+  let added1 = false
+  let added2 = false
+  let canAdd2 = false
+  let output = ''
+  const lines = buffer.toString().split('\n')
+  const str1 = `export { default as ${modelName} } from './${modelName}'\n`
+  const str2 = `export * from './${modelName}'\n`
+
+  lines.forEach(line => {
+    const lineTrimmed = line.trim()
+
+    if (!added1 && (lineTrimmed === '' || str1 < line)) {
+      output += str1
+      added1 = true
+    }
+
+    if (canAdd2 && !added2 && (lineTrimmed === '' || str2 < line)) {
+      output += str2
+      added2 = true
+    }
+
+    if (!canAdd2 && lineTrimmed === '') {
+      canAdd2 = true
+    }
+
+    output += line
+  })
+
+  return output
 }
 
 export function graphQLTypeFile(modelName: string): string {
@@ -95,8 +168,24 @@ export default ${modelName}Type
 `
 }
 
-export function graphQLTypesIndex(modelName: string): string {
-  return `export { default as ${modelName}Type } from './${modelName}Type'\n`
+export function graphQLTypesIndex(modelName: string, buffer: Buffer): string {
+  let added = false
+  let output = ''
+  const lines = buffer.toString().split('\n')
+  const str = `export { default as ${modelName}Type } from './${modelName}Type'\n`
+
+  lines.forEach(line => {
+    const lineTrimmed = line.trim()
+
+    if (!added && (lineTrimmed === '' || str < line)) {
+      output += str
+      added = true
+    }
+
+    output += line
+  })
+
+  return output
 }
 
 export function graphQLResolverFile(modelName: string): string {
@@ -129,6 +218,22 @@ export default ${modelName}Resolver
 `
 }
 
-export function graphQLResolversIndex(modelName: string): string {
-  return `export { default as ${modelName}Resolver } from './${modelName}Resolver'\n`
+export function graphQLResolversIndex(modelName: string, buffer: Buffer): string {
+  let added = false
+  let output = ''
+  const lines = buffer.toString().split('\n')
+  const str = `export { default as ${modelName}Resolver } from './${modelName}Resolver'\n`
+
+  lines.forEach(line => {
+    const lineTrimmed = line.trim()
+
+    if (!added && (lineTrimmed === '' || str < line)) {
+      output += str
+      added = true
+    }
+
+    output += line
+  })
+
+  return output
 }
