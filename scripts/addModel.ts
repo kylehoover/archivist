@@ -15,43 +15,52 @@ const newFiles: string[] = []
 const modifiedFiles: string[] = []
 
 async function run(): Promise<void> {
-  // const answers = await inquirer.prompt([
-  //   {
-  //     type: 'input',
-  //     name: 'modelName',
-  //     message: 'Model Name:',
-  //     validate: (input: string): boolean | string => {
-  //       if (input.length === 0) {
-  //         return 'Please enter a name'
-  //       }
+  const answers = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'modelName',
+      message: 'Model Name:',
+      validate: (input: string): boolean | string => {
+        if (input.length === 0) {
+          return 'Please enter a name'
+        }
 
-  //       return true
-  //     },
-  //   },
-  // ])
+        return true
+      },
+    },
+    {
+      type: 'input',
+      name: 'modelNamePlural',
+      message: 'Model Name Plural:',
+      validate: (input: string): boolean | string => {
+        if (input.length === 0) {
+          return 'Please enter a name'
+        }
 
-  const answers = {
-    modelName: 'Test',
-  }
+        return true
+      },
+    },
+  ])
 
-  const { modelName } = answers
+  const { modelName, modelNamePlural } = answers
 
-  await createServiceFile(modelName)
   await createModelFile(modelName)
+  await createServiceFile(modelName)
   await createGraphQLTypeFile(modelName)
-  await createGraphQLResolverFile(modelName)
+  await createGraphQLResolverFile(modelName, modelNamePlural)
+  await createMongoServiceFile(modelName, modelNamePlural)
 
   const answers2 = await inquirer.prompt([
     {
       type: 'confirm',
-      name: 'performCleanup',
-      message: 'Clean up?',
+      name: 'revertChanges',
+      message: 'Revert changes?',
       default: true,
     },
   ])
 
-  if (answers2.performCleanup) {
-    await cleanUp()
+  if (answers2.revertChanges) {
+    await revertChanges()
   }
 }
 
@@ -70,10 +79,15 @@ async function createServiceFile(modelName: string): Promise<void> {
   buffer = await fs.readFile(filePath)
   await fs.writeFile(filePath, fileContents.serviceNameFile(modelName, buffer))
   modifiedFiles.push(filePath)
+  // services/util.ts
+  filePath = path.join(serverPath, 'services', 'util.ts')
+  buffer = await fs.readFile(filePath)
+  await fs.writeFile(filePath, fileContents.servicesUtilFile(modelName, buffer))
+  modifiedFiles.push(filePath)
   // services/index.ts
   filePath = path.join(serverPath, 'services', 'index.ts')
   buffer = await fs.readFile(filePath)
-  await fs.writeFile(filePath, fileContents.servicesIndex(modelName, buffer))
+  await fs.writeFile(filePath, fileContents.servicesIndexFile(modelName, buffer))
   modifiedFiles.push(filePath)
 }
 
@@ -85,7 +99,7 @@ async function createModelFile(modelName: string): Promise<void> {
   // models/index.ts
   filePath = path.join(serverPath, 'models', 'index.ts')
   const buffer = await fs.readFile(filePath)
-  await fs.writeFile(filePath, fileContents.modelsIndex(modelName, buffer))
+  await fs.writeFile(filePath, fileContents.modelsIndexFile(modelName, buffer))
   modifiedFiles.push(filePath)
 }
 
@@ -97,23 +111,40 @@ async function createGraphQLTypeFile(modelName: string): Promise<void> {
   // graphql/types/index.ts
   filePath = path.join(serverPath, 'graphql', 'types', 'index.ts')
   const buffer = await fs.readFile(filePath)
-  await fs.writeFile(filePath, fileContents.graphQLTypesIndex(modelName, buffer))
+  await fs.writeFile(filePath, fileContents.graphQLTypesIndexFile(modelName, buffer))
   modifiedFiles.push(filePath)
 }
 
-async function createGraphQLResolverFile(modelName: string): Promise<void> {
+async function createGraphQLResolverFile(modelName: string, modelNamePlural: string): Promise<void> {
   // graphql/resolvers/{Model}Resolver.ts
   let filePath = path.join(serverPath, 'graphql', 'resolvers', `${modelName}Resolver.ts`)
-  await fs.writeFile(filePath, fileContents.graphQLResolverFile(modelName))
+  await fs.writeFile(filePath, fileContents.graphQLResolverFile(modelName, modelNamePlural))
   newFiles.push(filePath)
   // graphql/resolvers/index.ts
   filePath = path.join(serverPath, 'graphql', 'resolvers', 'index.ts')
   const buffer = await fs.readFile(filePath)
-  await fs.writeFile(filePath, fileContents.graphQLResolversIndex(modelName, buffer))
+  await fs.writeFile(filePath, fileContents.graphQLResolversIndexFile(modelName, buffer))
   modifiedFiles.push(filePath)
 }
 
-async function cleanUp(): Promise<void> {
+async function createMongoServiceFile(modelName: string, modelNamePlural: string): Promise<void> {
+  // mongo/MongoDb.ts
+  let filePath = path.join(serverPath, 'mongo', 'MongoDb.ts')
+  let buffer = await fs.readFile(filePath)
+  await fs.writeFile(filePath, fileContents.mongoDbFile(modelName, modelNamePlural, buffer))
+  modifiedFiles.push(filePath)
+  // mongo/Mongo{Model}Service.ts
+  filePath = path.join(serverPath, 'mongo', `Mongo${modelName}Service.ts`)
+  await fs.writeFile(filePath, fileContents.mongoServiceFile(modelName, modelNamePlural))
+  newFiles.push(filePath)
+  // mongo/MongoServiceProvider.ts
+  filePath = path.join(serverPath, 'mongo', 'MongoServiceProvider.ts')
+  buffer = await fs.readFile(filePath)
+  await fs.writeFile(filePath, fileContents.mongoServiceProviderFile(modelName, buffer))
+  modifiedFiles.push(filePath)
+}
+
+async function revertChanges(): Promise<void> {
   for (const filePath of newFiles) {
     await fs.unlink(filePath)
   }
