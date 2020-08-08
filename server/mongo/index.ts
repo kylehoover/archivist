@@ -1,7 +1,2 @@
-import MongoDocument from './MongoDocument'
-import MongoServiceProvider from './MongoServiceProvider'
-
-export {
-  MongoDocument,
-  MongoServiceProvider,
-}
+export { default as MongoDocument } from './MongoDocument'
+export { default as MongoServiceProvider } from './MongoServiceProvider'

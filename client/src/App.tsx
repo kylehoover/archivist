@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import { Authorized, Loading, NavBar } from './components'
+import { Authorized, Loading, NavBarFlat } from './components'
 import { Home, LandingPage } from './views'
 import { useOnAppLoad } from './hooks'
 
@@ -16,7 +16,7 @@ const App = () => {
 
   return (
     <div className='App'>
-      <NavBar />
+      <NavBarFlat />
       <main>
         <Switch>
           <Route exact strict path='/'>
