@@ -25,8 +25,8 @@ const FormsSection = () => {
   }
 
   return (
-    <div className='FormsSection m-1'>
-      <Container maxWidth={20}>
+    <div className='FormsSection'>
+      <Container maxWidth={22}>
         <LoginForm
           disabled={loginFormDisabled}
           onSubmit={handleSubmit}

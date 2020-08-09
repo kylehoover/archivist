@@ -1,6 +1,7 @@
 import React from 'react'
 
 import FormsSection from './FormsSection'
+import { Container } from '../../components'
 import './LandingPage.scss'
 
 type VerticalLineProps = {
@@ -9,7 +10,7 @@ type VerticalLineProps = {
 
 const IntroductionSection = () => {
   return (
-    <div className='IntroductionSection m-1'>
+    <div className='IntroductionSection'>
       <h1>
         Archivist
       </h1>
@@ -28,9 +29,13 @@ const VerticalLine = (props: VerticalLineProps) => {
 const LandingPage = () => {
   return (
     <div className='LandingPage'>
-      <IntroductionSection />
-      <VerticalLine height='50%' />
-      <FormsSection />
+      <Container maxWidth={22} minWidth={15} centered>
+        <div id='content'>
+          <IntroductionSection />
+          <VerticalLine height='50%' />
+          <FormsSection />
+        </div>
+      </Container>
     </div>
   )
 }
