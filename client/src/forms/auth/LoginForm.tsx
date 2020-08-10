@@ -1,21 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react'
 import isEmail from 'validator/lib/isEmail'
+import { useHistory } from 'react-router-dom'
 
-import { Button, Form, Input } from '../../components'
+import { Button, Form, Input, InputError } from '../../components'
+import { RequestErrorType } from '../../graphql'
+import { useStores } from '../../stores'
 
 export type LoginFormData = {
   email: string
   password: string
 }
 
-type Props = {
-  disabled?: boolean,
-  onSubmit: (data: LoginFormData) => void
-}
+const LoginForm = () => {
+  const [disabled, setDisabled] = useState(false)
+  const [loginFailed, setLoginFailed] = useState(false)
+  const { userStore } = useStores()
+  const history = useHistory()
 
-const LoginForm = ({ disabled = false, onSubmit }: Props) => {
+  const loginError: InputError | undefined = loginFailed ?
+    { type: 'manual', message: 'Invalid credentials', shouldFocus: true } :
+    undefined
+
+  const handleSubmit = async (data: LoginFormData) => {
+    setDisabled(true)
+    setLoginFailed(false)
+
+    try {
+      await userStore.loginUser(data.email, data.password)
+    } catch (err) {
+      setDisabled(false)
+      
+      if (err.type === RequestErrorType.InvalidCredentials) {
+        setLoginFailed(true)
+      } else {
+        // TODO: display toast that we failed to communicate with the server
+      }
+
+      return
+    }
+
+    history.replace('/home/')
+  }
+
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <Input
         label='Email'
         name='email'
@@ -32,6 +60,7 @@ const LoginForm = ({ disabled = false, onSubmit }: Props) => {
         type='password'
         className='mb-1'
         disabled={disabled}
+        error={loginError}
         validationOptions={{
           maxLength: 100,
           required: true,

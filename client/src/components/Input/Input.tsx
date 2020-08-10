@@ -2,12 +2,17 @@ import React, { useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
 import { FieldError, ValidationOptions, useFormContext } from 'react-hook-form'
 
-import { isEmpty, numToRem } from '../../util'
+import { numToRem, strIsEmpty } from '../../util'
 import './Input.scss'
+
+export type InputError = FieldError & {
+  shouldFocus?: boolean
+}
 
 type Props = {
   className?: string
   disabled?: boolean
+  error?: InputError
   label: string
   labelPosition?: 'embedded' | 'left' | 'top'
   maxWidth?: number
@@ -18,8 +23,25 @@ type Props = {
 }
 
 type ErrorMessageProps = {
-  error: FieldError
+  error?: FieldError
   validationOptions: ValidationOptions
+}
+
+function getErrorMessage(error: FieldError, validationOptions: ValidationOptions): string {
+  let message = (error.message || error.types?.message) as string
+
+  if (!strIsEmpty(message)) {
+    return message
+  }
+
+  switch (error.type) {
+    case 'max': return `Max value: ${validationOptions.max}`
+    case 'min': return `Min value: ${validationOptions.min}`
+    case 'maxLength': return `Max length: ${validationOptions.maxLength}`
+    case 'minLength': return `Min length: ${validationOptions.minLength}`
+    case 'required': return 'This field is required'
+    default: return 'Invalid value'
+  }
 }
 
 const ErrorMessage = ({ error, validationOptions }: ErrorMessageProps) => {
@@ -27,27 +49,9 @@ const ErrorMessage = ({ error, validationOptions }: ErrorMessageProps) => {
     return null
   }
 
-  let message = error.message
-
-  if (!message) {
-    if (error.type === 'max') {
-      message = `Max value: ${validationOptions.max}`
-    } else if (error.type === 'min') {
-      message = `Min value: ${validationOptions.min}`
-    } else if (error.type === 'maxLength') {
-      message = `Max length: ${validationOptions.maxLength}`
-    } else if (error.type === 'minLength') {
-      message = `Min length: ${validationOptions.minLength}`
-    } else if (error.type === 'required') {
-      message = 'This field is required'
-    } else {
-      message = 'Invalid value'
-    }
-  }
-
   return (
     <div className='ErrorMessage'>
-      {message}
+      {getErrorMessage(error, validationOptions)}
     </div>
   )
 }
@@ -55,6 +59,7 @@ const ErrorMessage = ({ error, validationOptions }: ErrorMessageProps) => {
 const Input = ({
   className,
   disabled = false,
+  error,
   label,
   labelPosition = 'embedded',
   maxWidth,
@@ -66,12 +71,14 @@ const Input = ({
   const { errors, register } = useFormContext()
   const [hasValue, setHasValue] = useState(false)
   const inputElement = useRef<HTMLInputElement | null>(null)
-  const hasError = errors[name] !== undefined
+  const fieldError: FieldError | undefined = errors[name] || error
+  const hasError = fieldError !== undefined
+  const shouldFocus = error?.shouldFocus
 
   useEffect(() => {
     if (inputElement.current !== null) {
       inputElement.current.onblur = () => {
-        setHasValue(!isEmpty(inputElement.current?.value))
+        setHasValue(inputElement.current?.value !== '')
       }
 
       return () => {
@@ -81,6 +88,12 @@ const Input = ({
       }
     }
   }, [])
+
+  useEffect(() => {
+    if (shouldFocus) {
+      inputElement.current?.focus()
+    }
+  }, [shouldFocus])
 
   return (
     <div
@@ -103,7 +116,7 @@ const Input = ({
       <label htmlFor={name}>
         {label}
       </label>
-      <ErrorMessage error={errors[name]} validationOptions={validationOptions} />
+      <ErrorMessage error={fieldError} validationOptions={validationOptions} />
     </div>
   )
 }

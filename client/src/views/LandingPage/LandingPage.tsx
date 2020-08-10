@@ -1,7 +1,7 @@
 import React from 'react'
 
-import FormsSection from './FormsSection'
 import { Container } from '../../components'
+import { LoginForm } from '../../forms'
 import './LandingPage.scss'
 
 type VerticalLineProps = {
@@ -23,6 +23,16 @@ const VerticalLine = (props: VerticalLineProps) => {
 
   return (
     <div className='VerticalLine' style={{ height }} />
+  )
+}
+
+const FormsSection = () => {
+  return (
+    <div className='FormsSection'>
+      <Container maxWidth={22}>
+        <LoginForm />
+      </Container>
+    </div>
   )
 }
 
