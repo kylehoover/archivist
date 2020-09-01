@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import isEmail from 'validator/lib/isEmail'
 import { useHistory } from 'react-router-dom'
 
 import { Button, Form, Input, InputError } from '../../components'
-import { RequestErrorType } from '../../graphql'
+import { RequestError, RequestErrorType } from '../../graphql'
+import { useAsync } from '../../hooks'
 import { useStores } from '../../stores'
 
 export type LoginFormData = {
@@ -12,34 +13,27 @@ export type LoginFormData = {
 }
 
 const LoginForm = () => {
-  const [disabled, setDisabled] = useState(false)
-  const [loginFailed, setLoginFailed] = useState(false)
   const { userStore } = useStores()
   const history = useHistory()
+  const {
+    error,
+    execute: loginUser,
+    isPending,
+    isSuccess,
+  } = useAsync<void, RequestError>(userStore.loginUser)
 
-  const loginError: InputError | undefined = loginFailed ?
+  const loginError: InputError | undefined = error?.type === RequestErrorType.InvalidCredentials  ?
     { type: 'manual', message: 'Invalid credentials', shouldFocus: true } :
     undefined
 
-  const handleSubmit = async (data: LoginFormData) => {
-    setDisabled(true)
-    setLoginFailed(false)
-
-    try {
-      await userStore.loginUser(data.email, data.password)
-    } catch (err) {
-      setDisabled(false)
-      
-      if (err.type === RequestErrorType.InvalidCredentials) {
-        setLoginFailed(true)
-      } else {
-        // TODO: display toast that we failed to communicate with the server
-      }
-
-      return
+  useEffect(() => {
+    if (isSuccess) {
+      history.replace('/home/')
     }
+  }, [history, isSuccess])
 
-    history.replace('/home/')
+  const handleSubmit = async (data: LoginFormData) => {
+    await loginUser(data.email, data.password)
   }
 
   return (
@@ -47,7 +41,7 @@ const LoginForm = () => {
       <Input
         label='Email'
         name='email'
-        disabled={disabled}
+        disabled={isPending}
         validationOptions={{
           maxLength: 100,
           required: true,
@@ -59,14 +53,14 @@ const LoginForm = () => {
         name='password'
         type='password'
         className='mb-1'
-        disabled={disabled}
+        disabled={isPending}
         error={loginError}
         validationOptions={{
           maxLength: 100,
           required: true,
         }}
       />
-      <Button type='submit' disabled={disabled}>
+      <Button type='submit' disabled={isPending}>
         Log In
       </Button>
     </Form>

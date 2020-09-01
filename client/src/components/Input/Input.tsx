@@ -91,7 +91,7 @@ const Input = ({
 
   useEffect(() => {
     if (shouldFocus) {
-      inputElement.current?.focus()
+      setTimeout(() => inputElement.current?.focus(), 10)
     }
   }, [shouldFocus])
 

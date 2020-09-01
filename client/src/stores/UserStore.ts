@@ -30,7 +30,7 @@ class UserStore {
     })
   }
 
-  public async loginUser(email: string, password: string): Promise<void> {
+  public loginUser = async (email: string, password: string): Promise<void> => {
     if (this.currentUser !== undefined) {
       throw new Error('User is already logged in')
     }

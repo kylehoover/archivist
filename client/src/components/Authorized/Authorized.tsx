@@ -1,11 +1,11 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 
 import { Container } from '../Container'
 import { PermissionName } from '../../models'
 import { useStores } from '../../stores'
 
 type Props = {
-  children: ReactNode
+  children: JSX.Element
   requiredPermissions?: PermissionName[]
   type?: 'hideContent' | 'route'
 }
@@ -53,9 +53,7 @@ const Authorized = ({
     }
   }
 
-  return (
-    <>{children}</>
-  )
+  return children
 }
 
 export default Authorized
