@@ -5,7 +5,7 @@ import {
   RefreshTokensType,
   UserType
 } from './types'
-import { clearAccessToken, request, setAccessToken, authenticatedRequest } from './util'
+import { clearAccessToken, request, setAccessToken, authenticatedRequest } from './request'
 
 export const loginUser = async (input: LoginUserInputType): Promise<UserType> => {
   const mutation = `

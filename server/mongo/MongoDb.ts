@@ -104,7 +104,7 @@ class MongoDb {
     fields: MongoDocument,
     collection: Collection,
     mapFn: mapDocumentToModelFn<T>,
-    options?: FindOneAndUpdateOption,
+    options?: FindOneAndUpdateOption<T>,
   ): Promise<T> {
     const result = await collection.findOneAndUpdate(
       { _id: new ObjectId(id) },

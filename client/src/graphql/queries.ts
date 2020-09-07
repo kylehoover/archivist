@@ -1,5 +1,5 @@
 import { GetCurrentUserData, GetUsersData, UserType } from './types'
-import { authenticatedRequest, request } from './util'
+import { authenticatedRequest, request } from './request'
 
 export const getCurrentUser = async (): Promise<UserType> => {
   const query = `

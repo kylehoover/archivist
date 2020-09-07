@@ -16,3 +16,7 @@ export class RequestError extends Error {
     super(message)
   }
 }
+
+export const isRequestErrorOfType = (error: any, errorType: RequestErrorType): boolean => {
+  return error instanceof RequestError && error.type === errorType
+}

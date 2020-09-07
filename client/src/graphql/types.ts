@@ -11,12 +11,6 @@ export enum AccessTokenState {
 
 export type GraphQLVariables = Record<string, any>
 
-export type RequestError = {
-  accessTokenState?: AccessTokenState
-  message?: string
-  type: RequestErrorType
-}
-
 export enum RequestErrorType {
   InvalidCredentials = 'invalidCredentials',
   Unauthorized = 'unauthorized',

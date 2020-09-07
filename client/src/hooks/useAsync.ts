@@ -1,43 +1,62 @@
-import { useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 type AsyncStatus = 'error' | 'idle' | 'pending' | 'success'
+type ResultError = Error | null
 
-const useAsync = <T, E>(
-  asyncFunction: (...args: any[]) => Promise<T>,
+class Result<T> {
+  constructor(
+    public readonly data: T | null,
+    public readonly error: ResultError,
+    public readonly status: AsyncStatus,
+  ) {}
+
+  public get isError(): boolean {
+    return this.status === 'error'
+  }
+
+  public get isPending(): boolean {
+    return this.status === 'pending'
+  }
+
+  public get isSuccess(): boolean {
+    return this.status === 'success'
+  }
+}
+
+const useAsync = <Args extends any[], ReturnType>(
+  asyncFn: (...args: Args) => Promise<ReturnType>,
 ) => {
-  const [error, setError] = useState<E | null>(null)
+  const [data, setData] = useState<ReturnType | null>(null)
+  const [error, setError] = useState<ResultError>(null)
   const [status, setStatus] = useState<AsyncStatus>('idle')
-  const [value, setValue] = useState<T | null>(null)
-  const hasError = status === 'error'
-  const isPending = status === 'pending'
-  const isSuccess = status === 'success'
+  const result = useMemo(() => new Result(data, error, status), [data, error, status])
 
-  const execute = async (...args: any[]) => {
-    setError(null)
-    setStatus('pending')
-    setValue(null)
+  const execute = useCallback(async (...args: Args) => {
+    let localData: ReturnType | null = null
+    let localError: ResultError = null
+    let localStatus: AsyncStatus = 'pending'
+    setData(localData)
+    setError(localError)
+    setStatus(localStatus)
 
     try {
-      const response = await asyncFunction(...args)
-      setStatus('success')
-      setValue(response)
+      const response = await asyncFn(...args)
+      localData = response === undefined ? null : response
+      localStatus = 'success'
     } catch (error) {
-      setError(error)
-      setStatus('error')
-
       // TODO: show generic toast when generic server error
+      localError = error
+      localStatus = 'error'
     }
-  }
 
-  return {
-    error,
-    execute,
-    hasError,
-    isPending,
-    isSuccess,
-    status,
-    value,
-  }
+    setData(localData)
+    setError(localError)
+    setStatus(localStatus)
+
+    return new Result(localData, localError, localStatus)
+  }, [asyncFn])
+
+  return [execute, result] as const
 }
 
 export default useAsync
