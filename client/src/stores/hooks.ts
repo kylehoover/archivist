@@ -12,6 +12,11 @@ export const useCurrentUser = () => {
   return userStore.currentUser
 }
 
+export const useUserStore = () => {
+  const { userStore } = useStores()
+  return userStore
+}
+
 export const useStores = () => {
   const rootStore = useContext(StoreContext)
 

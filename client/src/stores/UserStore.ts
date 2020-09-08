@@ -18,7 +18,7 @@ class UserStore {
     this.currentUser = undefined
   }
 
-  public async loadCurrentUser(): Promise<void> {
+  public loadCurrentUser = async (): Promise<void> => {
     if (this.currentUser !== undefined) {
       return
     }

@@ -3,7 +3,7 @@ import { useCallback, useMemo, useState } from 'react'
 type AsyncStatus = 'error' | 'idle' | 'pending' | 'success'
 type ResultError = Error | null
 
-class Result<T> {
+export class Result<T> {
   constructor(
     public readonly data: T | null,
     public readonly error: ResultError,
@@ -12,6 +12,10 @@ class Result<T> {
 
   public get isError(): boolean {
     return this.status === 'error'
+  }
+
+  public get isIdle(): boolean {
+    return this.status === 'idle'
   }
 
   public get isPending(): boolean {
