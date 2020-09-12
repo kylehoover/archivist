@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios'
 
 import { AccessTokenState, GraphQLVariables, RequestErrorType } from './types'
 import { AuthenticationRequiredError, RequestError } from './errors'
-import { refreshTokens } from './mutations'
+import { refreshTokens } from './users'
 
 let accessToken: string | undefined = undefined
 

@@ -1,8 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 
-import { Authorized, Loading, NavBarFlat } from './components'
-import { Home, LandingPage } from './views'
+import { Authorized, Home, LandingPage, Loading, NavBarFlat } from './components'
 import { useOnAppLoad } from './hooks'
 
 import './styles/base.scss'
