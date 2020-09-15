@@ -1,8 +1,8 @@
 import { Field, ObjectType } from 'type-graphql'
 
-import UserType from './UserType'
-import { User } from '../../models'
-import { generateAccessToken } from '../../helpers/auth'
+import { User } from '../../../models'
+import { UserType } from '../modelTypes'
+import { generateAccessToken } from '../../../helpers/auth'
 
 @ObjectType()
 class LoginUserType {

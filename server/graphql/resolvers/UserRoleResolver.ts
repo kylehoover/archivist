@@ -2,7 +2,7 @@ import { Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 
 import { ServiceName, UserRoleService } from '../../services'
-import { UserRoleType } from '../'
+import { UserRoleType } from '../types'
 
 @Service()
 @Resolver(UserRoleType)

@@ -1,8 +1,8 @@
 import { Field, ObjectType } from 'type-graphql'
 
 import ModelType from './ModelType'
-import AppSetting, { AppSettingName, AppSettingValue } from '../../models/AppSetting'
-import { AppSettingValueScalar } from '../scalars'
+import { AppSetting, AppSettingName, AppSettingValue } from '../../../models'
+import { AppSettingValueScalar } from '../../scalars'
 
 @ObjectType()
 class AppSettingType extends ModelType {

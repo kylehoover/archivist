@@ -1,7 +1,7 @@
 import { Field, ObjectType } from 'type-graphql'
 
-import { User } from '../../models'
-import { generateAccessToken } from '../../helpers/auth'
+import { User } from '../../../models'
+import { generateAccessToken } from '../../../helpers/auth'
 
 @ObjectType()
 class RefreshTokensType {

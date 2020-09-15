@@ -1,7 +1,7 @@
 import { Field, ObjectType } from 'type-graphql'
 
 import ModelType from './ModelType'
-import { Campaign } from '../../models'
+import { Campaign } from '../../../models'
 
 @ObjectType()
 class CampaignType extends ModelType {

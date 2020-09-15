@@ -2,7 +2,7 @@ import { Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 
 import { AppSettingService, ServiceName } from '../../services'
-import { AppSettingType } from '../'
+import { AppSettingType } from '../types'
 
 @Service()
 @Resolver(AppSettingType)

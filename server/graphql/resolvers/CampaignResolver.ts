@@ -2,7 +2,7 @@ import { Arg, ID, Mutation, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 
 import { CampaignService, ServiceName } from '../../services'
-import { CampaignInputType, CampaignType } from '../'
+import { CampaignInputType, CampaignType } from '../types'
 import { withNewModelFields } from '../../models'
 
 @Service()

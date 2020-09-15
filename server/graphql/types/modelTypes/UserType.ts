@@ -2,8 +2,7 @@ import { Field, ObjectType } from 'type-graphql'
 
 import ModelType from './ModelType'
 import PermissionType from './PermissionType'
-import { PermissionName } from '../../models/UserRole'
-import { User } from '../../models'
+import { PermissionName, User } from '../../../models/'
 
 @ObjectType()
 class UserType extends ModelType {

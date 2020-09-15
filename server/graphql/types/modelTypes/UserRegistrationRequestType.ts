@@ -1,7 +1,7 @@
 import { Field, ObjectType } from 'type-graphql'
 
 import ModelType from './ModelType'
-import { UserRegistrationRequest } from '../../models'
+import { UserRegistrationRequest } from '../../../models'
 
 @ObjectType()
 class UserRegistrationRequestType extends ModelType {

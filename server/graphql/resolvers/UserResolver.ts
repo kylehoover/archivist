@@ -3,24 +3,19 @@ import { Inject, Service } from 'typedi'
 import { Request } from 'express'
 
 import DataProvider from '../../DataProvider'
+import { Authorized, CurrentUser, NotLoggedIn } from '../decorators'
+import { InvalidCredentialsError, NotAllowedError, UnauthorizedError, UnknownError } from '../errors'
 import { ServiceName, UserService } from '../../services'
+import { VoidScalar } from '../scalars'
+import { validateEmailIsAvailable } from '../auth'
 
 import {
-  Authorized,
-  CurrentUser,
-  InvalidCredentialsError,
   LoginUserInputType,
   LoginUserType,
-  NotAllowedError,
-  NotLoggedIn,
   RefreshTokensType,
   RegisterUserInputType,
-  UnauthorizedError,
-  UnknownError,
   UserType,
-  VoidScalar,
-  validateEmailIsAvailable,
-} from '../'
+} from '../types'
 
 import {
   RegistrationState,

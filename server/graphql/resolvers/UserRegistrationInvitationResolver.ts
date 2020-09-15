@@ -4,21 +4,18 @@ import { Inject, Service } from 'typedi'
 import { v4 as uuid } from 'uuid'
 
 import DataProvider from '../../DataProvider'
+import { Authorized, CurrentUser } from '../decorators'
+import { CanInviteUsers, validateEmailIsAvailable } from '../auth'
+import { RequestUserInfo, UserRegistrationInvitationFields, withNewModelFields } from '../../models'
 import { ServiceName, UserRegistrationInvitationService, UserService } from '../../services'
-import { UserRegistrationInvitationFields, withNewModelFields } from '../../models'
 import { getNormalizedEmail } from '../../helpers'
 
 import {
   AcceptInvitationInputType,
-  Authorized,
-  CanInviteUsers,
-  CurrentUser,
-  RequestUserInfo,
   ResponseType,
   SubmitInvitationInputType,
   UserRegistrationInvitationType,
-  validateEmailIsAvailable,
-} from '../'
+} from '../types'
 
 @Service()
 @Resolver(UserRegistrationInvitationType)

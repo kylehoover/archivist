@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from 'type-graphql'
 
-import { Model } from '../../models'
+import { Model } from '../../../models'
 
 @ObjectType()
 abstract class ModelType {
