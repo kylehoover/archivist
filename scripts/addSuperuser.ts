@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 
 import inquirer from 'inquirer'
-import { isEmail } from 'validator'
+import isEmail from 'validator/lib/isEmail'
 
 import { RegistrationType, UserFields, withNewModelFields } from '../server/models'
 import { getNormalizedEmail, hashPassword, isEmailAvailable } from '../server/helpers'
@@ -98,7 +98,7 @@ async function run(): Promise<void> {
     },
   }
 
-  userService.insertOne(withNewModelFields(fields))
+  await userService.insertOne(withNewModelFields(fields))
   console.log(`${answers.name} has been added as a superuser`)
   process.exit()
 }

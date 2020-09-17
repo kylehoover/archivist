@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
-import { FieldError, ValidationOptions, useFormContext } from 'react-hook-form'
+import { FieldError, ValidationRules, useFormContext } from 'react-hook-form'
 
 import { numToRem, strIsEmpty } from '../../../util'
 import './Input.scss'
@@ -18,16 +18,16 @@ type Props = {
   maxWidth?: number
   name: string
   type?: 'password' | 'text'
-  validationOptions?: ValidationOptions
+  validationRules?: ValidationRules
   width?: number
 }
 
 type ErrorMessageProps = {
   error?: FieldError
-  validationOptions: ValidationOptions
+  validationRules: ValidationRules
 }
 
-function getErrorMessage(error: FieldError, validationOptions: ValidationOptions): string {
+function getErrorMessage(error: FieldError, validationRules: ValidationRules): string {
   let message = (error.message || error.types?.message) as string
 
   if (!strIsEmpty(message)) {
@@ -35,23 +35,23 @@ function getErrorMessage(error: FieldError, validationOptions: ValidationOptions
   }
 
   switch (error.type) {
-    case 'max': return `Max value: ${validationOptions.max}`
-    case 'min': return `Min value: ${validationOptions.min}`
-    case 'maxLength': return `Max length: ${validationOptions.maxLength}`
-    case 'minLength': return `Min length: ${validationOptions.minLength}`
+    case 'max': return `Max value: ${validationRules.max}`
+    case 'min': return `Min value: ${validationRules.min}`
+    case 'maxLength': return `Max length: ${validationRules.maxLength}`
+    case 'minLength': return `Min length: ${validationRules.minLength}`
     case 'required': return 'This field is required'
     default: return 'Invalid value'
   }
 }
 
-const ErrorMessage = ({ error, validationOptions }: ErrorMessageProps) => {
+const ErrorMessage = ({ error, validationRules }: ErrorMessageProps) => {
   if (error === undefined) {
     return null
   }
 
   return (
     <div className='ErrorMessage'>
-      {getErrorMessage(error, validationOptions)}
+      {getErrorMessage(error, validationRules)}
     </div>
   )
 }
@@ -65,7 +65,7 @@ const Input = ({
   maxWidth,
   name,
   type = 'text',
-  validationOptions = {},
+  validationRules = {},
   width,
 }: Props) => {
   const { errors, register } = useFormContext()
@@ -109,14 +109,14 @@ const Input = ({
         className={classNames({ hasValue, invalid: hasError })}
         disabled={disabled}
         ref={(element) => {
-          register(element!, validationOptions)
+          register(element!, validationRules)
           inputElement.current = element
         }}
       />
       <label htmlFor={name}>
         {label}
       </label>
-      <ErrorMessage error={fieldError} validationOptions={validationOptions} />
+      <ErrorMessage error={fieldError} validationRules={validationRules} />
     </div>
   )
 }

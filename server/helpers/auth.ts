@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import ms from 'ms'
+import normalizeEmail from 'validator/lib/normalizeEmail'
 import { Request } from 'express'
-import { normalizeEmail } from 'validator'
 import { v4 as uuid } from 'uuid'
 
 import { User } from '../models'

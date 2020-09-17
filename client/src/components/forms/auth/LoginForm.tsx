@@ -37,7 +37,7 @@ const LoginForm = () => {
         label='Email'
         name='email'
         disabled={isPending}
-        validationOptions={{
+        validationRules={{
           maxLength: 100,
           required: true,
           validate: value => isEmail(value) || 'Invalid email'
@@ -50,7 +50,7 @@ const LoginForm = () => {
         className='mb-1'
         disabled={isPending}
         error={loginError}
-        validationOptions={{
+        validationRules={{
           maxLength: 100,
           required: true,
         }}

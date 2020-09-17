@@ -1,7 +1,7 @@
 import cookieParser from 'cookie-parser'
 import express from 'express'
-import graphqlHTTP from 'express-graphql'
 import morgan from 'morgan'
+import { graphqlHTTP } from 'express-graphql'
 
 import DataProvider from './DataProvider'
 import { getEnv } from './Env'
