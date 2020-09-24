@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 import { Authorized, Home, LandingPage, Loading, NavBarFlat } from './components'
 import { useOnAppLoad } from './hooks'
 
-import './styles/base.scss'
+import './styles/index.scss'
 
 const App = () => {
   const { isLoading } = useOnAppLoad()
