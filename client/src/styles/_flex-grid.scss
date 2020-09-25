@@ -1,182 +1,237 @@
-.box {
-  background-color: #00bcd4;
-  height: 2rem;
-  text-align: center;
-}
-
 .row {
   display: flex;
   flex-wrap: wrap;
-}
 
-.row.start {
-  justify-content: flex-start;
-}
-
-.row.center {
-  justify-content: center;
-}
-
-.row.end {
-  justify-content: flex-end;
-}
-
-.row.top {
-  align-items: flex-start;
-}
-
-.row.middle {
-  align-items: center;
-}
-
-.row.bottom {
-  align-items: flex-end;
-}
-
-.row > .col {
-  padding: 0 0.5rem;
-}
-
-.col {
-  box-sizing: border-box;
-  flex: 0 0 auto;
-  margin-bottom: 1rem;
-}
-
-.sm {
-  flex-basis: 0;
-  flex-grow: 1;
-  max-width: 100%;
-}
-
-.sm-1 {
-  flex-basis: 8.33%;
-  max-width: 8.33%;
-}
-
-.sm-2 {
-  flex-basis: 16.66%;
-  max-width: 16.66%;
-}
-
-.sm-3 {
-  flex-basis: 25%;
-  max-width: 25%;
-}
-
-.sm-4 {
-  flex-basis: 33.33%;
-  max-width: 33.33%;
-}
-
-.sm-5 {
-  flex-basis: 41.66%;
-  max-width: 41.66%;
-}
-
-.sm-6 {
-  flex-basis: 50%;
-  max-width: 50%;
-}
-
-.sm-7 {
-  flex-basis: 58.33%;
-  max-width: 58.33%;
-}
-
-.sm-8 {
-  flex-basis: 66.66%;
-  max-width: 66.66%;
-}
-
-.sm-9 {
-  flex-basis: 75%;
-  max-width: 75%;
-}
-
-.sm-10 {
-  flex-basis: 83.33%;
-  max-width: 83.33%;
-}
-
-.sm-11 {
-  flex-basis: 91.66%;
-  max-width: 91.66%;
-}
-
-.sm-12 {
-  flex-basis: 100%;
-  max-width: 100%;
-}
-
-@media only screen and (min-width: $screen-size-medium) {
-  .sm-only {
-    display: none !important;
-  }
-
-  .md {
-    flex-basis: 0;
-    flex-grow: 1;
-    max-width: 100%;
+  &.start {
+    justify-content: flex-start;
   }
   
-  .md-1 {
-    flex-basis: 8.33%;
-    max-width: 8.33%;
+  &.center {
+    justify-content: center;
   }
   
-  .md-2 {
-    flex-basis: 16.66%;
-    max-width: 16.66%;
+  &.end {
+    justify-content: flex-end;
   }
   
-  .md-3 {
-    flex-basis: 25%;
-    max-width: 25%;
+  &.top {
+    align-items: flex-start;
   }
   
-  .md-4 {
-    flex-basis: 33.33%;
-    max-width: 33.33%;
+  &.middle {
+    align-items: center;
   }
   
-  .md-5 {
-    flex-basis: 41.66%;
-    max-width: 41.66%;
+  &.bottom {
+    align-items: flex-end;
   }
-  
-  .md-6 {
-    flex-basis: 50%;
-    max-width: 50%;
-  }
-  
-  .md-7 {
-    flex-basis: 58.33%;
-    max-width: 58.33%;
-  }
-  
-  .md-8 {
-    flex-basis: 66.66%;
-    max-width: 66.66%;
-  }
-  
-  .md-9 {
-    flex-basis: 75%;
-    max-width: 75%;
-  }
-  
-  .md-10 {
-    flex-basis: 83.33%;
-    max-width: 83.33%;
-  }
-  
-  .md-11 {
-    flex-basis: 91.66%;
-    max-width: 91.66%;
-  }
-  
-  .md-12 {
-    flex-basis: 100%;
-    max-width: 100%;
+
+  > .col {
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+
+    &.sm {
+      flex-basis: 0;
+      flex-grow: 1;
+      max-width: 100%;
+    }
+    
+    &.sm-1 {
+      flex-basis: 8.33%;
+      max-width: 8.33%;
+    }
+    
+    &.sm-2 {
+      flex-basis: 16.66%;
+      max-width: 16.66%;
+    }
+    
+    &.sm-3 {
+      flex-basis: 25%;
+      max-width: 25%;
+    }
+    
+    &.sm-4 {
+      flex-basis: 33.33%;
+      max-width: 33.33%;
+    }
+    
+    &.sm-5 {
+      flex-basis: 41.66%;
+      max-width: 41.66%;
+    }
+    
+    &.sm-6 {
+      flex-basis: 50%;
+      max-width: 50%;
+    }
+    
+    &.sm-7 {
+      flex-basis: 58.33%;
+      max-width: 58.33%;
+    }
+    
+    &.sm-8 {
+      flex-basis: 66.66%;
+      max-width: 66.66%;
+    }
+    
+    &.sm-9 {
+      flex-basis: 75%;
+      max-width: 75%;
+    }
+    
+    &.sm-10 {
+      flex-basis: 83.33%;
+      max-width: 83.33%;
+    }
+    
+    &.sm-11 {
+      flex-basis: 91.66%;
+      max-width: 91.66%;
+    }
+    
+    &.sm-12 {
+      flex-basis: 100%;
+      max-width: 100%;
+    }
+
+    @media only screen and (min-width: $screen-size-medium) {
+      &.md {
+        flex-basis: 0;
+        flex-grow: 1;
+        max-width: 100%;
+      }
+      
+      &.md-1 {
+        flex-basis: 8.33%;
+        max-width: 8.33%;
+      }
+      
+      &.md-2 {
+        flex-basis: 16.66%;
+        max-width: 16.66%;
+      }
+      
+      &.md-3 {
+        flex-basis: 25%;
+        max-width: 25%;
+      }
+      
+      &.md-4 {
+        flex-basis: 33.33%;
+        max-width: 33.33%;
+      }
+      
+      &.md-5 {
+        flex-basis: 41.66%;
+        max-width: 41.66%;
+      }
+      
+      &.md-6 {
+        flex-basis: 50%;
+        max-width: 50%;
+      }
+      
+      &.md-7 {
+        flex-basis: 58.33%;
+        max-width: 58.33%;
+      }
+      
+      &.md-8 {
+        flex-basis: 66.66%;
+        max-width: 66.66%;
+      }
+      
+      &.md-9 {
+        flex-basis: 75%;
+        max-width: 75%;
+      }
+      
+      &.md-10 {
+        flex-basis: 83.33%;
+        max-width: 83.33%;
+      }
+      
+      &.md-11 {
+        flex-basis: 91.66%;
+        max-width: 91.66%;
+      }
+      
+      &.md-12 {
+        flex-basis: 100%;
+        max-width: 100%;
+      }
+    }
+    
+    @media only screen and (min-width: $screen-size-large) {
+      &.lg {
+        flex-basis: 0;
+        flex-grow: 1;
+        max-width: 100%;
+      }
+      
+      &.lg-1 {
+        flex-basis: 8.33%;
+        max-width: 8.33%;
+      }
+      
+      &.lg-2 {
+        flex-basis: 16.66%;
+        max-width: 16.66%;
+      }
+      
+      &.lg-3 {
+        flex-basis: 25%;
+        max-width: 25%;
+      }
+      
+      &.lg-4 {
+        flex-basis: 33.33%;
+        max-width: 33.33%;
+      }
+      
+      &.lg-5 {
+        flex-basis: 41.66%;
+        max-width: 41.66%;
+      }
+      
+      &.lg-6 {
+        flex-basis: 50%;
+        max-width: 50%;
+      }
+      
+      &.lg-7 {
+        flex-basis: 58.33%;
+        max-width: 58.33%;
+      }
+      
+      &.lg-8 {
+        flex-basis: 66.66%;
+        max-width: 66.66%;
+      }
+      
+      &.lg-9 {
+        flex-basis: 75%;
+        max-width: 75%;
+      }
+      
+      &.lg-10 {
+        flex-basis: 83.33%;
+        max-width: 83.33%;
+      }
+      
+      &.lg-11 {
+        flex-basis: 91.66%;
+        max-width: 91.66%;
+      }
+      
+      &.lg-12 {
+        flex-basis: 100%;
+        max-width: 100%;
+      }
+    }
   }
 }
