@@ -118,4 +118,20 @@ $input-font-size: .85rem;
     margin-top: .1rem;
     order: 3;
   }
+
+  &.large.label-embedded {
+    input {
+      border-width: .1rem;
+      font-size: 1.5rem;
+
+      &:focus + label, &.hasValue + label {
+        font-size: .9rem;
+        top: -.5rem;
+      }
+    }
+
+    label {
+      font-size: 1.5rem;
+    }
+  }
 }

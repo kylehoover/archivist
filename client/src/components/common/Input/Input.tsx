@@ -17,6 +17,7 @@ type Props = {
   labelPosition?: 'embedded' | 'left' | 'top'
   maxWidth?: number
   name: string
+  size?: 'small' | 'medium' | 'large'
   type?: 'password' | 'text'
   validationRules?: ValidationRules
   width?: number
@@ -64,6 +65,7 @@ const Input = ({
   labelPosition = 'embedded',
   maxWidth,
   name,
+  size = 'small',
   type = 'text',
   validationRules = {},
   width,
@@ -97,7 +99,7 @@ const Input = ({
 
   return (
     <div
-      className={classNames('Input', `label-${labelPosition}`, className)}
+      className={classNames('Input', `label-${labelPosition}`, size, className)}
       style={{
         maxWidth: numToRem(maxWidth),
         width: numToRem(width),

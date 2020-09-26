@@ -26,5 +26,8 @@ h2 {
 }
 
 main {
-  margin: 1rem;
+  margin: 0 auto;
+  max-width: $screen-size-max;
+  min-width: $screen-size-min;
+  padding: 1rem;
 }

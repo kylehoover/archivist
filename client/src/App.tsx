@@ -1,7 +1,6 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
 
-import { Authorized, Home, LandingPage, Loading, NavBarFlat } from './components'
+import { Loading, NavBarFlat, Routes } from './components'
 import { useOnAppLoad } from './hooks'
 
 import './styles/index.scss'
@@ -17,16 +16,7 @@ const App = () => {
     <div className='App'>
       <NavBarFlat />
       <main>
-        <Switch>
-          <Route exact strict path='/'>
-            <LandingPage />
-          </Route>
-          <Route exact strict path='/home/'>
-            <Authorized>
-              <Home />
-            </Authorized>
-          </Route>
-        </Switch>
+        <Routes />
       </main>
     </div>
   )

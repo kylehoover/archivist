@@ -1,17 +1,13 @@
 import React from 'react'
 
-import { Container } from '../../common'
 import { CampaignsPanel } from '../../panels'
 
 const Home = () => {
   return (
-    <div className='Home'>
-      <Container maxWidth={50} centered>
-        <h1>
-          Welcome!
-        </h1>
-      </Container>
-      <CampaignsPanel />
+    <div className='Home row center'>
+      <div className='col sm-12 md-8 lg-6'>
+        <CampaignsPanel />
+      </div>
     </div>
   )
 }

@@ -1,26 +1,26 @@
-import React from 'react'
+import React, { useCallback } from 'react'
+import { useHistory } from 'react-router-dom'
 
-import { AddCampaignForm } from '../forms'
 import { LinkItem, List, Panel, PanelAction } from '../common'
 
-const panelActions: PanelAction[] = [
-  {
-    callback: () => console.log('New Campaign clicked'),
-    color: 'indigo',
-    icon: 'add',
-    label: 'New Campaign',
-  },
-]
-
 const CampaignsPanel = () => {
+  const history = useHistory()
+
+  const handleNewCampaignClicked = useCallback(() => {
+    history.push('/campaign/')
+  }, [history])
+
+  const panelActions: PanelAction[] = [
+    {
+      callback: handleNewCampaignClicked,
+      color: 'indigo',
+      icon: 'add',
+      label: 'New campaign',
+    },
+  ]
+
   return (
     <Panel title='Campaigns' color='purple' actions={panelActions}>
-      <div className='mb-1'>
-        <AddCampaignForm
-          onCancel={() => console.log('Cancel add campaign')}
-          onSubmit={data => { console.log(data) }}
-        />
-      </div>
       <List
         items={[]}
         itemsEmptyText='There are no campaigns'
