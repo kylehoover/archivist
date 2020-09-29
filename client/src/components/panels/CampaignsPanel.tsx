@@ -7,7 +7,7 @@ const CampaignsPanel = () => {
   const history = useHistory()
 
   const handleNewCampaignClicked = useCallback(() => {
-    history.push('/campaign/')
+    history.push('/campaign/new/')
   }, [history])
 
   const panelActions: PanelAction[] = [

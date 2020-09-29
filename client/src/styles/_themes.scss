@@ -19,4 +19,9 @@
   --input-label-focus-color: var(--primary-color);
   --input-label-invalid-color: var(--invalid-color);
   --input-text-color: var(--text-color);
+
+  // Components
+  .Panel {
+    --surface-bg-color: white;
+  }
 }

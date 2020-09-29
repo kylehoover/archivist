@@ -1,6 +1,6 @@
 import React, { MouseEvent, ReactNode } from 'react'
-import { Link } from 'react-router-dom'
 import classNames from 'classnames'
+import { useHistory } from 'react-router-dom'
 
 import './Button.scss'
 
@@ -24,12 +24,20 @@ const Button = ({
   fillParent = false,
   flat = false,
   icon,
-  linkTo = '',
+  linkTo,
   onClick,
   outlined = false,
   type = 'button',
 }: Props) => {
-  const ButtonTag = linkTo ? Link : 'button'
+  const history = useHistory()
+
+  const handleClick = (e: MouseEvent) => {
+    if (linkTo !== undefined) {
+      history.push(linkTo)
+    } else if (onClick !== undefined) {
+      onClick(e)
+    }
+  }
 
   const btnClass = classNames('Button', {
     [color]: !flat && !outlined,
@@ -41,10 +49,15 @@ const Button = ({
   })
 
   return (
-    <ButtonTag className={btnClass} onClick={onClick} to={linkTo} type={type} disabled={disabled}>
+    <button
+      className={btnClass}
+      type={type}
+      disabled={disabled}
+      onClick={handleClick}
+    >
       {icon && <i className='material-icons'>{icon}</i>}
       {children}
-    </ButtonTag>
+    </button>
   )
 }
 

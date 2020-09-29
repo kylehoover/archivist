@@ -14,16 +14,18 @@ type Props = {
   actions?: PanelAction[],
   children?: ReactNode,
   color: string,
-  title: string,
+  title?: string,
 }
 
 const Panel = ({ actions = [], children, color, title }: Props) => {
   return (
     <div className='Panel'>
       <header>
-        <h2 className={color}>
-          {title}
-        </h2>
+        {title !== undefined &&
+          <h2 className={color}>
+            {title}
+          </h2>
+        }
 
         <div className={`actions ${color}-border`}>
           {actions.map((action, index) => (
