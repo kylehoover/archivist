@@ -1,5 +1,5 @@
-import CampaignStore from './CampaignStore'
 import UserStore from './UserStore'
+import { CampaignStore } from './campaign'
 
 class RootStore {
   public readonly campaignStore: CampaignStore

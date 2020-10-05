@@ -45,6 +45,10 @@ export interface ModelType {
   modifiedAt: Date
 }
 
+export interface CampaignType extends ModelType {
+  name: string
+}
+
 export interface LoginUserType {
   accessToken: string
   user: UserType
@@ -73,6 +77,10 @@ export type LoginUserInputType = {
 }
 
 // GraphQL Data Types //
+
+export type GetCampaignsData = {
+  campaigns: CampaignType[]
+}
 
 export type GetCurrentUserData = {
   currentUser: UserType
