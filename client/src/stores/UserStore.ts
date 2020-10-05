@@ -1,29 +1,36 @@
-import { action, observable, runInAction } from 'mobx'
+import { action, makeObservable, observable, runInAction } from 'mobx'
 
 import RootStore from './RootStore'
 import { User } from '../models'
-import { getCurrentUser, loginUser, logoutUser } from '../graphql'
+import { fetchCurrentUser, loginUser, logoutUser } from '../graphql'
 
 class UserStore {
+  public currentUser?: User
+
   private rootStore: RootStore
 
-  @observable public currentUser?: User
-
   constructor(rootStore: RootStore) {
+    makeObservable(this, {
+      clearCurrentUser: action.bound,
+      currentUser: observable,
+      loadCurrentUser: action.bound,
+      loginUser: action.bound,
+      logoutUser: action.bound,
+    })
+
     this.rootStore = rootStore
   }
 
-  @action.bound
   public clearCurrentUser(): void {
     this.currentUser = undefined
   }
 
-  public loadCurrentUser = async (): Promise<void> => {
+  public async loadCurrentUser(): Promise<void> {
     if (this.currentUser !== undefined) {
       return
     }
 
-    const user = await getCurrentUser()
+    const user = await fetchCurrentUser()
 
     runInAction(() => {
       this.currentUser = User.fromGraphQLType(user)

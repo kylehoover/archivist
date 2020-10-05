@@ -51,6 +51,7 @@ const useAsync = <Args extends any[], ReturnType>(
       // TODO: show generic toast when generic server error
       localError = error
       localStatus = 'error'
+      console.log(error)
     }
 
     setData(localData)

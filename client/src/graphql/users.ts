@@ -11,7 +11,7 @@ import { clearAccessToken, request, setAccessToken, authenticatedRequest } from 
 
 // Queries //
 
-export const getCurrentUser = async (): Promise<UserType> => {
+export const fetchCurrentUser = async (): Promise<UserType> => {
   const query = `
     query GetCurrentUser {
       currentUser {
@@ -29,7 +29,7 @@ export const getCurrentUser = async (): Promise<UserType> => {
   return data.currentUser
 }
 
-export const getUsers = async (): Promise<UserType[]> => {
+export const fetchUsers = async (): Promise<UserType[]> => {
   const query = `
     query GetUsers {
       users {

@@ -1,9 +1,13 @@
-import { observable } from 'mobx'
+import { makeObservable, observable } from 'mobx'
 
 class Campaign {
-  @observable public name: string
+  public name: string
 
   constructor(name: string) {
+    makeObservable(this, {
+      name: observable,
+    })
+    
     this.name = name
   }
 }
