@@ -1,7 +1,14 @@
+import dayjs from 'dayjs'
 import { useCallback, useMemo, useState } from 'react'
+
+import { useDelay } from './useDelay'
 
 type AsyncStatus = 'error' | 'idle' | 'pending' | 'success'
 type ResultError = Error | null
+
+interface Options {
+  minDelayMillis?: number
+}
 
 export class Result<T> {
   constructor(
@@ -29,13 +36,16 @@ export class Result<T> {
 
 export const useAsync = <Args extends any[], ReturnType>(
   asyncFn: (...args: Args) => Promise<ReturnType>,
+  options?: Options,
 ) => {
   const [data, setData] = useState<ReturnType | null>(null)
   const [error, setError] = useState<ResultError>(null)
   const [status, setStatus] = useState<AsyncStatus>('idle')
   const result = useMemo(() => new Result(data, error, status), [data, error, status])
+  const delay = useDelay()
 
   const execute = useCallback(async (...args: Args) => {
+    const start = dayjs()
     let localData: ReturnType | null = null
     let localError: ResultError = null
     let localStatus: AsyncStatus = 'pending'
@@ -54,12 +64,20 @@ export const useAsync = <Args extends any[], ReturnType>(
       console.log(error)
     }
 
+    if (options?.minDelayMillis !== undefined) {
+      const delayTimeRemaining = options.minDelayMillis - dayjs().diff(start)
+
+      if (delayTimeRemaining > 0) {
+        await delay(delayTimeRemaining)
+      }
+    }
+
     setData(localData)
     setError(localError)
     setStatus(localStatus)
 
     return new Result(localData, localError, localStatus)
-  }, [asyncFn])
+  }, [asyncFn, delay, options])
 
   return [execute, result] as const
 }

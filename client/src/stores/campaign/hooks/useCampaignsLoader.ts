@@ -7,7 +7,7 @@ import { useCampaignStore } from './useCampaignStore'
 export const useCampaignsLoader = () => {
   const store = useCampaignStore()
   const { addCampaigns, handleDidLoadData, needsToLoadData } = store
-  const [loadCampaigns] = useAsync(fetchCampaigns)
+  const [loadCampaigns] = useAsync(fetchCampaigns, { minDelayMillis: 500 })
 
   useEffect(() => {
     const run = async () => {
