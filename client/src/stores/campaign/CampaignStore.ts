@@ -1,25 +1,25 @@
 import { action, computed, makeObservable, observable } from 'mobx'
 
-import RootStore from '../RootStore'
 import { Campaign } from '../../models'
+import { CampaignType } from '../../graphql'
+import { DataStore } from '../DataStore'
+import { RootStore } from '../root'
 
-class CampaignStore {
+export class CampaignStore extends DataStore {
   public campaigns: { [campaignId: string]: Campaign }
-  public hasLoadedOnce: boolean
 
   private rootStore: RootStore
 
   constructor(rootStore: RootStore) {
+    super()
+
     makeObservable(this, {
       addCampaigns: action.bound,
       campaigns: observable,
       campaignsList: computed,
-      hasLoadedOnce: observable,
-      setHasLoadedOnce: action.bound,
     })
 
     this.campaigns = {}
-    this.hasLoadedOnce = false
     this.rootStore = rootStore
   }
 
@@ -27,15 +27,11 @@ class CampaignStore {
     return Object.values(this.campaigns)
   }
 
-  public addCampaigns(campaigns: Campaign[]): void {
-    campaigns.forEach(campaign => {
-      this.campaigns[campaign.id] = campaign
-    })
-  }
-
-  public setHasLoadedOnce(value: boolean): void {
-    this.hasLoadedOnce = value
+  public addCampaigns(campaigns: CampaignType[]): void {
+    campaigns
+      .map(campaignType => Campaign.fromGraphQLType(campaignType))
+      .forEach(campaign => {
+        this.campaigns[campaign.id] = campaign
+      })
   }
 }
-
-export default CampaignStore

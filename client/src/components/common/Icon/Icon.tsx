@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { IconName, getIcon } from './icons'
-import { numToRem } from '../../../util'
+import { numToRem } from '../../../helpers'
 import './Icon.scss'
 
 type IconSize = 'small' | number

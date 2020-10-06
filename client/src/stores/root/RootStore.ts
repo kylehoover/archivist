@@ -1,7 +1,7 @@
-import UserStore from './UserStore'
-import { CampaignStore } from './campaign'
+import { CampaignStore } from '../campaign'
+import { UserStore } from '../user'
 
-class RootStore {
+export class RootStore {
   public readonly campaignStore: CampaignStore
   public readonly userStore: UserStore
 
@@ -10,5 +10,3 @@ class RootStore {
     this.userStore = new UserStore(this)
   }
 }
-
-export default RootStore

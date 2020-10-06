@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { useAsync } from '.'
 import { useStores } from '../stores'
 
-const useOnAppLoad = () => {
+export const useOnAppLoad = () => {
   const history = useHistory()
   const { userStore } = useStores()
   const [loadCurrentUser, { isIdle, isPending }] = useAsync(userStore.loadCurrentUser)
@@ -28,5 +28,3 @@ const useOnAppLoad = () => {
     isLoading: isIdle || isPending
   }
 }
-
-export default useOnAppLoad

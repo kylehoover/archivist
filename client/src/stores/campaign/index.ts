@@ -1,3 +1,2 @@
-export { default as CampaignStore } from './CampaignStore'
-
+export * from './CampaignStore'
 export * from './hooks'

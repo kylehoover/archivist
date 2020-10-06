@@ -1,10 +1,10 @@
 import { action, makeObservable, observable, runInAction } from 'mobx'
 
-import RootStore from './RootStore'
-import { User } from '../models'
-import { fetchCurrentUser, loginUser, logoutUser } from '../graphql'
+import { RootStore } from '../root'
+import { User } from '../../models'
+import { fetchCurrentUser, loginUser, logoutUser } from '../../graphql'
 
-class UserStore {
+export class UserStore {
   public currentUser?: User
 
   private rootStore: RootStore
@@ -61,5 +61,3 @@ class UserStore {
     })
   }
 }
-
-export default UserStore

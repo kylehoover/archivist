@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
 import { FieldError, ValidationRules, useFormContext } from 'react-hook-form'
 
-import { numToRem, strIsEmpty } from '../../../util'
+import { numToRem, strIsEmpty } from '../../../helpers'
 import './Input.scss'
 
 export type InputError = FieldError & {

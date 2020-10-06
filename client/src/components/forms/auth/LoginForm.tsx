@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 
 import { Button, Form, Input, InputError } from '../../common'
 import { RequestErrorType, isRequestErrorOfType } from '../../../graphql'
-import { useAsync } from '../../../hooks'
+import { useAsync } from '../../../helpers'
 import { useStores } from '../../../stores'
 
 export type LoginFormData = {

@@ -1,6 +1,6 @@
 import React, { ReactNode, createContext, useMemo } from 'react'
 
-import RootStore from './RootStore'
+import { RootStore } from './root'
 
 type Props = {
   children?: ReactNode
@@ -8,7 +8,7 @@ type Props = {
 
 export const StoreContext = createContext<RootStore | null>(null)
 
-const StoreProvider = ({ children }: Props) => {
+export const StoreProvider = ({ children }: Props) => {
   const store = useMemo(() => new RootStore(), [])
 
   return (
@@ -17,5 +17,3 @@ const StoreProvider = ({ children }: Props) => {
     </StoreContext.Provider>
   )
 }
-
-export default StoreProvider

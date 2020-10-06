@@ -1,13 +1,12 @@
 import { useEffect } from 'react'
 
-import { Campaign } from '../../../models'
 import { fetchCampaigns } from '../../../graphql'
-import { useAsync } from '../../../hooks'
+import { useAsync } from '../../../helpers'
 import { useCampaignStore } from './useCampaignStore'
 
 export const useCampaignsLoader = () => {
   const store = useCampaignStore()
-  const { addCampaigns, hasLoadedOnce, setHasLoadedOnce } = store
+  const { addCampaigns, handleDidLoadData, needsToLoadData } = store
   const [loadCampaigns] = useAsync(fetchCampaigns)
 
   useEffect(() => {
@@ -15,13 +14,13 @@ export const useCampaignsLoader = () => {
       const { data, isSuccess } = await loadCampaigns()
 
       if (isSuccess && data !== null) {
-        addCampaigns(data.map(campaign => Campaign.fromGraphQLType(campaign)))
-        setHasLoadedOnce(true)
+        addCampaigns(data)
+        handleDidLoadData()
       }
     }
 
-    if (!hasLoadedOnce) {
+    if (needsToLoadData) {
       run()
     }
-  }, [addCampaigns, hasLoadedOnce, loadCampaigns, setHasLoadedOnce])
+  }, [addCampaigns, handleDidLoadData, loadCampaigns, needsToLoadData])
 }

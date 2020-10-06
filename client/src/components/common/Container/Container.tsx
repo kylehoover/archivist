@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import classNames from 'classnames'
 
-import { numToRem } from '../../../util'
+import { numToRem } from '../../../helpers'
 import './Container.scss'
 
 type Props = {

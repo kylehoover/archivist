@@ -1,5 +1,4 @@
-export { default as StoreProvider } from './StoreProvider'
-
-export * from './StoreProvider'
 export * from './campaign/hooks'
-export * from './hooks'
+export * from './root/hooks'
+export * from './StoreProvider'
+export * from './user/hooks'

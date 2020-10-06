@@ -27,7 +27,7 @@ export class Result<T> {
   }
 }
 
-const useAsync = <Args extends any[], ReturnType>(
+export const useAsync = <Args extends any[], ReturnType>(
   asyncFn: (...args: Args) => Promise<ReturnType>,
 ) => {
   const [data, setData] = useState<ReturnType | null>(null)
@@ -63,5 +63,3 @@ const useAsync = <Args extends any[], ReturnType>(
 
   return [execute, result] as const
 }
-
-export default useAsync

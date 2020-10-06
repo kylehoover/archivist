@@ -1,4 +1,4 @@
-import { useStores } from '../../hooks'
+import { useStores } from '../../root'
 
 export const useCampaignStore = () => {
   const { campaignStore } = useStores()
