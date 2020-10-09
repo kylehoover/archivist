@@ -23,6 +23,7 @@ const AddCampaignForm = () => {
   }
 
   const handleCancel = () => {
+    // TODO: create useReferrerNavigator
     const path = locationState?.referrer ?? '/home/'
     history.push(path)
   }
