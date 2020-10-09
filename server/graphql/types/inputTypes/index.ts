@@ -1,5 +1,5 @@
 export { default as AcceptInvitationInputType } from './AcceptInvitationInputType'
-export { default as CampaignInputType } from './CampaignInputType'
+export { default as AddCampaignInputType } from './AddCampaignInputType'
 export { default as LoginUserInputType } from './LoginUserInputType'
 export { default as RegisterUserInputType } from './RegisterUserInputType'
 export { default as SubmitInvitationInputType } from './SubmitInvitationInputType'

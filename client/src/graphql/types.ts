@@ -71,12 +71,20 @@ export interface UserType extends ModelType {
 
 // Input Types //
 
+export interface AddCampaignInputType {
+  name: string
+}
+
 export type LoginUserInputType = {
   email: string
   password: string
 }
 
 // GraphQL Data Types //
+
+export type AddCampaignData = {
+  addCampaign: CampaignType
+}
 
 export type GetCampaignsData = {
   campaigns: CampaignType[]

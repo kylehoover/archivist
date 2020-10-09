@@ -1,6 +1,8 @@
 import React from 'react'
 
+import { AddCampaignForm } from '../../forms'
 import { Button, Form, Input, Panel } from '../../common'
+import { useAsync } from '../../../helpers'
 
 const NewCampaign = () => {
   return (
@@ -15,27 +17,7 @@ const NewCampaign = () => {
             your party's characters. Get started by entering a name for your campagin. 
             Don't overthink it! You can always change it later.
           </p>
-          <Form className='row end middle' onSubmit={() => {}}>
-            <div className='col sm-12 md'>
-              <Input
-                label='Campaign name'
-                name='campaignName'
-                validationRules={{
-                  required: true,
-                }}
-              />
-            </div>
-            <div className='col'>
-              <Button color='purple' type='submit'>
-                Create
-              </Button>
-            </div>
-            <div className='col'>
-              <Button color='purple' outlined>
-                Cancel
-              </Button>
-            </div>
-          </Form>
+          <AddCampaignForm />
         </Panel>
       </div>
     </div>
