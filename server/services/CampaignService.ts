@@ -1,10 +1,17 @@
 import DataService from './DataService'
-import Campaign, { NewCampaignModelFields, UpdatedCampaignModelFields } from '../models/Campaign'
+import { Campaign, NewCampaignFields, UpdatedCampaignFields } from '../models'
+// import Campaign, { NewCampaignModelFields, UpdatedCampaignModelFields } from '../models/Campaign'
+
+// interface CampaignService extends DataService<
+//   Campaign,
+//   NewCampaignModelFields,
+//   UpdatedCampaignModelFields
+// > {}
 
 interface CampaignService extends DataService<
   Campaign,
-  NewCampaignModelFields,
-  UpdatedCampaignModelFields
+  NewCampaignFields,
+  UpdatedCampaignFields
 > {}
 
 export default CampaignService

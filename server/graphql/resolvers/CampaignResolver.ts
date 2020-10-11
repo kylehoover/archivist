@@ -2,8 +2,9 @@ import { Arg, ID, Mutation, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 
 import { CampaignService, ServiceName } from '../../services'
+import { Authorized } from '../decorators'
 import { AddCampaignInputType, CampaignType } from '../types'
-import { withNewModelFields } from '../../models'
+import { Campaign, withNewModelFields } from '../../models'
 
 @Service()
 @Resolver(CampaignType)
@@ -19,6 +20,7 @@ class CampaignResolver {
   }
 
   @Query(returns => [CampaignType])
+  @Authorized()
   public async campaigns(): Promise<CampaignType[]> {
     const campaigns = await this.campaignService.findAll()
     return campaigns.map(c => c.toGraphQLType())
@@ -28,8 +30,9 @@ class CampaignResolver {
 
   @Mutation(returns => CampaignType)
   public async addCampaign(@Arg('input') input: AddCampaignInputType): Promise<CampaignType> {
-    const campaign = await this.campaignService.insertOne(withNewModelFields(input))
-    return campaign.toGraphQLType()
+    return new CampaignType(new Campaign({id: '', createdAt: new Date(), modifiedAt: new Date(), name: '', userId: ''}))
+    // const campaign = await this.campaignService.insertOne(withNewModelFields(input))
+    // return campaign.toGraphQLType()
   }
 
 
