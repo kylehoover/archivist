@@ -1,10 +1,10 @@
 import { Service } from 'typedi'
 
-import MongoDb from './MongoDb'
 import UserRegistrationInvitation, {
   NewUserRegistrationInvitationModelFields,
   UpdatedUserRegistrationInvitationModelFields,
 } from '../models/UserRegistrationInvitation'
+import { MongoDb } from './MongoDb'
 import { UserRegistrationInvitationService } from '../services'
 
 @Service()

@@ -4,7 +4,7 @@ import { ObjectId } from 'mongodb'
 
 import User, { MongoUserModelFields, RegistrationInfo, RegistrationType, UserFields } from '../../models/User'
 import MongoUserService from '../MongoUserService'
-import MongoDb from '../MongoDb'
+import { MongoDb } from '../MongoDb'
 import { withNewModelFields, withUpdatedModelFields } from '../../models/Model'
 
 const db = new MongoDb()

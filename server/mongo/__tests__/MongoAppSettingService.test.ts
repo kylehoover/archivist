@@ -4,7 +4,7 @@ import { ObjectId } from 'mongodb'
 
 import AppSetting, { AppSettingName, MongoAppSettingModelFields, defaultAppSettings } from '../../models/AppSetting'
 import MongoAppSettingService from '../MongoAppSettingService'
-import MongoDb from '../MongoDb'
+import { MongoDb } from '../MongoDb'
 import { withNewModelFields, withUpdatedModelFields } from '../../models/Model'
 
 const db = new MongoDb()

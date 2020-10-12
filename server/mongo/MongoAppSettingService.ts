@@ -1,7 +1,7 @@
 import { Service } from 'typedi'
 
 import AppSetting, { NewAppSettingModelFields, UpdatedAppSettingModelFields } from '../models/AppSetting'
-import MongoDb from './MongoDb'
+import { MongoDb } from './MongoDb'
 import { AppSettingService } from '../services'
 
 @Service()

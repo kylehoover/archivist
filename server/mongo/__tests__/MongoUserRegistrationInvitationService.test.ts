@@ -3,7 +3,7 @@ import 'reflect-metadata'
 import { ObjectId } from 'mongodb'
 import { v4 as uuid } from 'uuid'
 
-import MongoDb from '../MongoDb'
+import { MongoDb } from '../MongoDb'
 import MongoUserRegistrationInvitationService from '../MongoUserRegistrationInvitationService'
 import UserRegistrationInvitation, {
   MongoUserRegistrationInvitationModelFields,

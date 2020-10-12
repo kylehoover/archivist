@@ -1,7 +1,7 @@
 import { Service } from 'typedi'
 
-import MongoDb from './MongoDb'
 import User, { NewUserModelFields, UpdatedUserModelFields } from '../models/User'
+import { MongoDb } from './MongoDb'
 import { UserService } from '../services'
 
 @Service()

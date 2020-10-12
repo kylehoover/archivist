@@ -1,9 +1,11 @@
 import { Collection, Db, FindOneAndUpdateOption, MongoClient, MongoError, ObjectId } from 'mongodb'
 import { Service } from 'typedi'
+import { ObjectSchema } from 'joi'
 
-import MongoDocument from './MongoDocument'
-import { Model } from '../models'
+import { MFields, Model } from '../models'
+import { MongoDocument } from './types'
 import { getEnv } from '../Env'
+import { docToFields } from './helpers'
 
 enum CollectionName {
   AppSettings = 'appSettings',
@@ -16,8 +18,74 @@ enum CollectionName {
 
 type mapDocumentToModelFn<T extends Model> = (doc: any) => T
 
+export async function deleteById<T extends MFields>(
+  id: string,
+  collection: Collection,
+  schema: ObjectSchema,
+): Promise<T> {
+  const result = await collection.findOneAndDelete({ _id: new ObjectId(id) })
+
+  if (result.value === null) {
+    throw new MongoError('MongoDB Error: Failed to delete document')
+  }
+
+  return docToFields<T>(result.value, schema)
+}
+
+export function findAll<T extends MFields>(
+  collection: Collection,
+  schema: ObjectSchema,
+): Promise<T[]> {
+  return collection.find().map(doc => docToFields<T>(doc, schema)).toArray()
+}
+
+export async function findById<T extends MFields>(
+  id: string,
+  collection: Collection,
+  schema: ObjectSchema,
+): Promise<T | null> {
+  const doc = await collection.findOne({ _id: new ObjectId(id) })
+  return doc !== null ? docToFields<T>(doc, schema) : null
+}
+
+export async function insertOne<T extends MFields>(
+  fields: MongoDocument,
+  collection: Collection,
+  schema: ObjectSchema,
+): Promise<T> {
+  let result
+
+  try {
+    result = await collection.insertOne(fields)
+  } catch (err) {
+    throw new Error('MongoDB Error: Failed to insert new document')
+  }
+
+  return docToFields<T>(result.ops[0], schema)
+}
+
+export async function updateById<T extends MFields>(
+  id: string,
+  fields: MongoDocument,
+  collection: Collection,
+  schema: ObjectSchema,
+  options?: FindOneAndUpdateOption<T>,
+): Promise<T> {
+  const result = await collection.findOneAndUpdate(
+    { _id: new ObjectId(id) },
+    { $set: fields },
+    options
+  )
+
+  if (result.value === null) {
+    throw new MongoError('MongoDB Error: Failed to update document')
+  }
+
+  return docToFields<T>(result.value, schema)
+}
+
 @Service()
-class MongoDb {
+export class MongoDb {
   private client?: MongoClient
   private _db?: Db
 
@@ -153,5 +221,3 @@ class MongoDb {
     return this.init(env.MongoUri, env.MongoDbName)
   }
 }
-
-export default MongoDb

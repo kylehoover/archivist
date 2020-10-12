@@ -2,7 +2,7 @@ import 'reflect-metadata'
 
 import { ObjectId } from 'mongodb'
 
-import MongoDb from '../MongoDb'
+import { MongoDb } from '../MongoDb'
 import MongoUserRegistrationRequestService from '../MongoUserRegistrationRequestService'
 import UserRegistrationRequest, {
   MongoUserRegistrationRequestModelFields,

@@ -3,7 +3,7 @@ import 'reflect-metadata'
 import { Collection, ObjectId } from 'mongodb'
 
 import Model, { withNewModelFields, withUpdatedModelFields } from '../../models/Model'
-import MongoDb from '../MongoDb'
+import { MongoDb } from '../MongoDb'
 import { ModelType } from '../../graphql/types'
 
 class MockModel extends Model {

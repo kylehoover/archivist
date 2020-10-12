@@ -3,7 +3,7 @@ import 'reflect-metadata'
 import { ObjectId } from 'mongodb'
 
 import MongoUserRoleService from '../MongoUserRoleService'
-import MongoDb from '../MongoDb'
+import { MongoDb } from '../MongoDb'
 import UserRole, { MongoUserRoleModelFields, defaultUserRoles } from '../../models/UserRole'
 import { withNewModelFields, withUpdatedModelFields } from '../../models/Model'
 
