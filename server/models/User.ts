@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 
 import DataProvider from '../DataProvider'
-import Model, { MongoModelFields, NewModelFields, UpdatedModelFields } from './Model'
+import { DateFields, MFields, Model, ModifiedAt } from './Model'
 import UserRole from './UserRole'
 import { AccessTokenPayload } from '../helpers/auth'
 import { Permissions } from './UserRole'
@@ -18,47 +18,45 @@ export interface RequestUserInfo extends AccessTokenPayload {
   permissions: Permissions
 }
 
-export type RegistrationInfo = {
-  type: RegistrationType
+export interface RegistrationInfo {
   approvedByUserId?: string
   invitedByUserId?: string
+  type: RegistrationType
 }
 
-export type UserFields = {
+export interface UserFields {
   name: string
   email: string
   roleId: string
   password: string
-  registration: RegistrationInfo
   refreshToken?: string
+  registration: RegistrationInfo
 }
 
-export type MongoUserModelFields = MongoModelFields & UserFields
-export type NewUserModelFields = NewModelFields & UserFields
-export type UpdatedUserModelFields = UpdatedModelFields & Partial<UserFields>
+export interface UserModelFields extends UserFields, MFields {}
+export interface NewUserFields extends UserFields, DateFields {}
+export interface UpdatedUserFields extends Partial<UserFields>, ModifiedAt {}
 
-class User extends Model {
-  constructor(
-    id: string,
-    createdAt: Date,
-    modifiedAt: Date,
-    public readonly name: string,
-    public readonly email: string,
-    public readonly roleId: string,
-    private readonly password: string,
-    public readonly registration: RegistrationInfo,
-    private readonly refreshToken?: string,
-  ) {
-    super(id, createdAt, modifiedAt)
+export class User extends Model {
+  public readonly name: string
+  public readonly email: string
+  public readonly roleId: string
+  public readonly registration: RegistrationInfo
+  private readonly password: string
+  private readonly refreshToken?: string
+
+  constructor(fields: UserModelFields) {
+    super(fields.id, fields.createdAt, fields.modifiedAt)
+    this.name = fields.name
+    this.email = fields.email
+    this.roleId = fields.roleId
+    this.registration = fields.registration
+    this.password = fields.password
+    this.refreshToken = fields.refreshToken
   }
 
   public get role(): UserRole {
     return DataProvider.getUserRoleById(this.roleId)
-  }
-
-  public static fromMongo(doc: MongoUserModelFields): User {
-    return new User(doc._id, doc.createdAt, doc.modifiedAt, doc.name, doc.email, doc.roleId, doc.password,
-      doc.registration, doc.refreshToken)
   }
 
   public passwordMatches(password: string): boolean {
@@ -69,5 +67,3 @@ class User extends Model {
     return new UserType(this)
   }
 }
-
-export default User

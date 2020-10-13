@@ -4,7 +4,7 @@ import { Service } from 'typedi'
 import { MongoDb, deleteById, findAll, findById, insertOne, updateById } from './MongoDb'
 import { Campaign, CampaignModelFields, NewCampaignFields, UpdatedCampaignFields } from '../models'
 import { CampaignService } from '../services'
-import {  modelSchema } from './helpers'
+import { modelSchema } from './helpers'
 
 const campaignSchema = modelSchema.keys({
   name: Joi.string().required(),
@@ -12,7 +12,7 @@ const campaignSchema = modelSchema.keys({
 })
 
 @Service()
-class MongoCampaignService implements CampaignService {
+export class MongoCampaignService implements CampaignService {
   constructor(private readonly db: MongoDb) {}
 
   public async deleteById(id: string): Promise<Campaign> {
@@ -43,5 +43,3 @@ class MongoCampaignService implements CampaignService {
     return new Campaign(doc)
   }
 }
-
-export default MongoCampaignService

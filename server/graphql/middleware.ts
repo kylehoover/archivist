@@ -11,6 +11,7 @@ export const errorInterceptor: MiddlewareFn = async (_, next) => {
     } else if (err instanceof BaseError) {
       throw err
     } else {
+      console.log(err)
       throw new UnknownError(err.message || '')
     }
   }

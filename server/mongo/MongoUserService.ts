@@ -1,49 +1,67 @@
+import Joi from 'joi'
 import { Service } from 'typedi'
 
-import User, { NewUserModelFields, UpdatedUserModelFields } from '../models/User'
-import { MongoDb } from './MongoDb'
+import { NewUserFields, UpdatedUserFields, User, UserModelFields } from '../models/User'
+import { MongoDb, deleteById, findAll, findById, insertOne, updateById } from './MongoDb'
 import { UserService } from '../services'
+import { docToFields, modelSchema } from './helpers'
+
+const userSchema = modelSchema.keys({
+  name: Joi.string().required(),
+  email: Joi.string().required(),
+  roleId: Joi.string().required(),
+  password: Joi.string().required(),
+  refreshToken: Joi.string(),
+  registration: Joi.object({
+    approvedByUserId: Joi.string(),
+    invitedByUserId: Joi.string(),
+    type: Joi.string().valid('invitation', 'openRegistration', 'request', 'superuser').required(),
+  }).required(),
+})
 
 @Service()
-class MongoUserService implements UserService {
+export class MongoUserService implements UserService {
   constructor(private readonly db: MongoDb) {}
 
-  public deleteById(id: string): Promise<User> {
-    return MongoDb.deleteById(id, this.db.users, User.fromMongo)
+  public async deleteById(id: string): Promise<User> {
+    const doc = await deleteById<UserModelFields>(id, this.db.users, userSchema)
+    return new User(doc)
   }
 
-  public findAll(): Promise<User[]> {
-    return MongoDb.findAll(this.db.users, User.fromMongo)
+  public async findAll(): Promise<User[]> {
+    const docs = await findAll<UserModelFields>(this.db.users, userSchema)
+    return docs.map(fields => new User(fields))
   }
 
   public async findByEmail(email: string): Promise<User | null> {
-    const user = await this.db.users.findOne({ email })
-    return this.userOrNull(user)
+    const doc = await this.db.users.findOne({ email })
+    return this.userOrNull(doc)
   }
 
-  public findById(id: string): Promise<User | null> {
-    return MongoDb.findById(id, this.db.users, User.fromMongo)
+  public async findById(id: string): Promise<User | null> {
+    const doc = await findById<UserModelFields>(id, this.db.users, userSchema)
+    return doc === null ? null : new User(doc)
   }
 
   public async findByRefreshToken(refreshToken: string): Promise<User | null> {
-    const user = await this.db.users.findOne({ refreshToken })
-    return this.userOrNull(user)
+    const doc = await this.db.users.findOne({ refreshToken })
+    return this.userOrNull(doc)
   }
 
-  public insertOne(fields: NewUserModelFields): Promise<User> {
-    return MongoDb.insertOne(fields, this.db.users, User.fromMongo)
+  public async insertOne(fields: NewUserFields): Promise<User> {
+    const doc = await insertOne<UserModelFields>(fields, this.db.users, userSchema)
+    return new User(doc)
   }
 
-  public async updateById(id: string, fields: UpdatedUserModelFields, options = {
+  public async updateById(id: string, fields: UpdatedUserFields, options = {
     returnOriginal: false,
     upsert: false,
   }): Promise<User> {
-    return MongoDb.updateById(id, fields, this.db.users, User.fromMongo, options)
+    const doc = await updateById<UserModelFields>(id, fields, this.db.users, userSchema, options)
+    return new User(doc)
   }
 
-  private userOrNull(user: any): User | null {
-    return user === null ? null : User.fromMongo(user)
+  private userOrNull(doc: UserModelFields | null): User | null {
+    return doc === null ? null : new User(docToFields(doc, userSchema))
   }
 }
-
-export default MongoUserService

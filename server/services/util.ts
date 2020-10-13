@@ -1,7 +1,7 @@
 import { Container } from 'typedi'
 
-import ServiceProvider from './ServiceProvider'
-import ServiceName from './ServiceName'
+import { ServiceProvider } from './ServiceProvider'
+import { ServiceName } from './ServiceName'
 import { MongoServiceProvider } from '../mongo'
 
 /**

@@ -40,18 +40,36 @@ export function withUpdatedModelFields<T>(fields: T): UpdatedModelFields & T {
   }
 }
 
-abstract class Model {
-  constructor(
-    public readonly id: string,
-    public readonly createdAt: Date,
-    public readonly modifiedAt: Date
-  ) {
+export abstract class Model {
+  public readonly id: string
+  public readonly createdAt: Date
+  public readonly modifiedAt: Date
+
+  constructor(id: string, createdAt: Date, modifiedAt: Date) {
     if ((id as any) instanceof ObjectId) {
       this.id = id.toString()
+    } else {
+      this.id = id
     }
+
+    this.createdAt = createdAt
+    this.modifiedAt = modifiedAt
   }
 
   public abstract toGraphQLType(): ModelType
 }
 
 export default Model
+
+
+export interface ModifiedAt {
+  modifiedAt: Date
+}
+
+export interface DateFields extends ModifiedAt {
+  createdAt: Date
+}
+
+export interface MFields extends DateFields {
+  id: string
+}

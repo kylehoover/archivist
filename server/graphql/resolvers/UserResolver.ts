@@ -89,7 +89,8 @@ class UserResolver {
   @Mutation(returns => VoidScalar, { nullable: true })
   @Authorized()
   public async logoutUser(@Ctx() req: Request): Promise<void> {
-    await this.userService.updateById(req.userInfo!.userId, withUpdatedModelFields({ refreshToken: undefined }))
+    const fields = withUpdatedModelFields({ refreshToken: undefined })
+    await this.userService.updateById(req.userInfo!.userId, fields)
 
     // eslint-disable-next-line no-unused-expressions
     req.res?.clearCookie('refreshToken')

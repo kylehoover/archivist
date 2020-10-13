@@ -1,4 +1,4 @@
-interface DataService<DataType, NewDataFields, UpdatedDataFields> {
+export interface DataService<DataType, NewDataFields, UpdatedDataFields> {
   deleteById(id: string): Promise<DataType>
   findAll(): Promise<DataType[]>
   findById(id: string): Promise<DataType | null>
@@ -8,5 +8,3 @@ interface DataService<DataType, NewDataFields, UpdatedDataFields> {
     upsert: boolean
   }): Promise<DataType>
 }
-
-export default DataService
