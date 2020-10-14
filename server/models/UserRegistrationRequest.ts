@@ -1,4 +1,4 @@
-import { DateFields, MFields, Model, ModifiedAt } from './Model'
+import { DateFields, Model, ModelFields, ModifiedAt } from './Model'
 import { UserRegistrationRequestType } from '../graphql/types'
 
 export interface UserRegistrationRequestFields {
@@ -7,7 +7,7 @@ export interface UserRegistrationRequestFields {
   password: string
 }
 
-export interface UserRegistrationRequestModelFields extends UserRegistrationRequestFields, MFields {}
+export interface UserRegistrationRequestModelFields extends UserRegistrationRequestFields, ModelFields {}
 export interface NewUserRegistrationRequestFields extends UserRegistrationRequestFields, DateFields {}
 export interface UpdatedUserRegistrationRequestFields extends
   Partial<UserRegistrationRequestFields>, ModifiedAt {}
@@ -18,7 +18,7 @@ export class UserRegistrationRequest extends Model {
   private readonly password: string
 
   constructor(fields: UserRegistrationRequestModelFields) {
-    super(fields.id, fields.createdAt, fields.modifiedAt)
+    super(fields)
     this.name = fields.name
     this.email = fields.email
     this.password = fields.password

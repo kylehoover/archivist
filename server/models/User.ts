@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 
 import DataProvider from '../DataProvider'
-import { DateFields, MFields, Model, ModifiedAt } from './Model'
+import { DateFields, Model, ModelFields, ModifiedAt } from './Model'
 import { UserRole } from './UserRole'
 import { AccessTokenPayload } from '../helpers/auth'
 import { Permissions } from './UserRole'
@@ -33,7 +33,7 @@ export interface UserFields {
   registration: RegistrationInfo
 }
 
-export interface UserModelFields extends UserFields, MFields {}
+export interface UserModelFields extends UserFields, ModelFields {}
 export interface NewUserFields extends UserFields, DateFields {}
 export interface UpdatedUserFields extends Partial<UserFields>, ModifiedAt {}
 
@@ -46,7 +46,7 @@ export class User extends Model {
   private readonly refreshToken?: string
 
   constructor(fields: UserModelFields) {
-    super(fields.id, fields.createdAt, fields.modifiedAt)
+    super(fields)
     this.name = fields.name
     this.email = fields.email
     this.roleId = fields.roleId

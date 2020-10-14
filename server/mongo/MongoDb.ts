@@ -2,23 +2,12 @@ import { Collection, Db, FindOneAndUpdateOption, MongoClient, MongoError, Object
 import { Service } from 'typedi'
 import { ObjectSchema } from 'joi'
 
-import { MFields, Model } from '../models'
-import { MongoDocument } from './types'
+import { ModelFields } from '../models'
+import { CollectionName, MongoDocument, UpdateOperations } from './types'
 import { getEnv } from '../Env'
 import { docToFields } from './helpers'
 
-enum CollectionName {
-  AppSettings = 'appSettings',
-  Campaigns = 'campaigns',
-  UserRegistrationInvitations = 'userRegistrationInvitations',
-  UserRegistrationRequests = 'UserRegistrationRequests',
-  UserRoles = 'userRoles',
-  Users = 'users',
-}
-
-type mapDocumentToModelFn<T extends Model> = (doc: any) => T
-
-export async function deleteById<T extends MFields>(
+export async function deleteById<T extends ModelFields>(
   id: string,
   collection: Collection,
   schema: ObjectSchema,
@@ -32,14 +21,14 @@ export async function deleteById<T extends MFields>(
   return docToFields<T>(result.value, schema)
 }
 
-export function findAll<T extends MFields>(
+export function findAll<T extends ModelFields>(
   collection: Collection,
   schema: ObjectSchema,
 ): Promise<T[]> {
   return collection.find().map(doc => docToFields<T>(doc, schema)).toArray()
 }
 
-export async function findById<T extends MFields>(
+export async function findById<T extends ModelFields>(
   id: string,
   collection: Collection,
   schema: ObjectSchema,
@@ -48,7 +37,7 @@ export async function findById<T extends MFields>(
   return doc !== null ? docToFields<T>(doc, schema) : null
 }
 
-export async function insertOne<T extends MFields>(
+export async function insertOne<T extends ModelFields>(
   fields: MongoDocument,
   collection: Collection,
   schema: ObjectSchema,
@@ -64,17 +53,37 @@ export async function insertOne<T extends MFields>(
   return docToFields<T>(result.ops[0], schema)
 }
 
-export async function updateById<T extends MFields>(
+export async function updateById<T extends ModelFields>(
   id: string,
   fields: MongoDocument,
   collection: Collection,
   schema: ObjectSchema,
   options?: FindOneAndUpdateOption<T>,
 ): Promise<T> {
+  const fieldsToSet: MongoDocument = {}
+  const fieldsToUnset: MongoDocument = {}
+  const update: UpdateOperations = {}
+
+  Object.keys(fields).forEach(key => {
+    if (fields[key] === undefined) {
+      fieldsToUnset[key] = ''
+    } else {
+      fieldsToSet[key] = fields[key]
+    }
+  })
+
+  if (Object.keys(fieldsToSet).length > 0) {
+    update.$set = fieldsToSet
+  }
+
+  if (Object.keys(fieldsToUnset).length > 0) {
+    update.$unset = fieldsToUnset
+  }
+
   const result = await collection.findOneAndUpdate(
     { _id: new ObjectId(id) },
-    { $set: fields },
-    options
+    update,
+    options,
   )
 
   if (result.value === null) {
@@ -119,72 +128,6 @@ export class MongoDb {
 
   public get users(): Collection {
     return this.db.collection(CollectionName.Users)
-  }
-
-  public static async deleteById<T extends Model>(
-    id: string,
-    collection: Collection,
-    mapFn: mapDocumentToModelFn<T>,
-  ): Promise<T> {
-    const result = await collection.findOneAndDelete({ _id: new ObjectId(id) })
-
-    if (result.value === null) {
-      throw new MongoError('MongoDB Error: Failed to delete document')
-    }
-
-    return mapFn(result.value)
-  }
-
-  public static findAll<T extends Model>(
-    collection: Collection,
-    mapFn: mapDocumentToModelFn<T>,
-  ): Promise<T[]> {
-    return collection.find().map(mapFn).toArray()
-  }
-
-  public static async findById<T extends Model>(
-    id: string,
-    collection: Collection,
-    mapFn: mapDocumentToModelFn<T>,
-  ): Promise<T | null> {
-    const doc = await collection.findOne({ _id: new ObjectId(id) })
-    return doc !== null ? mapFn(doc) : null
-  }
-
-  public static async insertOne<T extends Model>(
-    fields: MongoDocument,
-    collection: Collection,
-    mapFn: mapDocumentToModelFn<T>,
-  ): Promise<T> {
-    let result
-
-    try {
-      result = await collection.insertOne(fields)
-    } catch (err) {
-      throw new Error('MongoDB Error: Failed to insert new document')
-    }
-
-    return mapFn(result.ops[0])
-  }
-
-  public static async updateById<T extends Model>(
-    id: string,
-    fields: MongoDocument,
-    collection: Collection,
-    mapFn: mapDocumentToModelFn<T>,
-    options?: FindOneAndUpdateOption<T>,
-  ): Promise<T> {
-    const result = await collection.findOneAndUpdate(
-      { _id: new ObjectId(id) },
-      { $set: fields },
-      options
-    )
-
-    if (result.value === null) {
-      throw new MongoError('MongoDB Error: Failed to update document')
-    }
-
-    return mapFn(result.value)
   }
 
   public async close(): Promise<void> {

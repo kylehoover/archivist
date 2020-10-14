@@ -1,9 +1,9 @@
 import Joi from 'joi'
 import { ObjectId } from 'mongodb'
 
-import { MFields } from '../models'
+import { ModelFields } from '../models'
 
-export function docToFields <T extends MFields>(doc: any, schema: Joi.ObjectSchema): T {
+export function docToFields <T extends ModelFields>(doc: any, schema: Joi.ObjectSchema): T {
   const { error } = schema.validate(doc)
 
   if (error !== undefined) {

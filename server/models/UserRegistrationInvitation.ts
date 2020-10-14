@@ -1,4 +1,4 @@
-import { DateFields, MFields, Model, ModifiedAt } from './Model'
+import { DateFields, Model, ModelFields, ModifiedAt } from './Model'
 import { UserRegistrationInvitationType } from '../graphql/types'
 
 export interface UserRegistrationInvitationFields {
@@ -8,7 +8,7 @@ export interface UserRegistrationInvitationFields {
   expiresAt: Date
 }
 
-export interface UserRegistrationInvitationModelFields extends UserRegistrationInvitationFields, MFields {}
+export interface UserRegistrationInvitationModelFields extends UserRegistrationInvitationFields, ModelFields {}
 export interface NewUserRegistrationInvitationFields extends UserRegistrationInvitationFields, DateFields {}
 export interface UpdatedUserRegistrationInvitationFields extends
   Partial<UserRegistrationInvitationFields>, ModifiedAt {}
@@ -20,7 +20,7 @@ export class UserRegistrationInvitation extends Model {
   public readonly expiresAt: Date
 
   constructor(fields: UserRegistrationInvitationModelFields) {
-    super(fields.id, fields.createdAt, fields.modifiedAt)
+    super(fields)
     this.email = fields.email
     this.invitationId = fields.invitationId
     this.invitedByUserId = fields.invitedByUserId

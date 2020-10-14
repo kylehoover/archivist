@@ -1,4 +1,4 @@
-import { DateFields, MFields, Model, ModifiedAt } from './Model'
+import { DateFields, Model, ModelFields, ModifiedAt } from './Model'
 import { CampaignType } from '../graphql/types'
 
 export interface CampaignFields {
@@ -6,7 +6,7 @@ export interface CampaignFields {
   userId: string
 }
 
-export interface CampaignModelFields extends CampaignFields, MFields {}
+export interface CampaignModelFields extends CampaignFields, ModelFields {}
 export interface NewCampaignFields extends CampaignFields, DateFields {}
 export interface UpdatedCampaignFields extends Partial<CampaignFields>, ModifiedAt {}
 
@@ -15,7 +15,7 @@ export class Campaign extends Model {
   public readonly userId: string
 
   constructor(fields: CampaignModelFields) {
-    super(fields.id, fields.createdAt, fields.modifiedAt)
+    super(fields)
     this.name = fields.name
     this.userId = fields.userId
   }

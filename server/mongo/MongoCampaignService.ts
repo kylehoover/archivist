@@ -4,7 +4,7 @@ import { Service } from 'typedi'
 import { MongoDb, deleteById, findAll, findById, insertOne, updateById } from './MongoDb'
 import { Campaign, CampaignModelFields, NewCampaignFields, UpdatedCampaignFields } from '../models'
 import { CampaignService } from '../services'
-import { modelSchema } from './helpers'
+import { docToFields, modelSchema } from './helpers'
 
 const campaignSchema = modelSchema.keys({
   name: Joi.string().required(),
@@ -23,6 +23,11 @@ export class MongoCampaignService implements CampaignService {
   public async findAll(): Promise<Campaign[]> {
     const docs = await findAll<CampaignModelFields>(this.db.campaigns, campaignSchema)
     return docs.map(fields => new Campaign(fields))
+  }
+
+  public async findAllByUserId(userId: string): Promise<Campaign[]> {
+    const docs = await this.db.campaigns.find<CampaignModelFields>({ userId }).toArray()
+    return docs.map(doc => new Campaign(docToFields(doc, campaignSchema)))
   }
 
   public async findById(id: string): Promise<Campaign | null> {

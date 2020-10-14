@@ -21,8 +21,8 @@ class CampaignResolver {
 
   @Query(returns => [CampaignType])
   @Authorized()
-  public async campaigns(): Promise<CampaignType[]> {
-    const campaigns = await this.campaignService.findAll()
+  public async campaigns(@CurrentUser() userInfo: RequestUserInfo): Promise<CampaignType[]> {
+    const campaigns = await this.campaignService.findAllByUserId(userInfo.userId)
     return campaigns.map(c => c.toGraphQLType())
   }
 

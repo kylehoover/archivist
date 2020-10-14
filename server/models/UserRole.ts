@@ -1,4 +1,4 @@
-import { DateFields, MFields, Model, ModifiedAt } from './Model'
+import { DateFields, Model, ModelFields, ModifiedAt } from './Model'
 import { UserRoleType } from '../graphql/types'
 
 export enum PermissionName {
@@ -23,7 +23,7 @@ export type UserRolesMap = {
   [key: string]: UserRole
 }
 
-export interface UserRoleModelFields extends UserRoleFields, MFields {}
+export interface UserRoleModelFields extends UserRoleFields, ModelFields {}
 export interface NewUserRoleFields extends UserRoleFields, DateFields {}
 export interface UpdatedUserRoleFields extends Partial<UserRoleFields>, ModifiedAt {}
 
@@ -34,7 +34,7 @@ export class UserRole extends Model {
   public readonly permissions: Permissions
 
   constructor(fields: UserRoleModelFields) {
-    super(fields.id, fields.createdAt, fields.modifiedAt)
+    super(fields)
     this.name = fields.name
     this.isDefault = fields.isDefault
     this.isReadonly = fields.isReadonly

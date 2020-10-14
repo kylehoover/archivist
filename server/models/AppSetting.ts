@@ -1,4 +1,4 @@
-import { DateFields, MFields, Model, ModifiedAt } from './Model'
+import { DateFields, Model, ModelFields, ModifiedAt } from './Model'
 import { AppSettingType } from '../graphql/types'
 
 export enum AppSettingName {
@@ -24,7 +24,7 @@ export type AppSettingsMap = {
 }
 
 export type AppSettingValue = boolean | number | string
-export interface AppSettingModelFields extends AppSettingFields, MFields {}
+export interface AppSettingModelFields extends AppSettingFields, ModelFields {}
 export interface NewAppSettingFields extends AppSettingFields, DateFields {}
 export interface UpdateAppSettingFields extends Partial<AppSettingFields>, ModifiedAt {}
 
@@ -35,7 +35,7 @@ export class AppSetting extends Model {
   public readonly description: string
 
   constructor(fields: AppSettingModelFields) {
-    super(fields.id, fields.createdAt, fields.modifiedAt)
+    super(fields)
     this.name = fields.name
     this.value = fields.value
     this.displayName = fields.displayName
