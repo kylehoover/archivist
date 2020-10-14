@@ -1,4 +1,4 @@
-import Model, { MongoModelFields, NewModelFields, UpdatedModelFields } from './Model'
+import { DateFields, MFields, Model, ModifiedAt } from './Model'
 import { UserRoleType } from '../graphql/types'
 
 export enum PermissionName {
@@ -12,7 +12,7 @@ export type Permissions = {
   [name in PermissionName]: boolean
 }
 
-export type UserRoleFields = {
+export interface UserRoleFields {
   name: string
   isDefault: boolean
   isReadonly: boolean
@@ -23,26 +23,22 @@ export type UserRolesMap = {
   [key: string]: UserRole
 }
 
-export type MongoUserRoleModelFields = MongoModelFields & UserRoleFields
-export type NewUserRoleModelFields = NewModelFields & UserRoleFields
-export type UpdatedUserRoleModelFields = UpdatedModelFields & Partial<UserRoleFields>
+export interface UserRoleModelFields extends UserRoleFields, MFields {}
+export interface NewUserRoleFields extends UserRoleFields, DateFields {}
+export interface UpdatedUserRoleFields extends Partial<UserRoleFields>, ModifiedAt {}
 
-class UserRole extends Model {
-  constructor(
-    id: string,
-    createdAt: Date,
-    modifiedAt: Date,
-    public readonly name: string,
-    public readonly isDefault: boolean,
-    public readonly isReadonly: boolean,
-    public readonly permissions: Permissions,
-  ) {
-    super(id, createdAt, modifiedAt)
-  }
+export class UserRole extends Model {
+  public readonly name: string
+  public readonly isDefault: boolean
+  public readonly isReadonly: boolean
+  public readonly permissions: Permissions
 
-  public static fromMongo(doc: MongoUserRoleModelFields): UserRole {
-    return new UserRole(doc._id, doc.createdAt, doc.modifiedAt, doc.name, doc.isDefault,
-      doc.isReadonly, doc.permissions)
+  constructor(fields: UserRoleModelFields) {
+    super(fields.id, fields.createdAt, fields.modifiedAt)
+    this.name = fields.name
+    this.isDefault = fields.isDefault
+    this.isReadonly = fields.isReadonly
+    this.permissions = fields.permissions
   }
 
   public static getDefaultRoleFromList(userRoles: UserRole[]): UserRole {
@@ -106,5 +102,3 @@ export const defaultUserRoles: UserRoleFields[] = [
     },
   },
 ]
-
-export default UserRole

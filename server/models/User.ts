@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt'
 
 import DataProvider from '../DataProvider'
 import { DateFields, MFields, Model, ModifiedAt } from './Model'
-import UserRole from './UserRole'
+import { UserRole } from './UserRole'
 import { AccessTokenPayload } from '../helpers/auth'
 import { Permissions } from './UserRole'
 import { UserType } from '../graphql/types/'

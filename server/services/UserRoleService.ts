@@ -1,13 +1,11 @@
 import { DataService } from './DataService'
-import UserRole, { NewUserRoleModelFields, UpdatedUserRoleModelFields } from '../models/UserRole'
+import { NewUserRoleFields, UpdatedUserRoleFields, UserRole } from '../models/UserRole'
 
-interface UserRoleService extends DataService<
+export interface UserRoleService extends DataService<
   UserRole,
-  NewUserRoleModelFields,
-  UpdatedUserRoleModelFields
+  NewUserRoleFields,
+  UpdatedUserRoleFields
 > {
   findByName(name: string): Promise<UserRole | null>
   findDefaultRole(): Promise<UserRole>
 }
-
-export default UserRoleService

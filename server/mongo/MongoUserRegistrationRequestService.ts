@@ -24,7 +24,7 @@ export class MongoUserRegistrationRequestService implements UserRegistrationRequ
   public async deleteById(id: string): Promise<UserRegistrationRequest> {
     const doc = await deleteById<UserRegistrationRequestModelFields>(
       id,
-      this.db.campaigns,
+      this.db.userRegistrationRequests,
       userRegistrationRequestSchema
     )
     return new UserRegistrationRequest(doc)
@@ -32,7 +32,7 @@ export class MongoUserRegistrationRequestService implements UserRegistrationRequ
 
   public async findAll(): Promise<UserRegistrationRequest[]> {
     const docs = await findAll<UserRegistrationRequestModelFields>(
-      this.db.campaigns,
+      this.db.userRegistrationRequests,
       userRegistrationRequestSchema
     )
     return docs.map(fields => new UserRegistrationRequest(fields))
@@ -41,7 +41,7 @@ export class MongoUserRegistrationRequestService implements UserRegistrationRequ
   public async findById(id: string): Promise<UserRegistrationRequest | null> {
     const doc = await findById<UserRegistrationRequestModelFields>(
       id,
-      this.db.campaigns,
+      this.db.userRegistrationRequests,
       userRegistrationRequestSchema
     )
     return doc === null ? null : new UserRegistrationRequest(doc)
@@ -50,7 +50,7 @@ export class MongoUserRegistrationRequestService implements UserRegistrationRequ
   public async insertOne(fields: NewUserRegistrationRequestFields): Promise<UserRegistrationRequest> {
     const doc = await insertOne<UserRegistrationRequestModelFields>(
       fields,
-      this.db.campaigns,
+      this.db.userRegistrationRequests,
       userRegistrationRequestSchema
     )
     return new UserRegistrationRequest(doc)
@@ -63,7 +63,7 @@ export class MongoUserRegistrationRequestService implements UserRegistrationRequ
     const doc = await updateById<UserRegistrationRequestModelFields>(
       id,
       fields,
-      this.db.campaigns,
+      this.db.userRegistrationRequests,
       userRegistrationRequestSchema,
       options
     )

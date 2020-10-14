@@ -1,5 +1,3 @@
-export { default as UserRole } from './UserRole'
-
 export * from './AppSetting'
 export * from './Campaign'
 export * from './Model'

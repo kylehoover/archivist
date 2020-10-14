@@ -1,5 +1,5 @@
 import { AppSetting, defaultAppSettings } from '../models/AppSetting'
-import UserRole, { defaultUserRoles } from '../models/UserRole'
+import { UserRole, defaultUserRoles } from '../models/UserRole'
 import { AppSettingService, UserRoleService } from '../services'
 import { withNewModelFields, withUpdatedModelFields } from '../models/Model'
 

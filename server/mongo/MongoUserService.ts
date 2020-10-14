@@ -34,7 +34,7 @@ export class MongoUserService implements UserService {
   }
 
   public async findByEmail(email: string): Promise<User | null> {
-    const doc = await this.db.users.findOne({ email })
+    const doc = await this.db.users.findOne<UserModelFields>({ email })
     return this.userOrNull(doc)
   }
 
@@ -44,7 +44,7 @@ export class MongoUserService implements UserService {
   }
 
   public async findByRefreshToken(refreshToken: string): Promise<User | null> {
-    const doc = await this.db.users.findOne({ refreshToken })
+    const doc = await this.db.users.findOne<UserModelFields>({ refreshToken })
     return this.userOrNull(doc)
   }
 
