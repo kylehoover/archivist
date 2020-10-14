@@ -1,6 +1,6 @@
 import { Container, Inject, Service } from 'typedi'
 
-import AppSetting, { AppSettingsMap } from './models/AppSetting'
+import { AppSetting, AppSettingsMap } from './models/AppSetting'
 import UserRole, { UserRolesMap } from './models/UserRole'
 import { AppSettingService, ServiceName, UserRoleService } from './services'
 

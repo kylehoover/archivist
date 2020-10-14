@@ -1,4 +1,4 @@
-import Model, { MongoModelFields, NewModelFields, UpdatedModelFields } from './Model'
+import { DateFields, MFields, Model, ModifiedAt } from './Model'
 import { AppSettingType } from '../graphql/types'
 
 export enum AppSettingName {
@@ -12,7 +12,7 @@ export enum RegistrationState {
   Open = 'open',
 }
 
-export type AppSettingFields = {
+export interface AppSettingFields {
   name: AppSettingName
   value: AppSettingValue
   displayName: string
@@ -24,26 +24,22 @@ export type AppSettingsMap = {
 }
 
 export type AppSettingValue = boolean | number | string
-export type MongoAppSettingModelFields = MongoModelFields & AppSettingFields
-export type NewAppSettingModelFields = NewModelFields & AppSettingFields
-export type UpdatedAppSettingModelFields = UpdatedModelFields & Partial<AppSettingFields>
+export interface AppSettingModelFields extends AppSettingFields, MFields {}
+export interface NewAppSettingFields extends AppSettingFields, DateFields {}
+export interface UpdateAppSettingFields extends Partial<AppSettingFields>, ModifiedAt {}
 
-class AppSetting extends Model {
-  constructor(
-    id: string,
-    createdAt: Date,
-    modifiedAt: Date,
-    public readonly name: AppSettingName,
-    public readonly value: AppSettingValue,
-    public readonly displayName: string,
-    public readonly description: string,
-  ) {
-    super(id, createdAt, modifiedAt)
-  }
+export class AppSetting extends Model {
+  public readonly name: AppSettingName
+  public readonly value: AppSettingValue
+  public readonly displayName: string
+  public readonly description: string
 
-  public static fromMongo(doc: MongoAppSettingModelFields): AppSetting {
-    return new AppSetting(doc._id, doc.createdAt, doc.modifiedAt, doc.name, doc.value, doc.displayName,
-      doc.description)
+  constructor(fields: AppSettingModelFields) {
+    super(fields.id, fields.createdAt, fields.modifiedAt)
+    this.name = fields.name
+    this.value = fields.value
+    this.displayName = fields.displayName
+    this.description = fields.description
   }
 
   public static listToMap(appSettings: AppSetting[]): AppSettingsMap {
@@ -76,5 +72,3 @@ export const defaultAppSettings: AppSettingFields[] = [
     'able to register if sent a registration invitation.',
   },
 ]
-
-export default AppSetting

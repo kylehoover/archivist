@@ -1,4 +1,4 @@
-import AppSettingService from './AppSettingService'
+import { AppSettingService } from './AppSettingService'
 import { CampaignService } from './CampaignService'
 import UserRegistrationInvitationService from './UserRegistrationInvitationService'
 import UserRegistrationRequestService from './UserRegistrationRequestService'

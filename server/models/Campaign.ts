@@ -8,7 +8,7 @@ export interface CampaignFields {
 
 export interface CampaignModelFields extends CampaignFields, MFields {}
 export interface NewCampaignFields extends CampaignFields, DateFields {}
-export interface UpdatedCampaignFields extends CampaignFields, ModifiedAt {}
+export interface UpdatedCampaignFields extends Partial<CampaignFields>, ModifiedAt {}
 
 export class Campaign extends Model {
   public readonly name: string

@@ -1,6 +1,6 @@
 import { Container, Service } from 'typedi'
 
-import MongoAppSettingService from './MongoAppSettingService'
+import { MongoAppSettingService } from './MongoAppSettingService'
 import { MongoCampaignService } from './MongoCampaignService'
 import MongoUserRegistrationInvitationService from './MongoUserRegistrationInvitationService'
 import MongoUserRegistrationRequestService from './MongoUserRegistrationRequestService'

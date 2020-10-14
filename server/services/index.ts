@@ -1,4 +1,4 @@
-export { default as AppSettingService } from './AppSettingService'
+export * from './AppSettingService'
 export * from './CampaignService'
 export * from './ServiceProvider'
 export * from './ServiceName'
@@ -6,5 +6,4 @@ export { default as UserRegistrationInvitationService } from './UserRegistration
 export { default as UserRegistrationRequestService } from './UserRegistrationRequestService'
 export { default as UserRoleService } from './UserRoleService'
 export * from './UserService'
-
 export * from './util'

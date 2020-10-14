@@ -1,10 +1,8 @@
 import { DataService } from './DataService'
-import AppSetting, { NewAppSettingModelFields, UpdatedAppSettingModelFields } from '../models/AppSetting'
+import { AppSetting, NewAppSettingFields, UpdateAppSettingFields } from '../models/AppSetting'
 
-interface AppSettingService extends DataService<
+export interface AppSettingService extends DataService<
   AppSetting,
-  NewAppSettingModelFields,
-  UpdatedAppSettingModelFields
+  NewAppSettingFields,
+  UpdateAppSettingFields
 > {}
-
-export default AppSettingService
