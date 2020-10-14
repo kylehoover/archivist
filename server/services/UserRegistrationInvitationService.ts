@@ -1,13 +1,12 @@
 import { DataService } from './DataService'
-import UserRegistrationInvitation, {
-  NewUserRegistrationInvitationModelFields,
-  UpdatedUserRegistrationInvitationModelFields,
+import {
+  NewUserRegistrationInvitationFields,
+  UpdatedUserRegistrationInvitationFields,
+  UserRegistrationInvitation,
 } from '../models/UserRegistrationInvitation'
 
-interface UserRegistrationInvitationService extends DataService<
+export interface UserRegistrationInvitationService extends DataService<
   UserRegistrationInvitation,
-  NewUserRegistrationInvitationModelFields,
-  UpdatedUserRegistrationInvitationModelFields
+  NewUserRegistrationInvitationFields,
+  UpdatedUserRegistrationInvitationFields
 > {}
-
-export default UserRegistrationInvitationService

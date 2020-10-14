@@ -1,42 +1,73 @@
+import Joi from 'joi'
 import { Service } from 'typedi'
 
-import UserRegistrationInvitation, {
-  NewUserRegistrationInvitationModelFields,
-  UpdatedUserRegistrationInvitationModelFields,
-} from '../models/UserRegistrationInvitation'
-import { MongoDb } from './MongoDb'
+import { MongoDb, deleteById, findAll, findById, insertOne, updateById } from './MongoDb'
 import { UserRegistrationInvitationService } from '../services'
+import { modelSchema } from './helpers'
+import {
+  NewUserRegistrationInvitationFields,
+  UpdatedUserRegistrationInvitationFields,
+  UserRegistrationInvitation,
+  UserRegistrationInvitationModelFields,
+} from '../models/UserRegistrationInvitation'
+
+const userRegistrationInvitationSchema = modelSchema.keys({
+  email: Joi.string().required(),
+  invitationId: Joi.string().required(),
+  invitedByUserId: Joi.string().required(),
+  expiresAt: Joi.date().required(),
+})
 
 @Service()
-class MongoUserRegistrationInvitationService implements UserRegistrationInvitationService {
+export class MongoUserRegistrationInvitationService implements UserRegistrationInvitationService {
   constructor(private readonly db: MongoDb) {}
 
-  public deleteById(id: string): Promise<UserRegistrationInvitation> {
-    return MongoDb.deleteById(id, this.db.userRegistrationInvitations, UserRegistrationInvitation.fromMongo)
-  }
-
-  public findAll(): Promise<UserRegistrationInvitation[]> {
-    return MongoDb.findAll(this.db.userRegistrationInvitations, UserRegistrationInvitation.fromMongo)
-  }
-
-  public findById(id: string): Promise<UserRegistrationInvitation | null> {
-    return MongoDb.findById(id, this.db.userRegistrationInvitations, UserRegistrationInvitation.fromMongo)
-  }
-
-  public insertOne(fields: NewUserRegistrationInvitationModelFields): Promise<UserRegistrationInvitation> {
-    return MongoDb.insertOne(
-      fields, this.db.userRegistrationInvitations, UserRegistrationInvitation.fromMongo
+  public async deleteById(id: string): Promise<UserRegistrationInvitation> {
+    const doc = await deleteById<UserRegistrationInvitationModelFields>(
+      id,
+      this.db.userRegistrationInvitations,
+      userRegistrationInvitationSchema
     )
+    return new UserRegistrationInvitation(doc)
   }
 
-  public async updateById(id: string, fields: UpdatedUserRegistrationInvitationModelFields, options = {
+  public async findAll(): Promise<UserRegistrationInvitation[]> {
+    const docs = await findAll<UserRegistrationInvitationModelFields>(
+      this.db.userRegistrationInvitations,
+      userRegistrationInvitationSchema
+    )
+    return docs.map(fields => new UserRegistrationInvitation(fields))
+  }
+
+  public async findById(id: string): Promise<UserRegistrationInvitation | null> {
+    const doc = await findById<UserRegistrationInvitationModelFields>(
+      id,
+      this.db.userRegistrationInvitations,
+      userRegistrationInvitationSchema
+    )
+    return doc === null ? null : new UserRegistrationInvitation(doc)
+  }
+
+  public async insertOne(fields: NewUserRegistrationInvitationFields): Promise<UserRegistrationInvitation> {
+    const doc = await insertOne<UserRegistrationInvitationModelFields>(
+      fields,
+      this.db.userRegistrationInvitations,
+      userRegistrationInvitationSchema
+    )
+    return new UserRegistrationInvitation(doc)
+  }
+
+  public async updateById(id: string, fields: UpdatedUserRegistrationInvitationFields, options = {
     returnOriginal: false,
     upsert: false,
   }): Promise<UserRegistrationInvitation> {
-    return MongoDb.updateById(
-      id, fields, this.db.userRegistrationInvitations, UserRegistrationInvitation.fromMongo, options
+    const doc = await updateById<UserRegistrationInvitationModelFields>(
+      id,
+      fields,
+      this.db.userRegistrationInvitations,
+      userRegistrationInvitationSchema,
+      options
     )
+    return new UserRegistrationInvitation(doc)
   }
 }
-
-export default MongoUserRegistrationInvitationService
