@@ -1,36 +1,30 @@
-import Model, { MongoModelFields, NewModelFields, UpdatedModelFields } from './Model'
+import { DateFields, MFields, Model, ModifiedAt } from './Model'
 import { UserRegistrationRequestType } from '../graphql/types'
 
-export type UserRegistrationRequestFields = {
+export interface UserRegistrationRequestFields {
   name: string
   email: string
   password: string
 }
 
-export type MongoUserRegistrationRequestModelFields = MongoModelFields & UserRegistrationRequestFields
-export type NewUserRegistrationRequestModelFields = NewModelFields & UserRegistrationRequestFields
-export type UpdatedUserRegistrationRequestModelFields = UpdatedModelFields & Partial<UserRegistrationRequestFields>
+export interface UserRegistrationRequestModelFields extends UserRegistrationRequestFields, MFields {}
+export interface NewUserRegistrationRequestFields extends UserRegistrationRequestFields, DateFields {}
+export interface UpdatedUserRegistrationRequestFields extends
+  Partial<UserRegistrationRequestFields>, ModifiedAt {}
 
-class UserRegistrationRequest extends Model {
-  constructor(
-    id: string,
-    createdAt: Date,
-    modifiedAt: Date,
-    public readonly name: string,
-    public readonly email: string,
-    private readonly password: string,
-  ) {
-    super(id, createdAt, modifiedAt)
-  }
+export class UserRegistrationRequest extends Model {
+  public readonly name: string
+  public readonly email: string
+  private readonly password: string
 
-  public static fromMongo(doc: MongoUserRegistrationRequestModelFields): UserRegistrationRequest {
-    return new UserRegistrationRequest(doc._id, doc.createdAt, doc.modifiedAt, doc.name, doc.email,
-      doc.password)
+  constructor(fields: UserRegistrationRequestModelFields) {
+    super(fields.id, fields.createdAt, fields.modifiedAt)
+    this.name = fields.name
+    this.email = fields.email
+    this.password = fields.password
   }
 
   public toGraphQLType(): UserRegistrationRequestType {
     return new UserRegistrationRequestType(this)
   }
 }
-
-export default UserRegistrationRequest

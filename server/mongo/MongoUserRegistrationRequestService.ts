@@ -1,40 +1,72 @@
+import Joi from 'joi'
 import { Service } from 'typedi'
 
-import UserRegistrationRequest, {
-  NewUserRegistrationRequestModelFields,
-  UpdatedUserRegistrationRequestModelFields,
-} from '../models/UserRegistrationRequest'
-import { MongoDb } from './MongoDb'
+import { MongoDb, deleteById, findAll, findById, insertOne, updateById } from './MongoDb'
 import { UserRegistrationRequestService } from '../services'
+import { modelSchema} from './helpers'
+import {
+  NewUserRegistrationRequestFields,
+  UpdatedUserRegistrationRequestFields,
+  UserRegistrationRequest,
+  UserRegistrationRequestModelFields,
+} from '../models/UserRegistrationRequest'
+
+const userRegistrationRequestSchema = modelSchema.keys({
+  name: Joi.string().required(),
+  email: Joi.string().required(),
+  password: Joi.string().required(),
+})
 
 @Service()
-class MongoUserRegistrationRequestService implements UserRegistrationRequestService {
+export class MongoUserRegistrationRequestService implements UserRegistrationRequestService {
   constructor(private readonly db: MongoDb) {}
 
-  public deleteById(id: string): Promise<UserRegistrationRequest> {
-    return MongoDb.deleteById(id, this.db.userRegistrationRequests, UserRegistrationRequest.fromMongo)
+  public async deleteById(id: string): Promise<UserRegistrationRequest> {
+    const doc = await deleteById<UserRegistrationRequestModelFields>(
+      id,
+      this.db.campaigns,
+      userRegistrationRequestSchema
+    )
+    return new UserRegistrationRequest(doc)
   }
 
-  public findAll(): Promise<UserRegistrationRequest[]> {
-    return MongoDb.findAll(this.db.userRegistrationRequests, UserRegistrationRequest.fromMongo)
+  public async findAll(): Promise<UserRegistrationRequest[]> {
+    const docs = await findAll<UserRegistrationRequestModelFields>(
+      this.db.campaigns,
+      userRegistrationRequestSchema
+    )
+    return docs.map(fields => new UserRegistrationRequest(fields))
   }
 
-  public findById(id: string): Promise<UserRegistrationRequest | null> {
-    return MongoDb.findById(id, this.db.userRegistrationRequests, UserRegistrationRequest.fromMongo)
+  public async findById(id: string): Promise<UserRegistrationRequest | null> {
+    const doc = await findById<UserRegistrationRequestModelFields>(
+      id,
+      this.db.campaigns,
+      userRegistrationRequestSchema
+    )
+    return doc === null ? null : new UserRegistrationRequest(doc)
   }
 
-  public insertOne(fields: NewUserRegistrationRequestModelFields): Promise<UserRegistrationRequest> {
-    return MongoDb.insertOne(fields, this.db.userRegistrationRequests, UserRegistrationRequest.fromMongo)
+  public async insertOne(fields: NewUserRegistrationRequestFields): Promise<UserRegistrationRequest> {
+    const doc = await insertOne<UserRegistrationRequestModelFields>(
+      fields,
+      this.db.campaigns,
+      userRegistrationRequestSchema
+    )
+    return new UserRegistrationRequest(doc)
   }
 
-  public async updateById(id: string, fields: UpdatedUserRegistrationRequestModelFields, options = {
+  public async updateById(id: string, fields: UpdatedUserRegistrationRequestFields, options = {
     returnOriginal: false,
     upsert: false,
   }): Promise<UserRegistrationRequest> {
-    return MongoDb.updateById(
-      id, fields, this.db.userRegistrationRequests, UserRegistrationRequest.fromMongo, options
+    const doc = await updateById<UserRegistrationRequestModelFields>(
+      id,
+      fields,
+      this.db.campaigns,
+      userRegistrationRequestSchema,
+      options
     )
+    return new UserRegistrationRequest(doc)
   }
 }
-
-export default MongoUserRegistrationRequestService

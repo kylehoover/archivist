@@ -1,13 +1,12 @@
 import { DataService } from './DataService'
-import UserRegistrationRequest, {
-  NewUserRegistrationRequestModelFields,
-  UpdatedUserRegistrationRequestModelFields,
+import {
+  NewUserRegistrationRequestFields,
+  UpdatedUserRegistrationRequestFields,
+  UserRegistrationRequest,
 } from '../models/UserRegistrationRequest'
 
-interface UserRegistrationRequestService extends DataService<
+export interface UserRegistrationRequestService extends DataService<
   UserRegistrationRequest,
-  NewUserRegistrationRequestModelFields,
-  UpdatedUserRegistrationRequestModelFields
+  NewUserRegistrationRequestFields,
+  UpdatedUserRegistrationRequestFields
 > {}
-
-export default UserRegistrationRequestService

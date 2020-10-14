@@ -1,4 +1,3 @@
-export { default as UserRegistrationRequest } from './UserRegistrationRequest'
 export { default as UserRole } from './UserRole'
 
 export * from './AppSetting'
