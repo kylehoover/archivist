@@ -1,8 +1,7 @@
 import React from 'react'
-
 import { Container } from '../../common'
 import { LoginForm } from '../../forms'
-import './LandingPage.scss'
+import './LoginView.scss'
 
 type VerticalLineProps = {
   height?: string
@@ -36,9 +35,9 @@ const FormsSection = () => {
   )
 }
 
-const LandingPage = () => {
+export const LoginView = () => {
   return (
-    <div className='LandingPage'>
+    <div className='LoginView'>
       <Container maxWidth={22} minWidth={15} centered>
         <div id='content'>
           <IntroductionSection />
@@ -49,5 +48,3 @@ const LandingPage = () => {
     </div>
   )
 }
-
-export default LandingPage

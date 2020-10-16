@@ -1,8 +1,7 @@
 import React from 'react'
-
 import { Form, Input, Panel } from '../../common'
 
-const Campaign = () => {
+export const CampaignView = () => {
   return (
     <div className='Campaign'>
       <h1 className='mb-2'>Campaign Name</h1>
@@ -27,5 +26,3 @@ const Campaign = () => {
     </div>
   )
 }
-
-export default Campaign

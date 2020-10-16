@@ -1,9 +1,8 @@
 import React from 'react'
-
 import { AddCampaignForm } from '../../forms'
 import { Panel } from '../../common'
 
-const NewCampaign = () => {
+export const NewCampaignView = () => {
   return (
     <div className='NewCampaign row center'>
       <div className='col sm-12 lg-8'>
@@ -22,5 +21,3 @@ const NewCampaign = () => {
     </div>
   )
 }
-
-export default NewCampaign

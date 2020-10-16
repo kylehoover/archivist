@@ -1,11 +1,10 @@
 import React from 'react'
-
 import { Loading, NavBarFlat, Routes } from './components'
 import { useOnAppLoad } from './helpers'
 
 import './styles/index.scss'
 
-const App = () => {
+export const App = () => {
   const { isLoading } = useOnAppLoad()
 
   if (isLoading) {
@@ -21,5 +20,3 @@ const App = () => {
     </div>
   )
 }
-
-export default App

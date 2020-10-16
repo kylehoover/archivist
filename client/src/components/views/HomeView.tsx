@@ -1,8 +1,7 @@
 import React from 'react'
+import { CampaignsPanel } from '../panels'
 
-import { CampaignsPanel } from '../../panels'
-
-const Home = () => {
+export const HomeView = () => {
   return (
     <div className='Home row center'>
       <div className='col sm-12 lg-8'>
@@ -11,5 +10,3 @@ const Home = () => {
     </div>
   )
 }
-
-export default Home

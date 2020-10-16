@@ -1,8 +1,7 @@
 import React from 'react'
+import { Button } from '../common'
 
-import { Button } from '../../common'
-
-const NotFound = () => {
+export const NotFoundView = () => {
   return (
     <div className='NotFound'>
       <h1 className='mb-2'>Page Not Found</h1>
@@ -15,5 +14,3 @@ const NotFound = () => {
     </div>
   )
 }
-
-export default NotFound

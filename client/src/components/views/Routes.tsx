@@ -1,24 +1,34 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-
 import { Authorized } from '../common'
-import { Campaign, Home, LandingPage, LogoutView, NewCampaign, NotFound } from './'
+import {
+  CampaignView,
+  HomeView,
+  LoginView,
+  LogoutView,
+  NewCampaignView,
+  NotFoundView,
+} from './'
 
-const Routes = () => {
+export const Routes = () => {
   return (
     <Switch>
       <Route exact strict path='/'>
-        <LandingPage />
+        <LoginView />
       </Route>
       <Route exact strict path='/campaign/'>
-        <Campaign />
+        <Authorized>
+          <CampaignView />
+        </Authorized>
       </Route>
       <Route exact strict path='/campaign/new/'>
-        <NewCampaign />
+        <Authorized>
+          <NewCampaignView />
+        </Authorized>
       </Route>
       <Route exact strict path='/home/'>
         <Authorized>
-          <Home />
+          <HomeView />
         </Authorized>
       </Route>
       <Route exact strict path='/logout/'>
@@ -27,10 +37,8 @@ const Routes = () => {
         </Authorized>
       </Route>
       <Route>
-        <NotFound />
+        <NotFoundView />
       </Route>
     </Switch>
   )
 }
-
-export default Routes
