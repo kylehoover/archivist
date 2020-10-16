@@ -1,21 +1,22 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 
 import { Button, Icon } from '../'
 import { useUserStore } from '../../../stores'
 import './NavBarFlat.scss'
 
-const NavBarFlat = observer(() => {
+export const NavBarFlat = observer(() => {
   const history = useHistory()
-  const userStore = useUserStore()
+  const { pathname } = useLocation()
+  const { currentUser } = useUserStore()
+  const disabled = pathname === '/logout/'
 
   async function handleLogout() {
-    await userStore.logoutUser()
-    history.push('/')
+    history.push('/logout/')
   }
 
-  if (userStore.currentUser === undefined) {
+  if (currentUser === undefined) {
     return null
   }
 
@@ -24,11 +25,9 @@ const NavBarFlat = observer(() => {
       <div>
         <Icon name='logo' size={2} />
       </div>
-      <Button onClick={handleLogout}>
+      <Button onClick={handleLogout} disabled={disabled}>
         Log Out
       </Button>
     </nav>
   )
 })
-
-export default NavBarFlat

@@ -1,2 +1,2 @@
-export * from './UserStore'
 export * from './hooks'
+export * from './store'

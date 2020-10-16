@@ -2,26 +2,24 @@ import { action, makeObservable, observable, runInAction } from 'mobx'
 
 import { RootStore } from '../root'
 import { User } from '../../models'
-import { fetchCurrentUser, loginUser, logoutUser } from '../../graphql'
+import { fetchCurrentUser, loginUser } from '../../graphql'
 
 export class UserStore {
   public currentUser?: User
-
   private rootStore: RootStore
 
   constructor(rootStore: RootStore) {
     makeObservable(this, {
-      clearCurrentUser: action.bound,
+      clear: action.bound,
       currentUser: observable,
       loadCurrentUser: action.bound,
       loginUser: action.bound,
-      logoutUser: action.bound,
     })
 
     this.rootStore = rootStore
   }
 
-  public clearCurrentUser(): void {
+  public clear(): void {
     this.currentUser = undefined
   }
 
@@ -46,18 +44,6 @@ export class UserStore {
 
     runInAction(() => {
       this.currentUser = User.fromGraphQLType(user)
-    })
-  }
-
-  public async logoutUser(): Promise<void> {
-    if (this.currentUser === undefined) {
-      throw new Error('User is not logged in')
-    }
-
-    await logoutUser()
-
-    runInAction(() => {
-      this.currentUser = undefined
     })
   }
 }

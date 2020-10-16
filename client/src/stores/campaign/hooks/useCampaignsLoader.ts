@@ -22,9 +22,6 @@ export const useCampaignsLoader = () => {
       setPending(false)
     }
 
-    console.log('needsToLoadData', needsToLoadData)
-    console.log('isPending', isPending)
-
     if (needsToLoadData && !isPending && !isError) {
       run()
     }

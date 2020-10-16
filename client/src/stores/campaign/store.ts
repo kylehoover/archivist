@@ -7,7 +7,6 @@ import { RootStore } from '../root'
 
 export class CampaignStore extends DataStore {
   public campaigns: { [campaignId: string]: Campaign }
-
   private rootStore: RootStore
 
   constructor(rootStore: RootStore) {
@@ -17,6 +16,7 @@ export class CampaignStore extends DataStore {
       addCampaigns: action.bound,
       campaigns: observable,
       campaignsList: computed,
+      clear: action.bound,
     })
 
     this.campaigns = {}
@@ -33,5 +33,10 @@ export class CampaignStore extends DataStore {
       .forEach(campaign => {
         this.campaigns[campaign.id] = campaign
       })
+  }
+
+  public clear(): void {
+    super.clear()
+    this.campaigns = {}
   }
 }

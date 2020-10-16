@@ -9,4 +9,9 @@ export class RootStore {
     this.campaignStore = new CampaignStore(this)
     this.userStore = new UserStore(this)
   }
+
+  public clearStores = (): void => {
+    this.userStore.clear()
+    this.campaignStore.clear()
+  }
 }

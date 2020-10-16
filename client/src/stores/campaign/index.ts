@@ -1,2 +1,2 @@
-export * from './CampaignStore'
 export * from './hooks'
+export * from './store'

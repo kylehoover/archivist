@@ -6,12 +6,18 @@ export class DataStore {
 
   constructor() {
     makeObservable(this, {
+      clear: action.bound,
       handleDidLoadData: action.bound,
       hasCompletedInitialLoad: observable,
       needsToLoadData: observable,
       setNeedsToLoadData: action.bound,
     })
 
+    this.hasCompletedInitialLoad = false
+    this.needsToLoadData = true
+  }
+
+  public clear(): void {
     this.hasCompletedInitialLoad = false
     this.needsToLoadData = true
   }

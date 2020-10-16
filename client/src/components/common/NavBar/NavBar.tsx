@@ -10,7 +10,6 @@ const NavBar = () => {
   const { userStore } = useStores()
 
   async function handleLogout() {
-    await userStore.logoutUser()
     history.push('/')
   }
 
