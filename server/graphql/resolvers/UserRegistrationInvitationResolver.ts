@@ -1,4 +1,4 @@
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { Arg, ID, Mutation, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 import { v4 as uuid } from 'uuid'
@@ -67,7 +67,7 @@ class UserRegistrationInvitationResolver {
       email,
       invitationId: uuid(),
       invitedByUserId: userInfo.userId,
-      expiresAt: moment().add(numDays, 'days').toDate(),
+      expiresAt: dayjs().add(numDays, 'day').toDate(),
     }
 
     const invitation = await this.invitationService.insertOne(withNewModelFields(fields))

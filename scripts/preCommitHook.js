@@ -1,5 +1,5 @@
-const moment = require('moment')
-const start = moment()
+const dayjs = require('dayjs')
+const start = dayjs()
 const chalk = require('chalk')
 const path = require('path')
 const util = require('util')
@@ -69,7 +69,7 @@ async function run() {
       await lintFiles(stagedServerFiles)
       logLine(chalk.green('Done'))
     }
-    console.log(moment().diff(start))
+    console.log(dayjs().diff(start))
   } catch (err) {
     logLine(chalk.red('Failed'))
 
@@ -79,7 +79,7 @@ async function run() {
       logLine(err.message);
     }
 
-    console.log(moment().diff(start))
+    console.log(dayjs().diff(start))
     process.exit(1)
   }
 }
