@@ -1,5 +1,4 @@
 import 'reflect-metadata'
-
 import { withNewModelFields, withUpdatedModelFields } from '../Model'
 
 beforeAll(() => {

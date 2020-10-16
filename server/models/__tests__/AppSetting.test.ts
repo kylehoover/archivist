@@ -1,39 +1,19 @@
-// import 'reflect-metadata'
+import 'reflect-metadata'
+import { AppSetting, AppSettingName } from '../AppSetting'
 
-// import AppSetting, { AppSettingName, MongoAppSettingModelFields } from '../AppSetting'
-// import { AppSettingType } from '../../graphql/types'
-
-// describe('AppSetting', () => {
-//   test('fromMongo returns a new AppSetting object', () => {
-//     const doc: MongoAppSettingModelFields = {
-//       _id: '1',
-//       createdAt: new Date(),
-//       modifiedAt: new Date(),
-//       name: AppSettingName.NumDaysInvitationIsValid,
-//       value: 30,
-//       displayName: 'Display Name',
-//       description: 'Description',
-//     }
-//     const appSetting = new AppSetting(
-//       doc._id, doc.createdAt, doc.modifiedAt, doc.name, doc.value, doc.displayName, doc.description
-//     )
-//     expect(AppSetting.fromMongo(doc)).toEqual(appSetting)
-//   })
-
-//   test('listToMap converts an AppSetting list to an AppSettingsMap', () => {
-//     const appSetting = new AppSetting(
-//       '1', new Date(), new Date(), AppSettingName.NumDaysInvitationIsValid, 30, 'Display Name', 'Description'
-//     )
-//     const appSettings = [appSetting]
-//     const appSettingsMap = AppSetting.listToMap(appSettings)
-//     expect(appSettingsMap).toEqual({ [AppSettingName.NumDaysInvitationIsValid]: 30 })
-//   })
-
-//   test('toGraphQLType converts an AppSetting into an AppSettingType', () => {
-//     const appSetting = new AppSetting(
-//       '1', new Date(), new Date(), AppSettingName.NumDaysInvitationIsValid, 30, 'Display Name', 'Description'
-//     )
-//     const appSettingType = new AppSettingType(appSetting)
-//     expect(appSetting.toGraphQLType()).toEqual(appSettingType)
-//   })
-// })
+describe('AppSetting', () => {
+  test('listToMap converts an AppSetting list to an AppSettingsMap', () => {
+    const appSetting = new AppSetting({
+      id: '1',
+      createdAt: new Date(),
+      modifiedAt: new Date(),
+      name: AppSettingName.NumDaysInvitationIsValid,
+      value: 30,
+      displayName: 'Display name',
+      description: 'Description',
+    })
+    const appSettings = [appSetting]
+    const appSettingsMap = AppSetting.listToMap(appSettings)
+    expect(appSettingsMap).toEqual({ [AppSettingName.NumDaysInvitationIsValid]: 30 })
+  })
+})

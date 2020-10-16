@@ -1,10 +1,7 @@
-const { resolve } = require('path')
-
 module.exports = {
-  globalSetup: resolve('./node_modules/@shelf/jest-mongodb/setup.js'),
-  globalTeardown: resolve('./node_modules/@shelf/jest-mongodb/teardown.js'),
+  // automock: true,
   preset: 'ts-jest',
-  testEnvironment: resolve('./node_modules/@shelf/jest-mongodb/environment.js'),
+  testEnvironment: 'node',
   testMatch: [
     '<rootDir>/server/**/*.test.ts'
   ],
