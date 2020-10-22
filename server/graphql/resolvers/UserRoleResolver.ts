@@ -1,12 +1,11 @@
 import { Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
-
 import { ServiceName, UserRoleService } from '../../services'
 import { UserRoleType } from '../types'
 
 @Service()
 @Resolver(UserRoleType)
-class UserRoleResolver {
+export class UserRoleResolver {
   constructor(@Inject(ServiceName.UserRole) private readonly userRoleService: UserRoleService) {}
 
   @Query(returns => [UserRoleType])
@@ -15,5 +14,3 @@ class UserRoleResolver {
     return userRoles.map(u => u.toGraphQLType())
   }
 }
-
-export default UserRoleResolver

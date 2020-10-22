@@ -1,12 +1,11 @@
 import React from 'react'
-
 import { IconName, getIcon } from './icons'
 import { numToRem } from '../../../helpers'
 import './Icon.scss'
 
 type IconSize = 'small' | number
 
-type Props = {
+interface Props {
   name: IconName
   size?: IconSize
 }
@@ -15,7 +14,7 @@ const iconSizeToNumber = {
   'small': 1.5
 }
 
-const Icon = ({
+export const Icon = ({
   name,
   size = 'small',
 }: Props) => {
@@ -27,5 +26,3 @@ const Icon = ({
     </span>
   )
 }
-
-export default Icon

@@ -18,13 +18,13 @@ export enum RequestErrorType {
   Validation = 'validation',
 }
 
-export type Response<T> = {
+export interface Response<T> {
   data: T | null
   errors: ServerError[]
   hasError: boolean
 }
 
-export type ServerError = {
+export interface ServerError {
   accessTokenState?: AccessTokenState
   message?: string
   type: ServerErrorType
@@ -75,14 +75,14 @@ export interface AddCampaignInputType {
   name: string
 }
 
-export type LoginUserInputType = {
+export interface LoginUserInputType {
   email: string
   password: string
 }
 
 // GraphQL Data Types //
 
-export type AddCampaignData = {
+export interface AddCampaignData {
   addCampaign: CampaignType
 }
 
@@ -90,22 +90,22 @@ export interface GetCampaignData {
   campaign: CampaignType | null
 }
 
-export type GetCampaignsData = {
+export interface GetCampaignsData {
   campaigns: CampaignType[]
 }
 
-export type GetCurrentUserData = {
+export interface GetCurrentUserData {
   currentUser: UserType
 }
 
-export type GetUsersData = {
+export interface GetUsersData {
   users: UserType[]
 }
 
-export type LoginUserData = {
+export interface LoginUserData {
   loginUser: LoginUserType
 }
 
-export type RefreshTokensData = {
+export interface RefreshTokensData {
   refreshTokens: RefreshTokensType
 }

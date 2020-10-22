@@ -1,14 +1,13 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react'
+import React, { Component, ErrorInfo } from 'react'
+import { HasChildren } from '../../../types'
 
-type Props = {
-  children: ReactNode
-}
+interface Props extends HasChildren {}
 
-type State = {
+interface State {
   hasError: boolean
 }
 
-class ErrorBoundary extends Component<Props, State> {
+export class ErrorBoundary extends Component<Props, State> {
   state: State = {
     hasError: false,
   }
@@ -25,5 +24,3 @@ class ErrorBoundary extends Component<Props, State> {
     return this.props.children
   }
 }
-
-export default ErrorBoundary

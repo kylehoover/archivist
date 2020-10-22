@@ -1,6 +1,5 @@
 import { Arg, ID, Mutation, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
-
 import { CampaignService, ServiceName } from '../../services'
 import { Authorized, CurrentUser } from '../decorators'
 import { AddCampaignInputType, CampaignType } from '../types'
@@ -8,15 +7,22 @@ import { RequestUserInfo, withNewModelFields } from '../../models'
 
 @Service()
 @Resolver(CampaignType)
-class CampaignResolver {
+export class CampaignResolver {
   constructor(@Inject(ServiceName.Campaign) private readonly campaignService: CampaignService) {}
 
   // Queries //
 
   @Query(returns => CampaignType, { nullable: true })
-  public async campaign(@Arg('id', type => ID) id: string): Promise<CampaignType | undefined> {
+  @Authorized()
+  public async campaign(
+    @Arg('id', type => ID) id: string,
+    @CurrentUser() userInfo: RequestUserInfo,
+  ): Promise<CampaignType | null> {
     const campaign = await this.campaignService.findById(id)
-    return campaign?.toGraphQLType()
+
+    return campaign?.userId === userInfo.userId
+      ? campaign.toGraphQLType()
+      : null
   }
 
   @Query(returns => [CampaignType])
@@ -41,5 +47,3 @@ class CampaignResolver {
 
 
 }
-
-export default CampaignResolver

@@ -1,18 +1,17 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import classNames from 'classnames'
-
+import { MightHaveChildren } from '../../../types'
 import { numToRem } from '../../../helpers'
 import './Container.scss'
 
-type Props = {
+interface Props extends MightHaveChildren {
   className?: string
   centered?: boolean
-  children?: ReactNode
   maxWidth?: number
   minWidth?: number
 }
 
-const Container = ({
+export const Container = ({
   className,
   centered = false,
   children,
@@ -31,5 +30,3 @@ const Container = ({
     </div>
   )
 }
-
-export default Container

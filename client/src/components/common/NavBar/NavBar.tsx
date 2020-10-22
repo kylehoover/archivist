@@ -1,11 +1,10 @@
 import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
-
 import { Button } from '../'
 import { useStores } from '../../../stores'
 import './NavBar.scss'
 
-const NavBar = () => {
+export const NavBar = () => {
   const history = useHistory()
   const { userStore } = useStores()
 
@@ -30,5 +29,3 @@ const NavBar = () => {
     </nav>
   )
 }
-
-export default NavBar

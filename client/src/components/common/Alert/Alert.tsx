@@ -1,16 +1,15 @@
 import React from 'react'
 import classNames from 'classnames'
-
 import './Alert.scss'
 
-type Props = {
+interface Props {
   children?: string,
   color?: string,
   flat?: boolean,
   icon?: string,
 }
 
-const Alert = ({
+export const Alert = ({
   children,
   color = 'blue',
   flat = false,
@@ -25,5 +24,3 @@ const Alert = ({
     </div>
   )
 }
-
-export default Alert

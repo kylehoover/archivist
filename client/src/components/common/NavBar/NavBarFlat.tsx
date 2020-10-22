@@ -1,7 +1,6 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
 import { useHistory, useLocation } from 'react-router-dom'
-
 import { Button, Icon } from '../'
 import { useUserStore } from '../../../stores'
 import './NavBarFlat.scss'

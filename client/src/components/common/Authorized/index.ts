@@ -1,1 +1,1 @@
-export { default as Authorized } from './Authorized'
+export * from './Authorized'

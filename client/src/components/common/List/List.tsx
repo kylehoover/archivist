@@ -1,16 +1,15 @@
 import React, { ReactNode } from 'react'
 import { observer } from 'mobx-react-lite'
-
 import { Info } from '../Alert'
 import './List.scss'
 
-type Props<T> = {
+interface Props<T> {
   items?: T[],
   itemsEmptyText?: string,
   renderItem: (item: T, index: number) => ReactNode,
 }
 
-const List = observer(<T extends unknown>({
+export const List = observer(<T extends unknown>({
   items = [],
   itemsEmptyText = 'There are no items in this list',
   renderItem,
@@ -34,4 +33,3 @@ const List = observer(<T extends unknown>({
   )
 })
 
-export default List

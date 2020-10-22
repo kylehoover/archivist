@@ -1,5 +1,4 @@
 import { makeObservable, observable } from 'mobx'
-
 import { Model, ModelFields, Permissions, getPermissionsFromGraphQLType } from './'
 import { UserType } from '../graphql'
 

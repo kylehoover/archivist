@@ -1,3 +1,4 @@
+import { clearAccessToken, request, setAccessToken, authenticatedRequest } from './request'
 import {
   GetCurrentUserData,
   GetUsersData,
@@ -7,7 +8,6 @@ import {
   RefreshTokensType,
   UserType
 } from './types'
-import { clearAccessToken, request, setAccessToken, authenticatedRequest } from './request'
 
 // Queries //
 

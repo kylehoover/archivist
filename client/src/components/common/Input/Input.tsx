@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
 import { FieldError, ValidationRules, useFormContext } from 'react-hook-form'
-
+import { MightHaveClassName } from '../../../types'
 import { numToRem, strIsEmpty } from '../../../helpers'
 import './Input.scss'
 
@@ -9,8 +9,7 @@ export type InputError = FieldError & {
   shouldFocus?: boolean
 }
 
-type Props = {
-  className?: string
+interface Props extends MightHaveClassName {
   disabled?: boolean
   error?: InputError
   label: string
@@ -23,7 +22,7 @@ type Props = {
   width?: number
 }
 
-type ErrorMessageProps = {
+interface ErrorMessageProps {
   error?: FieldError
   validationRules: ValidationRules
 }
@@ -57,7 +56,7 @@ const ErrorMessage = ({ error, validationRules }: ErrorMessageProps) => {
   )
 }
 
-const Input = ({
+export const Input = ({
   className,
   disabled = false,
   error,
@@ -122,5 +121,3 @@ const Input = ({
     </div>
   )
 }
-
-export default Input

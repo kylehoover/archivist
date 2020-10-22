@@ -1,6 +1,6 @@
-import React, { ReactNode } from 'react'
-
+import React from 'react'
 import { Button } from '../Button'
+import { MightHaveChildren } from '../../../types'
 import './Panel.scss'
 
 export type PanelAction = {
@@ -10,14 +10,13 @@ export type PanelAction = {
   label: string,
 }
 
-type Props = {
+interface Props extends MightHaveChildren {
   actions?: PanelAction[],
-  children?: ReactNode,
   color: string,
   title?: string,
 }
 
-const Panel = ({ actions = [], children, color, title }: Props) => {
+export const Panel = ({ actions = [], children, color, title }: Props) => {
   return (
     <div className='Panel'>
       <header>
@@ -48,5 +47,3 @@ const Panel = ({ actions = [], children, color, title }: Props) => {
     </div>
   )
 }
-
-export default Panel

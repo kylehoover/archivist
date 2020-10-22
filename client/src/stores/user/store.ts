@@ -1,5 +1,4 @@
 import { action, makeObservable, observable, runInAction } from 'mobx'
-
 import { RootStore } from '../root'
 import { User } from '../../models'
 import { fetchCurrentUser, loginUser } from '../../graphql'

@@ -1,5 +1,4 @@
 import { makeObservable, observable } from 'mobx'
-
 import { Model, ModelFields } from './Model'
 import { CampaignType } from '../graphql'
 

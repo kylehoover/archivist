@@ -1,7 +1,6 @@
 import React from 'react'
 import { Loading, NavBarFlat, Routes } from './components'
 import { useOnAppLoad } from './helpers'
-
 import './styles/index.scss'
 
 export const App = () => {

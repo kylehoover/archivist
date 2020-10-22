@@ -1,10 +1,8 @@
-import React, { ReactNode, createContext, useMemo } from 'react'
-
+import React, { createContext, useMemo } from 'react'
+import { MightHaveChildren } from '../types'
 import { RootStore } from './root'
 
-type Props = {
-  children?: ReactNode
-}
+interface Props extends MightHaveChildren {}
 
 export const StoreContext = createContext<RootStore | null>(null)
 

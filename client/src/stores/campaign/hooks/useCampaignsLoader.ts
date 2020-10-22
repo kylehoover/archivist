@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-
 import { fetchCampaigns } from '../../../graphql'
 import { useAsync } from '../../../helpers'
 import { useCampaignStore } from './useCampaignStore'
@@ -7,7 +6,7 @@ import { useCampaignStore } from './useCampaignStore'
 export const useCampaignsLoader = () => {
   const store = useCampaignStore()
   const { addCampaigns, handleDidLoadData, needsToLoadData } = store
-  const [loadCampaigns, { isError }] = useAsync(fetchCampaigns, { minDelayMillis: 500 })
+  const [loadCampaigns, { isError }] = useAsync(fetchCampaigns, { minDelayMillis: 250 })
   const [isPending, setPending] = useState(false)
 
   useEffect(() => {

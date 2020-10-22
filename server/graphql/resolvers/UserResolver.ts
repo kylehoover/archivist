@@ -1,14 +1,12 @@
 import { Arg, Ctx, ID, Mutation, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 import { Request } from 'express'
-
 import DataProvider from '../../DataProvider'
 import { Authorized, CurrentUser, NotLoggedIn } from '../decorators'
 import { InvalidCredentialsError, NotAllowedError, UnauthorizedError, UnknownError } from '../errors'
 import { ServiceName, UserService } from '../../services'
 import { VoidScalar } from '../scalars'
 import { validateEmailIsAvailable } from '../auth'
-
 import {
   LoginUserInputType,
   LoginUserType,
@@ -16,7 +14,6 @@ import {
   RegisterUserInputType,
   UserType,
 } from '../types'
-
 import {
   RegistrationState,
   RegistrationType,
@@ -26,7 +23,6 @@ import {
   withNewModelFields,
   withUpdatedModelFields,
 } from '../../models'
-
 import {
   generateRefreshToken,
   getNormalizedEmail,
@@ -37,7 +33,7 @@ import {
 
 @Service()
 @Resolver(UserType)
-class UserResolver {
+export class UserResolver {
   constructor(@Inject(ServiceName.User) private readonly userService: UserService) {}
 
   // Queries //
@@ -154,5 +150,3 @@ class UserResolver {
     setRefreshTokenCookie(req, refreshToken)
   }
 }
-
-export default UserResolver

@@ -1,5 +1,4 @@
 import { action, computed, makeObservable, observable } from 'mobx'
-
 import { Campaign } from '../../models'
 import { CampaignType } from '../../graphql'
 import { DataStore } from '../DataStore'

@@ -2,14 +2,12 @@ import dayjs from 'dayjs'
 import { Arg, ID, Mutation, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 import { v4 as uuid } from 'uuid'
-
 import DataProvider from '../../DataProvider'
 import { Authorized, CurrentUser } from '../decorators'
 import { CanInviteUsers, validateEmailIsAvailable } from '../auth'
 import { RequestUserInfo, UserRegistrationInvitationFields, withNewModelFields } from '../../models'
 import { ServiceName, UserRegistrationInvitationService, UserService } from '../../services'
 import { getNormalizedEmail } from '../../helpers'
-
 import {
   AcceptInvitationInputType,
   ResponseType,
@@ -19,7 +17,7 @@ import {
 
 @Service()
 @Resolver(UserRegistrationInvitationType)
-class UserRegistrationInvitationResolver {
+export class UserRegistrationInvitationResolver {
   constructor(
     @Inject(ServiceName.UserRegistrationInvitation)
     private readonly invitationService: UserRegistrationInvitationService,
@@ -74,5 +72,3 @@ class UserRegistrationInvitationResolver {
     return invitation.toGraphQLType()
   }
 }
-
-export default UserRegistrationInvitationResolver

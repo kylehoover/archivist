@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig } from 'axios'
-
 import { AccessTokenState, GraphQLVariables, RequestErrorType } from './types'
 import { AuthenticationRequiredError, RequestError } from './errors'
 import { refreshTokens } from './users'

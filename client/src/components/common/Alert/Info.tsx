@@ -1,18 +1,15 @@
 import React from 'react'
+import { Alert } from './Alert'
 
-import Alert from './Alert'
-
-type Props = {
+interface Props {
   children: string,
   flat?: boolean,
 }
 
-const Info = ({ children, flat }: Props) => {
+export const Info = ({ children, flat }: Props) => {
   return (
     <Alert color='cyan' icon='info' flat={flat}>
       {children}
     </Alert>
   )
 }
-
-export default Info

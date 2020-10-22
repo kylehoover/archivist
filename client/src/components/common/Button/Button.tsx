@@ -1,11 +1,10 @@
-import React, { MouseEvent, ReactNode } from 'react'
+import React, { MouseEvent } from 'react'
 import classNames from 'classnames'
+import { MightHaveChildren } from '../../../types'
 import { useHistory } from 'react-router-dom'
-
 import './Button.scss'
 
-type Props = {
-  children?: ReactNode,
+interface Props extends MightHaveChildren {
   color?: string,
   disabled?: boolean,
   fillParent?: boolean,
@@ -17,7 +16,7 @@ type Props = {
   type?: 'button' | 'submit',
 }
 
-const Button = ({
+export const Button = ({
   children,
   color = 'primary',
   disabled = false,
@@ -60,5 +59,3 @@ const Button = ({
     </button>
   )
 }
-
-export default Button

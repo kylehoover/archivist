@@ -1,6 +1,5 @@
 import { Arg, ID, Mutation, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
-
 import DataProvider from '../../DataProvider'
 import { NotAllowedError } from '../errors'
 import { RegistrationState, UserRegistrationRequestFields, withNewModelFields } from '../../models'
@@ -11,7 +10,7 @@ import { validateEmailIsAvailable } from '../auth'
 
 @Service()
 @Resolver(UserRegistrationRequestType)
-class UserRegistrationRequestResolver {
+export class UserRegistrationRequestResolver {
   constructor(
     @Inject(ServiceName.UserRegistrationRequest)
     private readonly registrationRequestService: UserRegistrationRequestService,
@@ -58,5 +57,3 @@ class UserRegistrationRequestResolver {
     return registrationRequest.toGraphQLType()
   }
 }
-
-export default UserRegistrationRequestResolver
