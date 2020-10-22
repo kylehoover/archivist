@@ -86,6 +86,10 @@ export type AddCampaignData = {
   addCampaign: CampaignType
 }
 
+export interface GetCampaignData {
+  campaign: CampaignType | null
+}
+
 export type GetCampaignsData = {
   campaigns: CampaignType[]
 }

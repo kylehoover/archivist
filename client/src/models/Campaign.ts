@@ -1,13 +1,13 @@
 import { makeObservable, observable } from 'mobx'
 
-import Model, { ModelFields } from './Model'
+import { Model, ModelFields } from './Model'
 import { CampaignType } from '../graphql'
 
 export interface CampaignFields extends ModelFields {
   name: string
 }
 
-class Campaign extends Model {
+export class Campaign extends Model {
   public name: string
 
   constructor(fields: CampaignFields) {
@@ -24,5 +24,3 @@ class Campaign extends Model {
     return new Campaign(data)
   }
 }
-
-export default Campaign

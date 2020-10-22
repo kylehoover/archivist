@@ -9,7 +9,7 @@ export interface UserFields extends ModelFields {
   permissions: Permissions
 }
 
-class User extends Model {
+export class User extends Model {
   public name: string
   public email: string
   public readonly permissions: Permissions
@@ -31,5 +31,3 @@ class User extends Model {
     return new User({ ...data, permissions: getPermissionsFromGraphQLType(data.permissions) })
   }
 }
-
-export default User

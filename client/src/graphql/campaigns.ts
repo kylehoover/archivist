@@ -1,5 +1,28 @@
-import { AddCampaignData, AddCampaignInputType, CampaignType, GetCampaignsData } from './types'
 import { authenticatedRequest } from './request'
+import {
+  AddCampaignData,
+  AddCampaignInputType,
+  CampaignType,
+  GetCampaignData,
+  GetCampaignsData,
+} from './types'
+
+// Queries //
+
+export const fetchCampaign = async (id: string): Promise<CampaignType | null> => {
+  const query = `
+    query GetCampaign($id: ID!) {
+      campaign(id: $id) {
+        id
+        name
+        modifiedAt
+      }
+    }
+  `
+
+  const data: GetCampaignData = await authenticatedRequest(query, { id })
+  return data.campaign
+}
 
 export const fetchCampaigns = async (): Promise<CampaignType[]> => {
   const query = `
@@ -15,6 +38,8 @@ export const fetchCampaigns = async (): Promise<CampaignType[]> => {
   const data: GetCampaignsData = await authenticatedRequest(query)
   return data.campaigns
 }
+
+// Mutations //
 
 export const addCampaign = async (input: AddCampaignInputType): Promise<CampaignType> => {
   const mutation = `

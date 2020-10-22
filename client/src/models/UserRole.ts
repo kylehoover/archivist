@@ -1,4 +1,4 @@
-import Model from './Model'
+import { Model } from './Model'
 import { PermissionType } from '../graphql'
 
 export enum PermissionName {
@@ -19,6 +19,4 @@ export function getPermissionsFromGraphQLType(data: PermissionType[]): Permissio
   }), {} as Permissions)
 }
 
-class UserRole extends Model {}
-
-export default UserRole
+export class UserRole extends Model {}

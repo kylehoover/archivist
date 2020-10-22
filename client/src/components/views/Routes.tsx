@@ -16,14 +16,14 @@ export const Routes = () => {
       <Route exact strict path='/'>
         <LoginView />
       </Route>
-      <Route exact strict path='/campaign/'>
-        <Authorized>
-          <CampaignView />
-        </Authorized>
-      </Route>
       <Route exact strict path='/campaign/new/'>
         <Authorized>
           <NewCampaignView />
+        </Authorized>
+      </Route>
+      <Route exact strict path='/campaign/:id/'>
+        <Authorized>
+          <CampaignView />
         </Authorized>
       </Route>
       <Route exact strict path='/home/'>

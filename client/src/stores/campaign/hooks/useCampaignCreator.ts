@@ -11,7 +11,7 @@ export const useCampaignCreator = () => {
     const { data, isSuccess } = innerResult
 
     if (isSuccess && data !== null) {
-      store.addCampaigns([data])
+      store.addCampaign(data)
     }
 
     return innerResult

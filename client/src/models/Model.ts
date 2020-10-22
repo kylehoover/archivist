@@ -4,7 +4,7 @@ export interface ModelFields {
   modifiedAt: Date
 }
 
-abstract class Model {
+export abstract class Model {
   public readonly id: string
   public createdAt?: Date
   public modifiedAt?: Date
@@ -15,5 +15,3 @@ abstract class Model {
     this.modifiedAt = fields.modifiedAt
   }
 }
-
-export default Model

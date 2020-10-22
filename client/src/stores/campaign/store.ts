@@ -27,7 +27,11 @@ export class CampaignStore extends DataStore {
     return Object.values(this.campaigns)
   }
 
-  public addCampaigns(campaigns: CampaignType[]): void {
+  public addCampaign = (campaign: CampaignType): void => {
+    this.addCampaigns([campaign])
+  }
+
+  public addCampaigns = (campaigns: CampaignType[]): void => {
     campaigns
       .map(campaignType => Campaign.fromGraphQLType(campaignType))
       .forEach(campaign => {
