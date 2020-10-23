@@ -1,6 +1,5 @@
 import Joi from 'joi'
 import { Service } from 'typedi'
-
 import { MongoDb, deleteById, findAll, findById, insertOne, updateById } from './MongoDb'
 import { UserRegistrationInvitationService } from '../services'
 import { modelSchema } from './helpers'

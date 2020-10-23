@@ -1,7 +1,6 @@
 import { Collection, Db, FindOneAndUpdateOption, MongoClient, MongoError, ObjectId } from 'mongodb'
 import { Service } from 'typedi'
 import { ObjectSchema } from 'joi'
-
 import { ModelFields } from '../models'
 import { CollectionName, MongoDocument, UpdateOperations } from './types'
 import { getEnv } from '../Env'

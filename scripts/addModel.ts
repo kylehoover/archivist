@@ -128,9 +128,14 @@ async function createGraphQLResolverFile(modelName: string, modelNamePlural: str
 }
 
 async function createMongoServiceFile(modelName: string, modelNamePlural: string): Promise<void> {
-  // mongo/MongoDb.ts
-  let filePath = path.join(serverPath, 'mongo', 'MongoDb.ts')
+  // mongo/types.ts
+  let filePath = path.join(serverPath, 'mongo', 'types.ts')
   let buffer = await fs.readFile(filePath)
+  await fs.writeFile(filePath, fileContents.mongoTypesFile(modelName, modelNamePlural, buffer))
+  modifiedFiles.push(filePath)
+  // mongo/MongoDb.ts
+  filePath = path.join(serverPath, 'mongo', 'MongoDb.ts')
+  buffer = await fs.readFile(filePath)
   await fs.writeFile(filePath, fileContents.mongoDbFile(modelName, modelNamePlural, buffer))
   modifiedFiles.push(filePath)
   // mongo/Mongo{Model}Service.ts

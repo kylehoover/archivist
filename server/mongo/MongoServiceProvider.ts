@@ -1,5 +1,4 @@
 import { Container, Service } from 'typedi'
-
 import { MongoAppSettingService } from './MongoAppSettingService'
 import { MongoCampaignService } from './MongoCampaignService'
 import { MongoUserRegistrationInvitationService } from './MongoUserRegistrationInvitationService'
@@ -10,7 +9,7 @@ import { MongoDb } from './MongoDb'
 import { ServiceProvider } from '../services'
 
 @Service()
-class MongoServiceProvider implements ServiceProvider {
+export class MongoServiceProvider implements ServiceProvider {
   constructor(private readonly db: MongoDb) {}
 
   public async init(): Promise<void> {
@@ -41,5 +40,3 @@ class MongoServiceProvider implements ServiceProvider {
     return Container.get(MongoUserService)
   }
 }
-
-export default MongoServiceProvider

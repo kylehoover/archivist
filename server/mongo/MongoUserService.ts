@@ -1,6 +1,5 @@
 import Joi from 'joi'
 import { Service } from 'typedi'
-
 import { NewUserFields, UpdatedUserFields, User, UserModelFields } from '../models/User'
 import { MongoDb, deleteById, findAll, findById, insertOne, updateById } from './MongoDb'
 import { UserService } from '../services'

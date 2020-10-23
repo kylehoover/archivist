@@ -38,19 +38,18 @@ export function modelsIndexFile(modelName: string, buffer: Buffer): string {
       added = true
     }
 
-    output += line
+    output += line + '\n'
   })
 
-  return output
+  return output.substring(0, output.length - 1)
 }
 
 export function serviceFile(modelName: string): string {
   return `import { DataService } from './DataService'
-  import { ${modelName}, New${modelName}Fields, Updated${modelName}Fields } from '../models'
-  import { UserIdService } from './types'
-  
-  export interface ${modelName}Service extends
-    DataService<${modelName}, New${modelName}Fields, Updated${modelName}Fields> {}
+import { ${modelName}, New${modelName}Fields, Updated${modelName}Fields } from '../models'
+
+export interface ${modelName}Service extends
+  DataService<${modelName}, New${modelName}Fields, Updated${modelName}Fields> {}
 `
 }
 
@@ -80,10 +79,10 @@ export function serviceProvderFile(modelName: string, buffer: Buffer): string {
       canAdd2 = true
     }
 
-    output += line
+    output += line + '\n'
   })
 
-  return output
+  return output.substring(0, output.length - 1)
 }
 
 export function serviceNameFile(modelName: string, buffer: Buffer): string {
@@ -98,10 +97,10 @@ export function serviceNameFile(modelName: string, buffer: Buffer): string {
       added = true
     }
 
-    output += line
+    output += line + '\n'
   })
 
-  return output
+  return output.substring(0, output.length - 1)
 }
 
 export function servicesUtilFile(modelName: string, buffer: Buffer): string {
@@ -121,10 +120,10 @@ export function servicesUtilFile(modelName: string, buffer: Buffer): string {
       canAdd = true
     }
 
-    output += line
+    output += line + '\n'
   })
 
-  return output
+  return output.substring(0, output.length - 1)
 }
 
 export function servicesIndexFile(modelName: string, buffer: Buffer): string {
@@ -141,10 +140,10 @@ export function servicesIndexFile(modelName: string, buffer: Buffer): string {
       added = true
     }
 
-    output += line
+    output += line + '\n'
   })
 
-  return output
+  return output.substring(0, output.length - 1)
 }
 
 export function graphQLTypeFile(modelName: string): string {
@@ -166,7 +165,7 @@ export function graphQLTypesIndexFile(modelName: string, buffer: Buffer): string
   let added = false
   let output = ''
   const lines = buffer.toString().split('\n')
-  const str = `export { default as ${modelName}Type } from './${modelName}Type'\n`
+  const str = `export * from './${modelName}Type'\n`
 
   lines.forEach(line => {
     const lineTrimmed = line.trim()
@@ -176,10 +175,10 @@ export function graphQLTypesIndexFile(modelName: string, buffer: Buffer): string
       added = true
     }
 
-    output += line
+    output += line + '\n'
   })
 
-  return output
+  return output.substring(0, output.length - 1)
 }
 
 export function graphQLResolverFile(modelName: string, modelNamePlural: string): string {
@@ -190,7 +189,7 @@ export function graphQLResolverFile(modelName: string, modelNamePlural: string):
   return `import { Arg, ID, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 import { ${modelName}Service, ServiceName } from '../../services'
-import { Authorized, CurrentUser } from '../decorators'
+import { Authorized } from '../decorators'
 import { ${modelName}Type } from '../types'
 
 @Service()
@@ -199,12 +198,14 @@ export class ${modelName}Resolver {
   constructor(@Inject(ServiceName.${modelName}) private readonly ${camelCaseName}Service: ${modelName}Service) {}
 
   @Query(returns => ${modelName}Type, { nullable: true })
+  @Authorized()
   public async ${camelCaseName}(@Arg('id', type => ID) id: string): Promise<${modelName}Type | undefined> {
     const ${camelCaseName} = await this.${camelCaseName}Service.findById(id)
     return ${camelCaseName}?.toGraphQLType()
   }
 
   @Query(returns => [${modelName}Type])
+  @Authorized()
   public async ${camelCaseNamePlural}(): Promise<${modelName}Type[]> {
     const ${camelCaseNamePlural} = await this.${camelCaseName}Service.findAll()
     return ${camelCaseNamePlural}.map(${firstLetter} => ${firstLetter}.toGraphQLType())
@@ -227,57 +228,69 @@ export function graphQLResolversIndexFile(modelName: string, buffer: Buffer): st
       added = true
     }
 
-    output += line
+    output += line + '\n'
   })
 
-  return output
+  return output.substring(0, output.length - 1)
 }
 
-export function mongoDbFile(modelName: string, modelNamePlural: string, buffer: Buffer): string {
-  let added1 = false
-  let added2 = false
-  let canAdd1 = false
-  let canAdd2 = false
+export function mongoTypesFile(modelName: string, modelNamePlural: string, buffer: Buffer): string {
+  let added = false
+  let canAdd = false
   let output = ''
   const lines = buffer.toString().split('\n')
   const camelCaseNamePlural = camelCase(modelNamePlural)
-  const str1 = `  ${modelNamePlural} = '${camelCaseNamePlural}',\n`
-  const str2 = `  public get ${camelCaseNamePlural}(): Collection {
+  const str = `  ${modelNamePlural} = '${camelCaseNamePlural}',\n`
+
+  lines.forEach(line => {
+    if (canAdd && !added && (line === '}' || str < line)) {
+      output += str
+      added = true
+    }
+
+    if (!canAdd && line.includes('CollectionName')) {
+      canAdd = true
+    }
+
+    output += line + '\n'
+  })
+
+  return output.substring(0, output.length - 1)
+}
+
+export function mongoDbFile(modelName: string, modelNamePlural: string, buffer: Buffer): string {
+  let added = false
+  let canAdd = false
+  let output = ''
+  const lines = buffer.toString().split('\n')
+  const camelCaseNamePlural = camelCase(modelNamePlural)
+  const str = `  public get ${camelCaseNamePlural}(): Collection {
     return this.db.collection(CollectionName.${modelNamePlural})
   }\n\n`
 
   lines.forEach(line => {
-    if (canAdd1 && !added1 && (line === '}' || str1 < line)) {
-      output += str1
-      added1 = true
+    if (!canAdd && line.includes(': Collection {')) {
+      canAdd = true
     }
 
-    if (!canAdd1 && line.includes('CollectionName')) {
-      canAdd1 = true
-    }
-
-    if (!canAdd2 && line.includes(': Collection {')) {
-      canAdd2 = true
-    }
-
-    if (canAdd2 && !added2) {
+    if (canAdd && !added) {
       if (line.includes('public')) {
         if (line.includes(': Collection {')) {
-          if (str2 < line) {
-            output += str2
-            added2 = true
+          if (str < line) {
+            output += str
+            added = true
           }
         } else {
-          output += str2
-          added2 = true
+          output += str
+          added = true
         }
       }
     }
 
-    output += line
+    output += line + '\n'
   })
 
-  return output
+  return output.substring(0, output.length - 1)
 }
 
 export function mongoServiceFile(modelName: string, modelNamePlural: string): string {
@@ -286,7 +299,7 @@ export function mongoServiceFile(modelName: string, modelNamePlural: string): st
 
   return `import Joi from 'joi'
 import { Service } from 'typedi'
-import { ${modelName}, ${modelName}ModelFields, New${modelName}Fields, Update${modelName}Fields } from '../models/${modelName}'
+import { ${modelName}, ${modelName}ModelFields, New${modelName}Fields, Updated${modelName}Fields } from '../models/${modelName}'
 import { ${modelName}Service } from '../services'
 import { MongoDb, deleteById, findAll, findById, insertOne, updateById } from './MongoDb'
 import { modelSchema } from './helpers'
@@ -319,7 +332,7 @@ export class Mongo${modelName}Service implements ${modelName}Service {
     return new ${modelName}(doc)
   }
 
-  public async updateById(id: string, fields: Update${modelName}Fields, options = {
+  public async updateById(id: string, fields: Updated${modelName}Fields, options = {
     returnOriginal: false,
     upsert: false,
   }): Promise<${modelName}> {
@@ -339,7 +352,6 @@ export class Mongo${modelName}Service implements ${modelName}Service {
 export function mongoServiceProviderFile(modelName: string, buffer: Buffer): string {
   let added1 = false
   let added2 = false
-  let canAdd1 = false
   let canAdd2 = false
   let output = ''
   const lines = buffer.toString().split('\n')
@@ -351,11 +363,7 @@ export function mongoServiceProviderFile(modelName: string, buffer: Buffer): str
   lines.forEach(line => {
     const lineTrimmed = line.trim()
 
-    if (!canAdd1 && line.includes('import Mongo')) {
-      canAdd1 = true
-    }
-
-    if (canAdd1 && !added1 && (lineTrimmed === '' || str1 < line)) {
+    if (!added1 && (lineTrimmed === '' || str1 < line)) {
       output += str1
       added1 = true
     }
@@ -374,8 +382,8 @@ export function mongoServiceProviderFile(modelName: string, buffer: Buffer): str
       }
     }
 
-    output += line
+    output += line + '\n'
   })
 
-  return output
+  return output.substring(0, output.length - 1)
 }
