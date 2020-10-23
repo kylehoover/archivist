@@ -64,6 +64,18 @@ async function run(): Promise<void> {
   }
 }
 
+async function createModelFile(modelName: string): Promise<void> {
+  // models/{Model}.ts
+  let filePath = path.join(serverPath, 'models', `${modelName}.ts`)
+  await fs.writeFile(filePath, fileContents.modelFile(modelName))
+  newFiles.push(filePath)
+  // models/index.ts
+  filePath = path.join(serverPath, 'models', 'index.ts')
+  const buffer = await fs.readFile(filePath)
+  await fs.writeFile(filePath, fileContents.modelsIndexFile(modelName, buffer))
+  modifiedFiles.push(filePath)
+}
+
 async function createServiceFile(modelName: string): Promise<void> {
   // services/{Model}Service.ts
   let filePath = path.join(serverPath, 'services', `${modelName}Service.ts`)
@@ -91,25 +103,13 @@ async function createServiceFile(modelName: string): Promise<void> {
   modifiedFiles.push(filePath)
 }
 
-async function createModelFile(modelName: string): Promise<void> {
-  // models/{Model}.ts
-  let filePath = path.join(serverPath, 'models', `${modelName}.ts`)
-  await fs.writeFile(filePath, fileContents.modelFile(modelName))
-  newFiles.push(filePath)
-  // models/index.ts
-  filePath = path.join(serverPath, 'models', 'index.ts')
-  const buffer = await fs.readFile(filePath)
-  await fs.writeFile(filePath, fileContents.modelsIndexFile(modelName, buffer))
-  modifiedFiles.push(filePath)
-}
-
 async function createGraphQLTypeFile(modelName: string): Promise<void> {
-  // graphql/types/{Model}Type.ts
-  let filePath = path.join(serverPath, 'graphql', 'types', `${modelName}Type.ts`)
+  // graphql/types/modelTypes/{Model}Type.ts
+  let filePath = path.join(serverPath, 'graphql', 'types', 'modelTypes', `${modelName}Type.ts`)
   await fs.writeFile(filePath, fileContents.graphQLTypeFile(modelName))
   newFiles.push(filePath)
-  // graphql/types/index.ts
-  filePath = path.join(serverPath, 'graphql', 'types', 'index.ts')
+  // graphql/types/modelTypes/index.ts
+  filePath = path.join(serverPath, 'graphql', 'types', 'modelTypes', 'index.ts')
   const buffer = await fs.readFile(filePath)
   await fs.writeFile(filePath, fileContents.graphQLTypesIndexFile(modelName, buffer))
   modifiedFiles.push(filePath)

@@ -1,9 +1,8 @@
 import { Field, ObjectType } from 'type-graphql'
-
 import { PermissionName } from '../../../models'
 
 @ObjectType()
-class PermissionType {
+export class PermissionType {
   @Field()
   public name!: PermissionName
 
@@ -15,5 +14,3 @@ class PermissionType {
     this.value = value
   }
 }
-
-export default PermissionType

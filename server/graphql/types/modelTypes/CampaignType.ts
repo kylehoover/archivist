@@ -1,10 +1,9 @@
 import { Field, ObjectType } from 'type-graphql'
-
-import ModelType from './ModelType'
 import { Campaign } from '../../../models'
+import { ModelType } from './ModelType'
 
 @ObjectType()
-class CampaignType extends ModelType {
+export class CampaignType extends ModelType {
   @Field({ description: 'The name of the campaign' })
   public name: string
 
@@ -13,5 +12,3 @@ class CampaignType extends ModelType {
     this.name = campaign.name
   }
 }
-
-export default CampaignType

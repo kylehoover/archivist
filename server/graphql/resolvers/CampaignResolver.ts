@@ -44,6 +44,4 @@ export class CampaignResolver {
     const campaign = await this.campaignService.insertOne(fields)
     return campaign.toGraphQLType()
   }
-
-
 }

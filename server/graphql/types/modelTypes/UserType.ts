@@ -1,11 +1,10 @@
 import { Field, ObjectType } from 'type-graphql'
-
-import ModelType from './ModelType'
-import PermissionType from './PermissionType'
+import { ModelType } from './ModelType'
+import { PermissionType } from './PermissionType'
 import { PermissionName, User } from '../../../models/'
 
 @ObjectType()
-class UserType extends ModelType {
+export class UserType extends ModelType {
   @Field()
   public email: string
 
@@ -25,5 +24,3 @@ class UserType extends ModelType {
     )
   }
 }
-
-export default UserType

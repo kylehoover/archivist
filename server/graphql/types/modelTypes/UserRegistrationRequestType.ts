@@ -1,10 +1,9 @@
 import { Field, ObjectType } from 'type-graphql'
-
-import ModelType from './ModelType'
+import { ModelType } from './ModelType'
 import { UserRegistrationRequest } from '../../../models'
 
 @ObjectType()
-class UserRegistrationRequestType extends ModelType {
+export class UserRegistrationRequestType extends ModelType {
   @Field()
   public email: string
 
@@ -17,5 +16,3 @@ class UserRegistrationRequestType extends ModelType {
     this.name = registrationRequest.name
   }
 }
-
-export default UserRegistrationRequestType

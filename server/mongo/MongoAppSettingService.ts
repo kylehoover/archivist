@@ -1,6 +1,5 @@
 import Joi from 'joi'
 import { Service } from 'typedi'
-
 import { AppSetting, AppSettingModelFields, NewAppSettingFields, UpdateAppSettingFields } from '../models/AppSetting'
 import { AppSettingService } from '../services'
 import { MongoDb, deleteById, findAll, findById, insertOne, updateById } from './MongoDb'

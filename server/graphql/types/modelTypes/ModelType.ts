@@ -1,9 +1,8 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-
 import { Model } from '../../../models'
 
 @ObjectType()
-abstract class ModelType {
+export abstract class ModelType {
   @Field(type => ID)
   public id: string
 
@@ -19,5 +18,3 @@ abstract class ModelType {
     this.modifiedAt = model.modifiedAt
   }
 }
-
-export default ModelType
