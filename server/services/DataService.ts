@@ -1,7 +1,7 @@
-export interface DataService<DataType, NewDataFields, UpdatedDataFields> {
+export interface DataService<DataType, NewDataFields, UpdatedDataFields, FilterFields> {
   deleteById(id: string): Promise<DataType>
-  findAll(): Promise<DataType[]>
-  findById(id: string): Promise<DataType | null>
+  findAll(filterBy?: Partial<FilterFields>): Promise<DataType[]>
+  findById(id: string, filterBy?: Partial<FilterFields>): Promise<DataType | null>
   insertOne(fields: NewDataFields): Promise<DataType>
   updateById(id: string, fields: UpdatedDataFields, options?: {
     returnOriginal: boolean

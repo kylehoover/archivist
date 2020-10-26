@@ -18,17 +18,14 @@ export class CampaignResolver {
     @Arg('id', type => ID) id: string,
     @CurrentUser() userInfo: RequestUserInfo,
   ): Promise<CampaignType | null> {
-    const campaign = await this.campaignService.findById(id)
-
-    return campaign?.userId === userInfo.userId
-      ? campaign.toGraphQLType()
-      : null
+    const campaign = await this.campaignService.findById(id, { userId: userInfo.userId })
+    return campaign?.toGraphQLType() ?? null
   }
 
   @Query(returns => [CampaignType])
   @Authorized()
   public async campaigns(@CurrentUser() userInfo: RequestUserInfo): Promise<CampaignType[]> {
-    const campaigns = await this.campaignService.findAllByUserId(userInfo.userId)
+    const campaigns = await this.campaignService.findAll({ userId: userInfo.userId })
     return campaigns.map(c => c.toGraphQLType())
   }
 

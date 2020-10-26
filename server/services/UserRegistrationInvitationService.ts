@@ -8,5 +8,6 @@ import {
 export interface UserRegistrationInvitationService extends DataService<
   UserRegistrationInvitation,
   NewUserRegistrationInvitationFields,
-  UpdatedUserRegistrationInvitationFields
+  UpdatedUserRegistrationInvitationFields,
+  {}
 > {}

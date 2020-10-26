@@ -1,4 +1,4 @@
-import { Collection, Db, FindOneAndUpdateOption, MongoClient, MongoError, ObjectId } from 'mongodb'
+import { Collection, Db, FilterQuery, FindOneAndUpdateOption, MongoClient, MongoError, ObjectId } from 'mongodb'
 import { Service } from 'typedi'
 import { ObjectSchema } from 'joi'
 import { ModelFields } from '../models'
@@ -20,20 +20,22 @@ export async function deleteById<T extends ModelFields>(
   return docToFields<T>(result.value, schema)
 }
 
-export function findAll<T extends ModelFields>(
+export function findAll<DataType extends ModelFields, FilterFields = {}>(
   collection: Collection,
   schema: ObjectSchema,
-): Promise<T[]> {
-  return collection.find().map(doc => docToFields<T>(doc, schema)).toArray()
+  filterBy?: FilterQuery<FilterFields>,
+): Promise<DataType[]> {
+  return collection.find(filterBy).map(doc => docToFields<DataType>(doc, schema)).toArray()
 }
 
-export async function findById<T extends ModelFields>(
+export async function findById<DataType extends ModelFields, FilterFields = {}>(
   id: string,
   collection: Collection,
   schema: ObjectSchema,
-): Promise<T | null> {
-  const doc = await collection.findOne({ _id: new ObjectId(id) })
-  return doc !== null ? docToFields<T>(doc, schema) : null
+  filterBy?: FilterQuery<FilterFields>,
+): Promise<DataType | null> {
+  const doc = await collection.findOne({ _id: new ObjectId(id), ...filterBy })
+  return doc !== null ? docToFields<DataType>(doc, schema) : null
 }
 
 export async function insertOne<T extends ModelFields>(

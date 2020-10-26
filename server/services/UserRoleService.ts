@@ -4,7 +4,8 @@ import { NewUserRoleFields, UpdatedUserRoleFields, UserRole } from '../models/Us
 export interface UserRoleService extends DataService<
   UserRole,
   NewUserRoleFields,
-  UpdatedUserRoleFields
+  UpdatedUserRoleFields,
+  {}
 > {
   findByName(name: string): Promise<UserRole | null>
   findDefaultRole(): Promise<UserRole>

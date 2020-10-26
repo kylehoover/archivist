@@ -1,9 +1,15 @@
 import Joi from 'joi'
 import { Service } from 'typedi'
 import { MongoDb, deleteById, findAll, findById, insertOne, updateById } from './MongoDb'
-import { Campaign, CampaignModelFields, NewCampaignFields, UpdatedCampaignFields } from '../models'
 import { CampaignService } from '../services'
-import { docToFields, modelSchema } from './helpers'
+import { modelSchema } from './helpers'
+import {
+  Campaign,
+  CampaignFields,
+  CampaignModelFields,
+  NewCampaignFields,
+  UpdatedCampaignFields,
+} from '../models'
 
 const campaignSchema = modelSchema.keys({
   name: Joi.string().required(),
@@ -19,18 +25,22 @@ export class MongoCampaignService implements CampaignService {
     return new Campaign(doc)
   }
 
-  public async findAll(): Promise<Campaign[]> {
-    const docs = await findAll<CampaignModelFields>(this.db.campaigns, campaignSchema)
+  public async findAll(filterBy?: Partial<CampaignFields>): Promise<Campaign[]> {
+    const docs = await findAll<CampaignModelFields, CampaignFields>(
+      this.db.campaigns,
+      campaignSchema,
+      filterBy,
+    )
     return docs.map(fields => new Campaign(fields))
   }
 
-  public async findAllByUserId(userId: string): Promise<Campaign[]> {
-    const docs = await this.db.campaigns.find<CampaignModelFields>({ userId }).toArray()
-    return docs.map(doc => new Campaign(docToFields(doc, campaignSchema)))
-  }
-
-  public async findById(id: string): Promise<Campaign | null> {
-    const doc = await findById<CampaignModelFields>(id, this.db.campaigns, campaignSchema)
+  public async findById(id: string, filterBy?: Partial<CampaignFields>): Promise<Campaign | null> {
+    const doc = await findById<CampaignModelFields, CampaignFields>(
+      id,
+      this.db.campaigns,
+      campaignSchema,
+      filterBy,
+    )
     return doc === null ? null : new Campaign(doc)
   }
 
