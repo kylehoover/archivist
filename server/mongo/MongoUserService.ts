@@ -1,9 +1,9 @@
 import Joi from 'joi'
 import { Service } from 'typedi'
-import { NewUserFields, UpdatedUserFields, User, UserModelFields } from '../models/User'
+import { NewUserFields, UpdatedUserFields, User, UserFields, UserModelFields } from '../models/User'
 import { MongoDb, deleteById, findAll, findById, insertOne, updateById } from './MongoDb'
 import { UserService } from '../services'
-import { docToFields, modelSchema } from './helpers'
+import { findOneOrThrow, modelSchema } from './helpers'
 
 const userSchema = modelSchema.keys({
   name: Joi.string().required(),
@@ -27,14 +27,14 @@ export class MongoUserService implements UserService {
     return new User(doc)
   }
 
-  public async findAll(): Promise<User[]> {
-    const docs = await findAll<UserModelFields>(this.db.users, userSchema)
+  public async findAll(filterBy?: Partial<UserFields>): Promise<User[]> {
+    const docs = await findAll<UserModelFields, UserFields>(this.db.users, userSchema, filterBy)
     return docs.map(fields => new User(fields))
   }
 
   public async findByEmail(email: string): Promise<User | null> {
-    const doc = await this.db.users.findOne<UserModelFields>({ email })
-    return this.userOrNull(doc)
+    const users = await this.findAll({ email })
+    return findOneOrThrow(users, 'Found duplicate email')
   }
 
   public async findById(id: string): Promise<User | null> {
@@ -43,8 +43,8 @@ export class MongoUserService implements UserService {
   }
 
   public async findByRefreshToken(refreshToken: string): Promise<User | null> {
-    const doc = await this.db.users.findOne<UserModelFields>({ refreshToken })
-    return this.userOrNull(doc)
+    const users = await this.findAll({ refreshToken })
+    return findOneOrThrow(users, 'Found duplicate refresh token')
   }
 
   public async insertOne(fields: NewUserFields): Promise<User> {
@@ -58,9 +58,5 @@ export class MongoUserService implements UserService {
   }): Promise<User> {
     const doc = await updateById<UserModelFields>(id, fields, this.db.users, userSchema, options)
     return new User(doc)
-  }
-
-  private userOrNull(doc: UserModelFields | null): User | null {
-    return doc === null ? null : new User(docToFields(doc, userSchema))
   }
 }

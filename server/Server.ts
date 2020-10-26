@@ -3,7 +3,7 @@ import express from 'express'
 import morgan from 'morgan'
 import { graphqlHTTP } from 'express-graphql'
 
-import DataProvider from './DataProvider'
+import { DataProvider } from './DataProvider'
 import { getEnv } from './Env'
 import { getSchema } from './graphql'
 import { getServiceProvider, registerServices } from './services'

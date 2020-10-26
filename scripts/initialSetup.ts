@@ -10,7 +10,9 @@ async function runSetup(): Promise<void> {
   const addedAppSettings = await addDefaultAppSettings(serviceProvider.getAppSettingService(), {
     overwrite: true,
   })
-  const addedUserRoles = await addDefaultUserRoles(serviceProvider.getUserRoleService(), { overwrite: true })
+  const addedUserRoles = await addDefaultUserRoles(serviceProvider.getUserRoleService(), {
+    overwrite: true,
+  })
 
   logAppSettings(addedAppSettings)
   logUserRoles(addedUserRoles)

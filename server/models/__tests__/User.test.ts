@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import DataProvider from '../../DataProvider'
+import { DataProvider } from '../../DataProvider'
 import { RegistrationType, User } from '../User'
 import { UserRole } from '../UserRole'
 

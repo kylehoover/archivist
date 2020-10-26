@@ -1,7 +1,7 @@
 import { Arg, Ctx, ID, Mutation, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 import { Request } from 'express'
-import DataProvider from '../../DataProvider'
+import { DataProvider } from '../../DataProvider'
 import { Authorized, CurrentUser, NotLoggedIn } from '../decorators'
 import { InvalidCredentialsError, NotAllowedError, UnauthorizedError, UnknownError } from '../errors'
 import { ServiceName, UserService } from '../../services'

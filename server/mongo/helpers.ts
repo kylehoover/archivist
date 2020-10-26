@@ -1,5 +1,6 @@
 import Joi from 'joi'
 import { ObjectId } from 'mongodb'
+import { DataIntegrityError } from '../helpers'
 
 import { ModelFields } from '../models'
 
@@ -16,6 +17,18 @@ export function docToFields <T extends ModelFields>(doc: any, schema: Joi.Object
     id: (_id as ObjectId).toHexString(),
     ...fields,
   }
+}
+
+export function findOneOrThrow<T>(docs: T[], errorMsg: string): T | null {
+  if (docs.length === 1) {
+    return docs[0]
+  }
+
+  if (docs.length > 1) {
+    throw new DataIntegrityError(errorMsg)
+  }
+
+  return null
 }
 
 export function objectIdValidator(value: any): ObjectId {

@@ -1,9 +1,15 @@
 import Joi from 'joi'
 import { Service } from 'typedi'
-import { NewUserRoleFields, UpdatedUserRoleFields, UserRole, UserRoleModelFields } from '../models/UserRole'
 import { MongoDb, deleteById, findAll, findById, insertOne, updateById } from './MongoDb'
 import { UserRoleService } from '../services'
-import { docToFields, modelSchema } from './helpers'
+import { docToFields, findOneOrThrow, modelSchema } from './helpers'
+import {
+  NewUserRoleFields,
+  UpdatedUserRoleFields,
+  UserRole,
+  UserRoleFields,
+  UserRoleModelFields,
+} from '../models/UserRole'
 
 const userRoleSchema = modelSchema.keys({
   name: Joi.string().required(),
@@ -26,8 +32,12 @@ export class MongoUserRoleService implements UserRoleService {
     return new UserRole(doc)
   }
 
-  public async findAll(): Promise<UserRole[]> {
-    const docs = await findAll<UserRoleModelFields>(this.db.userRoles, userRoleSchema)
+  public async findAll(filterBy?: Partial<UserRoleFields>): Promise<UserRole[]> {
+    const docs = await findAll<UserRoleModelFields, UserRoleFields>(
+      this.db.userRoles,
+      userRoleSchema,
+      filterBy,
+    )
     return docs.map(fields => new UserRole(fields))
   }
 
@@ -37,13 +47,12 @@ export class MongoUserRoleService implements UserRoleService {
   }
 
   public async findByName(name: string): Promise<UserRole | null> {
-    const doc = await this.db.userRoles.findOne<UserRoleModelFields>({ name })
-    return this.userRoleOrNull(doc)
+    const userRoles = await this.findAll({ name })
+    return findOneOrThrow(userRoles, 'Found more than one user role with the same name')
   }
 
   public async findDefaultRole(): Promise<UserRole> {
-    const docs = await this.db.userRoles.find<UserRoleModelFields>({ isDefault: true }).toArray()
-    const userRoles = docs.map(doc => new UserRole(docToFields(doc, userRoleSchema)))
+    const userRoles = await this.findAll({ isDefault: true })
     return UserRole.getDefaultRoleFromList(userRoles)
   }
 

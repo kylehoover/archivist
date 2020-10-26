@@ -4,7 +4,7 @@ type keyValueMap = {
   [key: string]: any
 }
 
-class BaseError extends GraphQLError {
+export class BaseError extends GraphQLError {
   constructor(type: string, message: string, extensions: keyValueMap = {}) {
     super(message, undefined, undefined, undefined, undefined, undefined, {
       errorType: type,
@@ -12,5 +12,3 @@ class BaseError extends GraphQLError {
     })
   }
 }
-
-export default BaseError

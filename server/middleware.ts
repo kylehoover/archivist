@@ -1,8 +1,8 @@
 import { RequestHandler } from 'express'
 import { TokenExpiredError } from 'jsonwebtoken'
 
-import DataProvider from './DataProvider'
 import { AccessTokenState } from './helpers/auth'
+import { DataProvider } from './DataProvider'
 import { RequestUserInfo } from './models/User'
 import { verifyAccessToken } from './helpers/auth'
 

@@ -5,7 +5,7 @@ import { UserRole, UserRolesMap } from './models/UserRole'
 import { AppSettingService, ServiceName, UserRoleService } from './services'
 
 @Service()
-class DataProvider {
+export class DataProvider {
   private appSettingsMap?: AppSettingsMap
   private defaultUserRoleId?: string
   private isInitialized = false
@@ -70,5 +70,3 @@ class DataProvider {
     this.userRolesMap = UserRole.listToMap(userRoles)
   }
 }
-
-export default DataProvider

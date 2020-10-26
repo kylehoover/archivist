@@ -1,4 +1,5 @@
 import { DateFields, Model, ModelFields, ModifiedAt } from './Model'
+import { DataIntegrityError } from '../helpers'
 import { UserRoleType } from '../graphql/types'
 
 export enum PermissionName {
@@ -45,11 +46,11 @@ export class UserRole extends Model {
     const defaultRoles = userRoles.filter(role => role.isDefault)
 
     if (defaultRoles.length === 0) {
-      throw new Error('Data Integrity Error: There is no default UserRole')
+      throw new DataIntegrityError('There is no default UserRole')
     }
 
     if (defaultRoles.length > 1) {
-      throw new Error('Data Integrity Error: There is more than one default UserRole')
+      throw new DataIntegrityError('There is more than one default UserRole')
     }
 
     return defaultRoles[0]
