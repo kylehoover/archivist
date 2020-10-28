@@ -32,7 +32,7 @@ module.exports = {
         "guard-for-in": "error",
         "id-blacklist": "error",
         "id-match": "error",
-        "max-classes-per-file": ["error", 2],
+        "max-classes-per-file": "off",
         "max-len": ["error", { "code": 120 }],
         "new-parens": "error",
         "no-bitwise": "error",

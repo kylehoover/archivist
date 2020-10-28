@@ -1,5 +1,6 @@
 export * from './AppSettingResolver'
 export * from './CampaignResolver'
+export * from './RaceResolver'
 export * from './UserRegistrationInvitationResolver'
 export * from './UserRegistrationRequestResolver'
 export * from './UserResolver'

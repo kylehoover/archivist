@@ -1,5 +1,6 @@
 export * from './AppSettingService'
 export * from './CampaignService'
+export * from './RaceService'
 export * from './ServiceProvider'
 export * from './ServiceName'
 export * from './UserRegistrationInvitationService'

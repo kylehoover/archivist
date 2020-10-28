@@ -49,7 +49,7 @@ export function serviceFile(modelName: string): string {
 import { ${modelName}, New${modelName}Fields, Updated${modelName}Fields } from '../models'
 
 export interface ${modelName}Service extends
-  DataService<${modelName}, New${modelName}Fields, Updated${modelName}Fields> {}
+  DataService<${modelName}, New${modelName}Fields, Updated${modelName}Fields, {}> {}
 `
 }
 

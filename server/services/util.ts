@@ -15,6 +15,7 @@ export function getServiceProvider(): ServiceProvider {
 export function registerServices(serviceProvider: ServiceProvider): void {
   Container.set(ServiceName.AppSetting, serviceProvider.getAppSettingService())
   Container.set(ServiceName.Campaign, serviceProvider.getCampaignService())
+  Container.set(ServiceName.Race, serviceProvider.getRaceService())
   Container.set(ServiceName.User, serviceProvider.getUserService())
   Container.set(ServiceName.UserRegistrationInvitation, serviceProvider.getUserRegistrationInvitationService())
   Container.set(ServiceName.UserRegistrationRequest, serviceProvider.getUserRegistrationRequestService())

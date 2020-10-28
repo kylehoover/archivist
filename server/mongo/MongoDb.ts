@@ -115,6 +115,10 @@ export class MongoDb {
     return this.db.collection(CollectionName.Campaigns)
   }
 
+  public get races(): Collection {
+    return this.db.collection(CollectionName.Races)
+  }
+
   public get userRegistrationInvitations(): Collection {
     return this.db.collection(CollectionName.UserRegistrationInvitations)
   }

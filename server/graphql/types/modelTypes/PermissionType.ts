@@ -4,10 +4,10 @@ import { PermissionName } from '../../../models'
 @ObjectType()
 export class PermissionType {
   @Field()
-  public name!: PermissionName
+  public name: PermissionName
 
   @Field()
-  public value!: boolean
+  public value: boolean
 
   constructor(name: PermissionName, value: boolean) {
     this.name = name

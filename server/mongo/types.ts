@@ -1,6 +1,7 @@
 export enum CollectionName {
   AppSettings = 'appSettings',
   Campaigns = 'campaigns',
+  Races = 'races',
   UserRegistrationInvitations = 'userRegistrationInvitations',
   UserRegistrationRequests = 'UserRegistrationRequests',
   UserRoles = 'userRoles',

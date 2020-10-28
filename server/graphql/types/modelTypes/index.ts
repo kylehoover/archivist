@@ -1,6 +1,7 @@
 export * from './AppSettingType'
 export * from './CampaignType'
 export * from './ModelType'
+export * from './RaceType'
 export * from './UserRegistrationInvitationType'
 export * from './UserRegistrationRequestType'
 export * from './UserRoleType'
