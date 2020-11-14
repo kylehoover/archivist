@@ -109,6 +109,7 @@ module.exports = {
         "@typescript-eslint/no-use-before-define": "off",
         "@typescript-eslint/prefer-for-of": "error",
         "@typescript-eslint/prefer-function-type": "error",
+        "@typescript-eslint/prefer-regexp-exec": "off",
         "@typescript-eslint/quotes": ["error", "single"],
         "@typescript-eslint/require-await": "off",
         "@typescript-eslint/semi": ["error", "never"],

@@ -1,12 +1,49 @@
 import Joi from 'joi'
 import { Service } from 'typedi'
-import { Race, RaceModelFields, NewRaceFields, UpdatedRaceFields } from '../models/Race'
+import { NewRaceFields, Race, RaceModelFields, UpdatedRaceFields } from '../models/Race'
 import { RaceService } from '../services'
 import { MongoDb, deleteById, findAll, findById, insertOne, updateById } from './MongoDb'
 import { modelSchema } from './helpers'
 
-const raceSchema = modelSchema.keys({
-
+export const raceSchema = modelSchema.keys({
+  name: Joi.string().required(),
+  description: Joi.string().required(),
+  asiInfo: Joi.object({
+    description: Joi.string().required(),
+    abilityScoreIncreases: Joi.array().items(Joi.object({
+      ability: Joi.string().valid(
+        'strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'
+      ).required(),
+      value: Joi.number().required(),
+    })).required(),
+  }),
+  ageInfo: Joi.object({
+    description: Joi.string().required(),
+  }),
+  alignmentInfo: Joi.object({
+    description: Joi.string().required(),
+    tendency: Joi.array().items(Joi.string()).required(),
+  }),
+  sizeInfo: Joi.object({
+    description: Joi.string().required(),
+    size: Joi.string().valid('tiny', 'small', 'medium', 'large', 'huge', 'gargantuan').required(),
+  }),
+  speedInfo: Joi.object({
+    description: Joi.string().required(),
+    walk: Joi.number().required(),
+  }),
+  languagesInfo: Joi.object({
+    description: Joi.string().required(),
+    languages: Joi.array().items(Joi.string()).required(),
+  }),
+  traits: Joi.array().items(Joi.object({
+    name: Joi.string().required(),
+    description: Joi.string().required(),
+  })).required(),
+  parentRaceId: Joi.string().allow(''),
+  subraceIds: Joi.array().items(Joi.string()).required(),
+  isSystemRecord: Joi.boolean().required(),
+  userId: Joi.string().required().allow(''),
 })
 
 @Service()
