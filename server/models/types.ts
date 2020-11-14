@@ -7,21 +7,12 @@ export enum Ability {
   Charisma = 'charisma',
 }
 
-export interface AbilityScoreIncrease {
-  ability: Ability
-  value: number
-}
-
 export enum Alignment {
   Lawful = 'lawful',
   Neutral = 'neutral',
   Chaotic = 'chaotic',
   Good = 'good',
   Evil = 'evil',
-}
-
-export interface MightBeSystemRecord {
-  isSystemRecord: boolean
 }
 
 export enum Size {
@@ -31,4 +22,47 @@ export enum Size {
   Large = 'large',
   Huge = 'huge',
   Gargantuan = 'gargantuan',
+}
+
+export interface AbilityScoreIncrease {
+  ability: Ability
+  value: number
+}
+
+export interface AgeInfo {
+  description: string
+}
+
+export interface AlignmentInfo {
+  description: string
+  tendency: Alignment[]
+}
+
+export interface AsiInfo {
+  description: string
+  abilityScoreIncreases: AbilityScoreIncrease[]
+}
+
+export interface LanguagesInfo {
+  description: string
+  languages: string[]
+}
+
+export interface MightBeSystemRecord {
+  isSystemRecord: boolean
+}
+
+export interface RacialTrait {
+  name: string
+  description: string
+}
+
+export interface SizeInfo {
+  description: string
+  size: Size
+}
+
+export interface SpeedInfo {
+  description: string
+  walk: number
 }

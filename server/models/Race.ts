@@ -1,40 +1,26 @@
 import { DateFields, Model, ModelFields, ModifiedAt } from './Model'
 import { RaceType } from '../graphql/types'
-import { AbilityScoreIncrease, Alignment, MightBeSystemRecord, Size } from './types'
-
-export interface AsiInfo {
-  description: string
-  abilityScoreIncreases: AbilityScoreIncrease[]
-}
-
-export interface AlignmentInfo {
-  description: string
-  tendency: Alignment[]
-}
-
-export interface SizeInfo {
-  description: string
-  size: Size
-}
-
-export interface SpeedInfo {
-  description: string
-  walk: number
-}
-
-export interface LanguagesInfo {
-  description: string
-  languages: string[]
-}
+import {
+  AgeInfo,
+  AlignmentInfo,
+  AsiInfo,
+  LanguagesInfo,
+  MightBeSystemRecord,
+  RacialTrait,
+  SizeInfo,
+  SpeedInfo,
+} from './types'
 
 export interface RaceFields extends MightBeSystemRecord {
   name: string
   description: string
   asiInfo: AsiInfo
+  ageInfo: AgeInfo
   alignmentInfo: AlignmentInfo
   sizeInfo: SizeInfo
   speedInfo: SpeedInfo
   languagesInfo: LanguagesInfo
+  traits: RacialTrait[]
   parentRaceId: string
   subraceIds: string[]
   userId: string
@@ -48,10 +34,12 @@ export class Race extends Model {
   public readonly name: string
   public readonly description: string
   public readonly asiInfo: AsiInfo
+  public readonly ageInfo: AgeInfo
   public readonly alignmentInfo: AlignmentInfo
   public readonly sizeInfo: SizeInfo
   public readonly speedInfo: SpeedInfo
   public readonly languagesInfo: LanguagesInfo
+  public readonly traits: RacialTrait[]
   public readonly parentRaceId: string
   public readonly subraceIds: string[]
   public readonly isSystemRecord: boolean
@@ -62,10 +50,12 @@ export class Race extends Model {
     this.name = fields.name
     this.description = fields.description
     this.asiInfo = fields.asiInfo
+    this.ageInfo = fields.ageInfo
     this.alignmentInfo = fields.alignmentInfo
     this.sizeInfo = fields.sizeInfo
     this.speedInfo = fields.speedInfo
     this.languagesInfo = fields.languagesInfo
+    this.traits = fields.traits
     this.parentRaceId = fields.parentRaceId
     this.subraceIds = fields.subraceIds
     this.isSystemRecord = fields.isSystemRecord
