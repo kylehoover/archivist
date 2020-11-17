@@ -1,5 +1,5 @@
 import { DataService } from './DataService'
-import { NewRaceFields, Race, UpdatedRaceFields } from '../models'
+import { NewRaceFields, Race, RaceFields, UpdatedRaceFields } from '../models'
 
 export interface RaceService extends
-  DataService<Race, NewRaceFields, UpdatedRaceFields, {}> {}
+  DataService<Race, NewRaceFields, UpdatedRaceFields, RaceFields> {}

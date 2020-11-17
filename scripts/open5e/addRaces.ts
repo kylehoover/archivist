@@ -1,7 +1,15 @@
 import 'reflect-metadata'
 import axios from 'axios'
 import chalk from 'chalk'
-import { RaceFields, Size, withNewModelFields } from '../../server/models'
+import inquirer from 'inquirer'
+import {
+  Language,
+  RaceFields,
+  RacialTrait,
+  Size,
+  withNewModelFields,
+  withUpdatedModelFields,
+} from '../../server/models'
 import { getServiceProvider } from '../../server/services'
 import { raceSchema } from '../../server/mongo/MongoRaceService'
 import Joi from 'joi'
@@ -22,22 +30,44 @@ function getSize(str: string): string {
 }
 
 function getLanguages(str: string): string[] {
-  const languages = ['Common', 'Draconic', 'Dwarvish', 'Elvish', 'Gnomish', 'Halfling', 'Infernal', 'Orc']
+  const languages = Object.values(Language)
   return languages.filter(language => str.includes(language))
 }
 
+function getTraits(str: string): RacialTrait[] {
+  if (str === '') {
+    return []
+  }
+
+  const list = str.split('\n\n')
+  return list.map(traitStr => {
+    const match = traitStr.match(/\*{2}_(.+)\._\*{2}\s(.+)/)
+
+    if (match === null || match[1] === undefined || match[2] === undefined) {
+      throw new Error(`Failed to parse trait: ${traitStr}`)
+    }
+
+    return {
+      name: match[1],
+      description: match[2],
+    }
+  })
+}
+
+function logError(name: string, message: string): void {
+  console.log(`${chalk.red('Error:')} ${name}`)
+  console.log(`       ${message}`)
+}
+
 async function run(): Promise<void> {
-  process.stdout.write('Fetcing races from Open5e . . . ')
+  console.log('Fetcing races from Open5e . . . ')
   const response = await axios.get('https://api.open5e.com/races/')
 
-  console.log(chalk.green('Done'))
-  console.log('Adding races to database . . .')
+  console.log('Parsing and validating data . . .')
+  const validData: RaceFields[] = []
+  const invalidData: RaceFields[] = []
 
-  const serviceProvider = getServiceProvider()
-  await serviceProvider.init()
-  const raceService = serviceProvider.getRaceService()
-
-  response.data.results.forEach(async (race: any) => {
+  response.data.results.forEach((race: any) => {
     const fields: RaceFields = {
       name: race.name,
       description: race.desc.split('\n')[1],
@@ -75,25 +105,97 @@ async function run(): Promise<void> {
     }
 
     try {
-      await schema.validateAsync(fields)
-    } catch (err) {
-      console.log(`${chalk.red('Error:')} ${race.name}`)
-      console.log(`       ${err.message}`)
-      return
+      const traits = getTraits(race.traits)
+      fields.traits = traits
+    } catch (error) {
+      logError(race.name, error.message)
     }
 
-    // try {
-    //   await raceService.insertOne(withNewModelFields(fields))
-    // } catch (err) {
-    //   console.log(`${chalk.red('Error:')} ${race.name}`)
-    //   console.log(`       ${err.message}`)
-    //   return
-    // }
+    const { error } = schema.validate(fields)
 
-    console.log(`${chalk.green('Added:')} ${race.name}`)
+    if (error) {
+      logError(race.name, error.message)
+    } else {
+      validData.push(fields)
+    }
   })
 
-  // process.exit(0)
+  const serviceProvider = getServiceProvider()
+  await serviceProvider.init()
+  const raceService = serviceProvider.getRaceService()
+
+  console.log(chalk.green('Validated races'))
+  const newRaces = []
+  const existingRaces = []
+
+  for (const race of validData) {
+    const races = await raceService.findAll({ name: race.name })
+    const exists = races.length > 0
+    let str = ''
+
+    if (exists) {
+      existingRaces.push(race)
+      str = chalk.blueBright(`exists, ${races.length}`)
+    } else {
+      newRaces.push(race)
+      str = chalk.greenBright('new')
+    }
+
+    console.log(`${race.name} (${str})`)
+  }
+
+  if (newRaces.length > 0) {
+    const answers = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'addNew',
+        message: 'Add new races?',
+        default: false,
+      },
+    ])
+
+    if (answers.addNew) {
+      for (const race of newRaces) {
+        try {
+          await raceService.insertOne(withNewModelFields(race))
+          console.log(`${chalk.green('Added:')} ${race.name}`)
+        } catch (error) {
+          logError(race.name, error.message)
+        }
+      }
+    }
+  }
+
+  if (existingRaces.length > 0) {
+    const answers = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'overwriteExisting',
+        message: 'Overwrite existing races?',
+        default: false,
+      },
+    ])
+
+    if (answers.overwriteExisting) {
+      for (const race of existingRaces) {
+        const races = await raceService.findAll({ name: race.name })
+
+        if (races.length > 1) {
+          logError(race.name, 'Cannot overwrite, more than one race of this name exists')
+          break
+        }
+
+        try {
+          await raceService.updateById(races[0].id, withUpdatedModelFields(race))
+          console.log(`${chalk.blueBright('Updated:')} ${race.name}`)
+        } catch (error) {
+          logError(race.name, error.message)
+        }
+      }
+    }
+  }
+
+  process.exit(0)
 }
 
 run()

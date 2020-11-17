@@ -15,6 +15,17 @@ export enum Alignment {
   Evil = 'evil',
 }
 
+export enum Language {
+  Common = 'Common',
+  Draconic = 'Draconic',
+  Dwarvish = 'Dwarvish',
+  Elvish = 'Elvish',
+  Gnomish = 'Gnomish',
+  Halfling = 'Halfling',
+  Infernal = 'Infernal',
+  Orc = 'Orc',
+}
+
 export enum Size {
   Tiny = 'tiny',
   Small = 'small',

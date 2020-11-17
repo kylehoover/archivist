@@ -1,6 +1,6 @@
 import Joi from 'joi'
 import { Service } from 'typedi'
-import { NewRaceFields, Race, RaceModelFields, UpdatedRaceFields } from '../models/Race'
+import { NewRaceFields, Race, RaceFields, RaceModelFields, UpdatedRaceFields } from '../models/Race'
 import { RaceService } from '../services'
 import { MongoDb, deleteById, findAll, findById, insertOne, updateById } from './MongoDb'
 import { modelSchema } from './helpers'
@@ -55,8 +55,8 @@ export class MongoRaceService implements RaceService {
     return new Race(doc)
   }
 
-  public async findAll(): Promise<Race[]> {
-    const docs = await findAll<RaceModelFields>(this.db.races, raceSchema)
+  public async findAll(filterBy?: Partial<RaceFields>): Promise<Race[]> {
+    const docs = await findAll<RaceModelFields>(this.db.races, raceSchema, filterBy)
     return docs.map(fields => new Race(fields))
   }
 
