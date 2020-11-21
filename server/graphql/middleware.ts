@@ -1,6 +1,6 @@
 import { ArgumentValidationError, MiddlewareFn } from 'type-graphql'
-
-import { BaseError, UnknownError, ValidationError } from './errors'
+import { ValidationError as JoiValidationError } from 'joi'
+import { BaseError, DataIntegrityError, UnknownError, ValidationError } from './errors'
 
 export const errorInterceptor: MiddlewareFn = async (_, next) => {
   try {
@@ -8,6 +8,8 @@ export const errorInterceptor: MiddlewareFn = async (_, next) => {
   } catch (err) {
     if (err instanceof ArgumentValidationError) {
       throw new ValidationError(err)
+    } else if (err instanceof JoiValidationError) {
+      throw new DataIntegrityError(err)
     } else if (err instanceof BaseError) {
       throw err
     } else {

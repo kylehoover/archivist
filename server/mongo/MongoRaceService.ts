@@ -13,7 +13,8 @@ export const raceSchema = modelSchema.keys({
     abilityScoreIncreases: Joi.array().items(Joi.object({
       ability: Joi.string().valid(
         'strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma'
-      ).required(),
+      ).allow(null),
+      isUserChosen: Joi.boolean().required(),
       value: Joi.number().required(),
     })).required(),
   }),

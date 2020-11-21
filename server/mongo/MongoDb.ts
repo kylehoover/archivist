@@ -20,12 +20,12 @@ export async function deleteById<T extends ModelFields>(
   return docToFields<T>(result.value, schema)
 }
 
-export function findAll<DataType extends ModelFields, FilterFields = {}>(
+export async function findAll<DataType extends ModelFields, FilterFields = {}>(
   collection: Collection,
   schema: ObjectSchema,
   filterBy?: FilterQuery<FilterFields>,
 ): Promise<DataType[]> {
-  return collection.find(filterBy).map(doc => docToFields<DataType>(doc, schema)).toArray()
+  return (await collection.find(filterBy).toArray()).map(doc => docToFields<DataType>(doc, schema))
 }
 
 export async function findById<DataType extends ModelFields, FilterFields = {}>(

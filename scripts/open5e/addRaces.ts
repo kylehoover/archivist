@@ -3,6 +3,8 @@ import axios from 'axios'
 import chalk from 'chalk'
 import inquirer from 'inquirer'
 import {
+  Ability,
+  AbilityScoreIncrease,
   Language,
   RaceFields,
   RacialTrait,
@@ -20,6 +22,20 @@ const schema = raceSchema.keys({
   modifiedAt: Joi.forbidden(),
 })
 
+const abilities = Object.values(Ability)
+const languages = Object.values(Language)
+
+function getAbilityScoreIncrease(asi: any): AbilityScoreIncrease {
+  const abilityStr = asi.attributes[0].toLowerCase()
+  const ability = abilities.includes(abilityStr as Ability) ? abilityStr as Ability : null
+
+  return {
+    ability,
+    isUserChosen: ability === null,
+    value: asi.value,
+  }
+}
+
 function getTraitText(str: string): string {
   return str.split('* ')[1]
 }
@@ -30,7 +46,6 @@ function getSize(str: string): string {
 }
 
 function getLanguages(str: string): string[] {
-  const languages = Object.values(Language)
   return languages.filter(language => str.includes(language))
 }
 
@@ -65,7 +80,6 @@ async function run(): Promise<void> {
 
   console.log('Parsing and validating data . . .')
   const validData: RaceFields[] = []
-  const invalidData: RaceFields[] = []
 
   response.data.results.forEach((race: any) => {
     const fields: RaceFields = {
@@ -73,10 +87,7 @@ async function run(): Promise<void> {
       description: race.desc.split('\n')[1],
       asiInfo: {
         description: getTraitText(race.asi_desc),
-        abilityScoreIncreases: race.asi.map((asi: any) => ({
-          ability: asi.attributes[0].toLowerCase(),
-          value: asi.value,
-        })),
+        abilityScoreIncreases: race.asi.map((asi: any) => getAbilityScoreIncrease(asi)),
       },
       ageInfo: {
         description: getTraitText(race.age),

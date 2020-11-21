@@ -36,7 +36,8 @@ export enum Size {
 }
 
 export interface AbilityScoreIncrease {
-  ability: Ability
+  ability: Ability | null
+  isUserChosen: boolean
   value: number
 }
 

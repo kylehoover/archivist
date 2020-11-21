@@ -1,5 +1,6 @@
 export * from './AlreadyLoggedInError'
 export * from './BaseError'
+export * from './DataIntegrityError'
 export * from './EmailAlreadyInUseError'
 export * from './InvalidCredentialsError'
 export * from './NotAllowedError'
