@@ -144,6 +144,9 @@ export class RaceType extends ModelType {
   @Field(type => [RaceType])
   public subraces: RaceType[]
 
+  @Field()
+  public version: string
+
   constructor(race: Race) {
     super(race)
     this.name = race.name
@@ -157,5 +160,6 @@ export class RaceType extends ModelType {
     this.traits = race.traits.map(trait => new RacialTraitType(trait))
     this.parentRace = null
     this.subraces = []
+    this.version = race.version
   }
 }

@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt'
-
 import { DataProvider } from '../DataProvider'
 import { DateFields, Model, ModelFields, ModifiedAt } from './Model'
 import { UserRole } from './UserRole'

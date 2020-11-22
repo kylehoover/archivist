@@ -2,6 +2,7 @@ import 'reflect-metadata'
 import axios from 'axios'
 import chalk from 'chalk'
 import inquirer from 'inquirer'
+import Joi from 'joi'
 import {
   Ability,
   AbilityScoreIncrease,
@@ -14,7 +15,6 @@ import {
 } from '../../server/models'
 import { getServiceProvider } from '../../server/services'
 import { raceSchema } from '../../server/mongo/MongoRaceService'
-import Joi from 'joi'
 
 const schema = raceSchema.keys({
   _id: Joi.forbidden(),
@@ -113,6 +113,7 @@ async function run(): Promise<void> {
       subraceIds: [],
       isSystemRecord: true,
       userId: '',
+      version: '1.0',
     }
 
     try {

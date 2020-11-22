@@ -1,6 +1,12 @@
 import Joi from 'joi'
 import { Service } from 'typedi'
-import { NewRaceFields, Race, RaceFields, RaceModelFields, UpdatedRaceFields } from '../models/Race'
+import {
+  NewRaceFields,
+  Race,
+  RaceFields,
+  RaceModelFields,
+  UpdatedRaceFields,
+} from '../models'
 import { RaceService } from '../services'
 import { MongoDb, deleteById, findAll, findById, insertOne, updateById } from './MongoDb'
 import { modelSchema } from './helpers'
@@ -45,6 +51,7 @@ export const raceSchema = modelSchema.keys({
   subraceIds: Joi.array().items(Joi.string()).required(),
   isSystemRecord: Joi.boolean().required(),
   userId: Joi.string().required().allow(''),
+  version: Joi.string().required(),
 })
 
 @Service()

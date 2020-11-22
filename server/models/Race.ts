@@ -24,6 +24,7 @@ export interface RaceFields extends MightBeSystemRecord {
   parentRaceId: string
   subraceIds: string[]
   userId: string
+  version: string
 }
 
 export interface RaceModelFields extends RaceFields, ModelFields {}
@@ -44,6 +45,7 @@ export class Race extends Model {
   public readonly subraceIds: string[]
   public readonly isSystemRecord: boolean
   public readonly userId: string
+  public readonly version: string
 
   constructor(fields: RaceModelFields) {
     super(fields)
@@ -60,6 +62,7 @@ export class Race extends Model {
     this.subraceIds = fields.subraceIds
     this.isSystemRecord = fields.isSystemRecord
     this.userId = fields.userId
+    this.version = fields.version
   }
 
   public toGraphQLType(): RaceType {
