@@ -2,11 +2,12 @@ import { Arg, ID, Mutation, Query, Resolver } from 'type-graphql'
 import { Inject, Service } from 'typedi'
 import { DataProvider } from '../../DataProvider'
 import { NotAllowedError } from '../errors'
-import { RegistrationState, UserRegistrationRequestFields, withNewModelFields } from '../../models'
+import { RegistrationState, UserRegistrationRequestFields } from '../../models'
 import { ServiceName, UserRegistrationRequestService, UserService } from '../../services'
 import { SubmitRegistrationRequestInputType, UserRegistrationRequestType } from '../types'
 import { getNormalizedEmail, hashPassword } from '../../helpers'
 import { validateEmailIsAvailable } from '../auth'
+import { withNewModelFields } from '../../models/helpers'
 
 @Service()
 @Resolver(UserRegistrationRequestType)

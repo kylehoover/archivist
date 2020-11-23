@@ -5,7 +5,7 @@ import { v4 as uuid } from 'uuid'
 import { DataProvider } from '../../DataProvider'
 import { Authorized, CurrentUser } from '../decorators'
 import { CanInviteUsers, validateEmailIsAvailable } from '../auth'
-import { RequestUserInfo, UserRegistrationInvitationFields, withNewModelFields } from '../../models'
+import { RequestUserInfo, UserRegistrationInvitationFields } from '../../models'
 import { ServiceName, UserRegistrationInvitationService, UserService } from '../../services'
 import { getNormalizedEmail } from '../../helpers'
 import {
@@ -14,6 +14,7 @@ import {
   SubmitInvitationInputType,
   UserRegistrationInvitationType,
 } from '../types'
+import { withNewModelFields } from '../../models/helpers'
 
 @Service()
 @Resolver(UserRegistrationInvitationType)

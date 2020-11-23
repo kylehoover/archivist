@@ -1,32 +1,8 @@
 import { ModelType } from '../graphql/types'
-
-export interface ModifiedAt {
-  modifiedAt: Date
-}
-
-export interface DateFields extends ModifiedAt {
-  createdAt: Date
-}
+import { DateFields } from './types'
 
 export interface ModelFields extends DateFields {
   id: string
-}
-
-export function withNewModelFields<T>(fields: T): T & DateFields {
-  const date = new Date()
-
-  return {
-    createdAt: date,
-    modifiedAt: date,
-    ...fields,
-  }
-}
-
-export function withUpdatedModelFields<T>(fields: T): T & ModifiedAt {
-  return {
-    modifiedAt: new Date(),
-    ...fields,
-  }
 }
 
 export abstract class Model {

@@ -1,5 +1,6 @@
-import { DateFields, Model, ModelFields, ModifiedAt } from './Model'
+import { Model, ModelFields } from './Model'
 import { UserRegistrationRequestType } from '../graphql/types'
+import { DateFields, ModifiedAt } from './types'
 
 export interface UserRegistrationRequestFields {
   name: string

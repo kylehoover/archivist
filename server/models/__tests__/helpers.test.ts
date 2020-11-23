@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { withNewModelFields, withUpdatedModelFields } from '../Model'
+import { withNewModelFields, withUpdatedModelFields } from '../helpers'
 
 beforeAll(() => {
   const mockDate = new Date()
@@ -10,7 +10,7 @@ afterAll(() => {
   jest.spyOn(global, 'Date').mockRestore()
 })
 
-describe('Model', () => {
+describe('models helpers', () => {
   test('withNewModelFields returns createdAt, modifiedAt, and the fields provided', () => {
     const fields = { name: 'Name', value: true }
     const expected = { createdAt: new Date(), modifiedAt: new Date(), ...fields }

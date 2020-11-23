@@ -1,7 +1,7 @@
 import { AppSetting, defaultAppSettings } from '../models/AppSetting'
 import { UserRole, defaultUserRoles } from '../models/UserRole'
 import { AppSettingService, UserRoleService } from '../services'
-import { withNewModelFields, withUpdatedModelFields } from '../models/Model'
+import { withNewModelFields, withUpdatedModelFields } from '../models'
 
 type ItemWithName = { name: string }
 

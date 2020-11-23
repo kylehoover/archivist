@@ -3,7 +3,8 @@ import { Inject, Service } from 'typedi'
 import { CampaignService, ServiceName } from '../../services'
 import { Authorized, CurrentUser } from '../decorators'
 import { AddCampaignInputType, CampaignType } from '../types'
-import { RequestUserInfo, withNewModelFields } from '../../models'
+import { RequestUserInfo } from '../../models'
+import { withNewModelFields } from '../../models/helpers'
 
 @Service()
 @Resolver(CampaignType)

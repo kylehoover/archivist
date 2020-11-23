@@ -1,11 +1,13 @@
-import { DateFields, Model, ModelFields, ModifiedAt } from './Model'
+import { Model, ModelFields } from './Model'
 import { RaceType } from '../graphql/types'
 import {
   AgeInfo,
   AlignmentInfo,
   AsiInfo,
+  DateFields,
   LanguagesInfo,
   MightBeSystemRecord,
+  ModifiedAt,
   RacialTrait,
   SizeInfo,
   SpeedInfo,

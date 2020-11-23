@@ -1,10 +1,11 @@
 import bcrypt from 'bcrypt'
 import { DataProvider } from '../DataProvider'
-import { DateFields, Model, ModelFields, ModifiedAt } from './Model'
+import { Model, ModelFields } from './Model'
 import { UserRole } from './UserRole'
 import { AccessTokenPayload } from '../helpers/auth'
 import { Permissions } from './UserRole'
 import { UserType } from '../graphql/types/'
+import { DateFields, ModifiedAt } from './types'
 
 export enum RegistrationType {
   OpenRegistration = 'openRegistration',

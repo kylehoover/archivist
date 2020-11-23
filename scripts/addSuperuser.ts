@@ -1,11 +1,10 @@
 import 'reflect-metadata'
-
 import inquirer from 'inquirer'
 import isEmail from 'validator/lib/isEmail'
-
-import { RegistrationType, UserFields, withNewModelFields } from '../server/models'
+import { RegistrationType, UserFields } from '../server/models'
 import { getNormalizedEmail, hashPassword, isEmailAvailable } from '../server/helpers'
 import { getServiceProvider } from '../server/services'
+import { withNewModelFields } from '../server/models/helpers'
 
 async function run(): Promise<void> {
   const serviceProvider = getServiceProvider()

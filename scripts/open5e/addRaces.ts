@@ -10,11 +10,10 @@ import {
   RaceFields,
   RacialTrait,
   Size,
-  withNewModelFields,
-  withUpdatedModelFields,
 } from '../../server/models'
 import { getServiceProvider } from '../../server/services'
 import { raceSchema } from '../../server/mongo/MongoRaceService'
+import { withNewModelFields, withUpdatedModelFields } from '../../server/models/helpers'
 
 const schema = raceSchema.keys({
   _id: Joi.forbidden(),

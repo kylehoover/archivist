@@ -55,6 +55,10 @@ export interface AsiInfo {
   abilityScoreIncreases: AbilityScoreIncrease[]
 }
 
+export interface DateFields extends ModifiedAt {
+  createdAt: Date
+}
+
 export interface LanguagesInfo {
   description: string
   languages: string[]
@@ -62,6 +66,10 @@ export interface LanguagesInfo {
 
 export interface MightBeSystemRecord {
   isSystemRecord: boolean
+}
+
+export interface ModifiedAt {
+  modifiedAt: Date
 }
 
 export interface RacialTrait {

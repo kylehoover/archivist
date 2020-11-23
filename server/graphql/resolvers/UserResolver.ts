@@ -20,8 +20,6 @@ import {
   RequestUserInfo,
   User,
   UserFields,
-  withNewModelFields,
-  withUpdatedModelFields,
 } from '../../models'
 import {
   generateRefreshToken,
@@ -30,6 +28,7 @@ import {
   setRefreshTokenCookie,
   verifyRefreshToken,
 } from '../../helpers'
+import { withNewModelFields, withUpdatedModelFields } from '../../models/helpers'
 
 @Service()
 @Resolver(UserType)

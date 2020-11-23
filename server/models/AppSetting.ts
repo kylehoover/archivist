@@ -1,5 +1,6 @@
-import { DateFields, Model, ModelFields, ModifiedAt } from './Model'
+import { Model, ModelFields } from './Model'
 import { AppSettingType } from '../graphql/types'
+import { DateFields, ModifiedAt } from './types'
 
 export enum AppSettingName {
   NumDaysInvitationIsValid = 'numDaysInvitationIsValid',

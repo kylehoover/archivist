@@ -1,6 +1,7 @@
-import { DateFields, Model, ModelFields, ModifiedAt } from './Model'
+import { Model, ModelFields } from './Model'
 import { DataIntegrityError } from '../helpers'
 import { UserRoleType } from '../graphql/types'
+import { DateFields, ModifiedAt } from './types'
 
 export enum PermissionName {
   CanApproveUserRegistrationRequests = 'canApproveUserRegistrationRequests',
