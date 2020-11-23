@@ -2,7 +2,6 @@ import 'reflect-metadata'
 import axios from 'axios'
 import chalk from 'chalk'
 import inquirer from 'inquirer'
-import Joi from 'joi'
 import {
   Ability,
   AbilityScoreIncrease,
@@ -10,16 +9,10 @@ import {
   RaceFields,
   RacialTrait,
   Size,
+  raceSchema,
 } from '../../server/models'
 import { getServiceProvider } from '../../server/services'
-import { raceSchema } from '../../server/mongo/MongoRaceService'
 import { withNewModelFields, withUpdatedModelFields } from '../../server/models/helpers'
-
-const schema = raceSchema.keys({
-  _id: Joi.forbidden(),
-  createdAt: Joi.forbidden(),
-  modifiedAt: Joi.forbidden(),
-})
 
 const abilities = Object.values(Ability)
 const languages = Object.values(Language)
@@ -122,7 +115,7 @@ async function run(): Promise<void> {
       logError(race.name, error.message)
     }
 
-    const { error } = schema.validate(fields)
+    const { error } = raceSchema.validate(fields)
 
     if (error) {
       logError(race.name, error.message)
