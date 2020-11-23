@@ -1,4 +1,4 @@
-import { PermissionName } from '../models'
+import { AgeInfo, AlignmentInfo, AsiInfo, LanguagesInfo, MightBeSystemRecord, PermissionName, RacialTrait, SizeInfo, SpeedInfo } from '../models'
 
 // Request / Response Types //
 
@@ -63,6 +63,22 @@ export interface RefreshTokensType {
   accessToken: string
 }
 
+export interface RaceType extends ModelType, MightBeSystemRecord {
+  name: string
+  description: string
+  asiInfo: AsiInfo
+  ageInfo: AgeInfo
+  alignmentInfo: AlignmentInfo
+  sizeInfo: SizeInfo
+  speedInfo: SpeedInfo
+  languagesInfo: LanguagesInfo
+  traits: RacialTrait[]
+  parentRaceId: string
+  subraceIds: string[]
+  userId: string
+  version: string
+}
+
 export interface UserType extends ModelType {
   email: string
   name: string
@@ -96,6 +112,10 @@ export interface GetCampaignsData {
 
 export interface GetCurrentUserData {
   currentUser: UserType
+}
+
+export interface GetRacesData {
+  races: RaceType[]
 }
 
 export interface GetUsersData {

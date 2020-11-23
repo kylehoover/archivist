@@ -147,6 +147,9 @@ export class RaceType extends ModelType {
   @Field()
   public version: string
 
+  @Field()
+  public isSystemRecord: boolean
+
   constructor(race: Race) {
     super(race)
     this.name = race.name
@@ -161,5 +164,6 @@ export class RaceType extends ModelType {
     this.parentRace = null
     this.subraces = []
     this.version = race.version
+    this.isSystemRecord = race.isSystemRecord
   }
 }

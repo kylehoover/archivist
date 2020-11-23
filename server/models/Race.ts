@@ -73,9 +73,9 @@ export const raceSchema = Joi.object({
   })).required(),
   parentRaceId: Joi.string().allow(''),
   subraceIds: Joi.array().items(Joi.string()).required(),
-  isSystemRecord: Joi.boolean().required(),
   userId: Joi.string().required().allow(''),
   version: Joi.string().required(),
+  isSystemRecord: Joi.boolean().required(),
 })
 
 export const raceModelSchema = modelSchema.concat(raceSchema)
