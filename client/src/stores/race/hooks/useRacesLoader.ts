@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { fetchRaces } from '../../../graphql'
 import { useAsync } from '../../../helpers'
 

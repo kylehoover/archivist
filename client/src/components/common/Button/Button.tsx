@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import { MightHaveChildren } from '../../../types'
 import { useHistory } from 'react-router-dom'
 import './Button.scss'
+import { LoadingIndicator } from '../LoadingIndicator'
 
 interface Props extends MightHaveChildren {
   color?: string,
@@ -11,6 +12,7 @@ interface Props extends MightHaveChildren {
   flat?: boolean,
   icon?: string,
   linkTo?: string,
+  loading?: boolean,
   onClick?: (e: MouseEvent) => any,
   outlined?: boolean,
   type?: 'button' | 'submit',
@@ -24,6 +26,7 @@ export const Button = ({
   flat = false,
   icon,
   linkTo,
+  loading = false,
   onClick,
   outlined = false,
   type = 'button',
@@ -51,11 +54,19 @@ export const Button = ({
     <button
       className={btnClass}
       type={type}
-      disabled={disabled}
+      disabled={disabled || loading}
       onClick={handleClick}
     >
-      {icon && <i className='material-icons'>{icon}</i>}
-      {children}
+      {loading && (
+        <LoadingIndicator />
+      )}
+
+      {!loading && (
+        <>
+          {icon && <i className='material-icons'>{icon}</i>}
+          {children}
+        </>
+      )}
     </button>
   )
 }

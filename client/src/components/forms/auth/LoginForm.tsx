@@ -1,13 +1,12 @@
 import React, { useMemo } from 'react'
 import isEmail from 'validator/lib/isEmail'
 import { useHistory } from 'react-router-dom'
-
 import { Button, Form, Input, InputError } from '../../common'
 import { RequestErrorType, isRequestErrorOfType } from '../../../graphql'
 import { useAsync } from '../../../helpers'
 import { useStores } from '../../../stores'
 
-export type LoginFormData = {
+export interface LoginFormData {
   email: string
   password: string
 }
@@ -55,7 +54,7 @@ const LoginForm = () => {
           required: true,
         }}
       />
-      <Button type='submit' disabled={isPending}>
+      <Button type='submit' loading={isPending}>
         Log In
       </Button>
     </Form>

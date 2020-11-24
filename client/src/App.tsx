@@ -1,13 +1,12 @@
 import React from 'react'
-import { Loading, NavBarFlat, Routes } from './components'
+import { LoadingIndicator, NavBarFlat, Routes } from './components'
 import { useOnAppLoad } from './helpers'
-import './styles/index.scss'
 
 export const App = () => {
   const { isLoading } = useOnAppLoad()
 
   if (isLoading) {
-    return <Loading />
+    return <LoadingIndicator className='row center middle full-height' size={30} />
   }
 
   return (
