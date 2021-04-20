@@ -1,21 +1,21 @@
-import { ReactNode } from 'react'
+import { ReactNode } from "react";
 
 export interface HasChildren {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export interface IdParam {
-  id: string
+  id: string;
 }
 
 export interface MightHaveChildren {
-  children?: ReactNode
+  children?: ReactNode;
 }
 
 export interface MightHaveClassName {
-  className?: string
+  className?: string;
 }
 
 export interface MightHaveReferrer {
-  referrer?: string
+  referrer?: string;
 }

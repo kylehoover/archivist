@@ -1,11 +1,13 @@
-import { authenticatedRequest } from './request'
-import { GetRacesData, RaceType } from './types'
+import { Race } from "../types/raceTypes";
+import { GetRacesData } from "./types";
+import { authenticatedRequest } from "./request";
 
-export const fetchRaces = async (): Promise<RaceType[]> => {
+export const fetchRaces = async (): Promise<Race[]> => {
   const query = `
     query GetRaces {
       races {
         id
+        createdAt
         modifiedAt
         name
         description
@@ -50,8 +52,8 @@ export const fetchRaces = async (): Promise<RaceType[]> => {
         }
       }
     }
-  `
+  `;
 
-  const data: GetRacesData = await authenticatedRequest(query)
-  return data.races
-}
+  const data: GetRacesData = await authenticatedRequest(query);
+  return data.races;
+};
