@@ -8,8 +8,24 @@ export interface HasChildren {
   children: ReactNode;
 }
 
+export interface IdParam {
+  id: string;
+}
+
 export interface MightBeSystemRecord {
   isSystemRecord: boolean;
+}
+
+export interface MightHaveChildren {
+  children?: ReactNode;
+}
+
+export interface MightHaveClassName {
+  className?: string;
+}
+
+export interface MightHaveReferrer {
+  referrer?: string;
 }
 
 export interface Model {

@@ -1,4 +1,4 @@
-import { HasDescription, MightBeSystemRecord, Model } from "./generalTypes";
+import { HasDescription, MightBeSystemRecord, Model } from "../types";
 
 export const abilities = ["str", "dex", "con", "int", "wis", "cha"] as const;
 export type Ability = typeof abilities[number];

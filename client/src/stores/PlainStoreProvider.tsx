@@ -1,10 +1,10 @@
 import { createContext } from "react";
 import { HasChildren } from "../types";
-import { createRaceStore, RaceStore } from "./RaceStore";
+import { createRaceStore, RaceStore } from "../races";
 
 interface Props extends HasChildren {}
 
-interface PlainStore {
+export interface PlainStore {
   raceStore: RaceStore;
 }
 

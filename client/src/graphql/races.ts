@@ -1,4 +1,4 @@
-import { Race } from "../types/raceTypes";
+import { Race } from "../races";
 import { GetRacesData } from "./types";
 import { authenticatedRequest } from "./request";
 
