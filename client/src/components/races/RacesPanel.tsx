@@ -1,7 +1,10 @@
 import AddIcon from "@material-ui/icons/Add";
 import { Button, Grid, Paper, Typography } from "@material-ui/core";
+import { useRacesLoader } from "../../stores";
 
 export function RacesPanel() {
+  useRacesLoader();
+
   return (
     <Paper className="p-1">
       <Typography variant="h4" className="mb-1">
