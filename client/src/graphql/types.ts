@@ -9,7 +9,7 @@ import {
   SizeInfo,
   SpeedInfo,
 } from "../models";
-import { Race } from "../races";
+import { Race, RacePreview } from "../races";
 
 // Request / Response Types //
 

@@ -6,15 +6,12 @@ import { useStore } from "../stores";
 
 export function useRacesLoader(): Race[] {
   const raceStore = useStore((store) => store.raceStore);
-  console.log("hook", raceStore.loadStatus);
   const [loadRaces] = useAsync(fetchRaces, {
-    loadStatus: raceStore.loadStatus,
     onSuccess: (data) => {
       if (data) {
         raceStore.addRaces(data);
       }
     },
-    updateLoadStatus: raceStore.setLoadStatus,
   });
 
   // useEffect(() => {

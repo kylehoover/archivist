@@ -4,4 +4,4 @@ export * from "./StoreProvider";
 export * from "./user/hooks";
 
 export * from "./PlainStoreProvider";
-export * from "./useStore";
+export * from "./storeHooks";

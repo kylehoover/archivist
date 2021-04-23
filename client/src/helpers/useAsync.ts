@@ -1,17 +1,22 @@
 import dayjs from "dayjs";
 import { useCallback, useMemo, useState } from "react";
-import { LoadStatus } from "../races";
 import { useDelay } from "./useDelay";
 
 type AsyncStatus = "error" | "idle" | "pending" | "success";
+type LoadStatus = "notLoaded" | "loaded";
 type ResultError = Error | null;
 
 interface Options<ResponseData> {
+  args?: any[];
+  key?: string;
   loadStatus?: LoadStatus;
   minDelayMillis?: number;
+  runImmediately?: boolean;
   onSuccess?(data: ResponseData): void;
   updateLoadStatus?(status: LoadStatus): void;
 }
+
+const loadStatusByKey: { [key: string]: LoadStatus } = {};
 
 export class Result<T> {
   constructor(
@@ -40,6 +45,7 @@ export class Result<T> {
 export const useAsync = <Args extends any[], ResponseData>(
   asyncFn: (...args: Args) => Promise<ResponseData>,
   options?: Options<ResponseData | null>
+  // ...args: Args
 ) => {
   const [data, setData] = useState<ResponseData | null>(null);
   const [error, setError] = useState<ResultError>(null);
@@ -50,6 +56,11 @@ export const useAsync = <Args extends any[], ResponseData>(
     status,
   ]);
   const delay = useDelay();
+  const key = options?.key ?? "";
+
+  if (key && !loadStatusByKey[key]) {
+    loadStatusByKey[key] = "notLoaded";
+  }
 
   const execute = useCallback(
     async (...args: Args) => {
@@ -83,6 +94,10 @@ export const useAsync = <Args extends any[], ResponseData>(
       if (localStatus === "success") {
         options?.updateLoadStatus?.("loaded");
         options?.onSuccess?.(localData);
+
+        if (key) {
+          loadStatusByKey[key] = "loaded";
+        }
       }
 
       setData(localData);
@@ -94,10 +109,13 @@ export const useAsync = <Args extends any[], ResponseData>(
     [asyncFn, delay, options]
   );
 
-  console.log(options?.loadStatus);
-
-  if (status === "idle" && options?.loadStatus === "notLoaded") {
+  if (
+    options?.runImmediately &&
+    status === "idle" &&
+    (!key || loadStatusByKey[key] === "notLoaded")
+  ) {
     (execute as any)();
+    // execute(...args);
   }
 
   return [execute, result] as const;

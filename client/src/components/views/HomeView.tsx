@@ -1,6 +1,7 @@
 import { CampaignsPanel } from "../panels";
 import { RacesPanel } from "../races";
 import { Grid } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 export const HomeView = () => {
   return (
@@ -8,6 +9,8 @@ export const HomeView = () => {
       {/* <div className="col sm-12">
         <CampaignsPanel />
       </div> */}
+
+      <Link to="/campaign/new/">Create campaign</Link>
 
       <Grid container>
         <Grid item xs={12}>

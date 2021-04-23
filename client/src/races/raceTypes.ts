@@ -86,3 +86,8 @@ export interface Race extends Model, HasDescription, MightBeSystemRecord {
   userId: string;
   version: string;
 }
+
+export interface RacePreview {
+  id: string;
+  name: string;
+}

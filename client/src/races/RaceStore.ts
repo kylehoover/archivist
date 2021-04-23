@@ -1,21 +1,19 @@
 import { makeAutoObservable } from "mobx";
-import { Race } from "./raceTypes";
-
-export type LoadStatus = "notLoaded" | "loaded";
+import { Race, RacePreview } from "./raceTypes";
 
 export interface RaceStore {
-  loadStatus: LoadStatus;
   races: Race[];
   racesById: { [id: string]: Race };
+  racesPreview: RacePreview[];
   addRaces(races: Race[]): void;
-  setLoadStatus(status: LoadStatus): void;
+  setRacesPreview(races: RacePreview[]): void;
 }
 
 export function createRaceStore(): RaceStore {
   return makeAutoObservable<RaceStore>({
     // properties
-    loadStatus: "notLoaded",
     racesById: {},
+    racesPreview: [],
 
     // computed
     get races(): Race[] {
@@ -29,9 +27,8 @@ export function createRaceStore(): RaceStore {
       });
     },
 
-    setLoadStatus(status: LoadStatus): void {
-      console.log("set", status);
-      this.loadStatus = status;
+    setRacesPreview(races: RacePreview[]): void {
+      this.racesPreview = races;
     },
   });
 }

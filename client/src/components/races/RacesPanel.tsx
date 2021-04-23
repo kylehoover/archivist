@@ -1,11 +1,13 @@
 import AddIcon from "@material-ui/icons/Add";
 import { Button, Grid, Paper, Typography } from "@material-ui/core";
-import { useRacesLoader } from "../../races";
 import { observer } from "mobx-react-lite";
+import { useRacesPreviewLoader } from "../../races/useRacesPreviewLoader";
 
 export const RacesPanel = observer(() => {
-  const races = useRacesLoader();
-  const racesSorted = races.sort((a, b) => a.name.localeCompare(b.name));
+  const races = useRacesPreviewLoader();
+  const racesSorted = races
+    .slice()
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   return (
     <Paper className="p-1">

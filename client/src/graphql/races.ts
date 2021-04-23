@@ -1,4 +1,4 @@
-import { Race } from "../races";
+import { Race, RacePreview } from "../races";
 import { GetRacesData } from "./types";
 import { authenticatedRequest } from "./request";
 
@@ -50,6 +50,20 @@ export const fetchRaces = async (): Promise<Race[]> => {
         subraces {
           id
         }
+      }
+    }
+  `;
+
+  const data: GetRacesData = await authenticatedRequest(query);
+  return data.races;
+};
+
+export const fetchRacesPreview = async (): Promise<RacePreview[]> => {
+  const query = `
+    query GetRaces {
+      races {
+        id
+        name
       }
     }
   `;
