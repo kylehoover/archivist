@@ -5,7 +5,6 @@ import { useRaceStore } from "../stores";
 
 export function useRacesPreviewLoader(): RacePreview[] {
   const raceStore = useRaceStore();
-  console.log("prev");
 
   useAsync(fetchRacesPreview, {
     key: "racesPreview",

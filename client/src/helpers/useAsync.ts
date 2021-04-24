@@ -6,16 +6,6 @@ type AsyncStatus = "error" | "idle" | "pending" | "success";
 type LoadStatus = "notLoaded" | "loaded";
 type ResultError = Error | null;
 
-interface Options<ResponseData> {
-  args?: any[];
-  key?: string;
-  loadStatus?: LoadStatus;
-  minDelayMillis?: number;
-  runImmediately?: boolean;
-  onSuccess?(data: ResponseData): void;
-  updateLoadStatus?(status: LoadStatus): void;
-}
-
 const loadStatusByKey: { [key: string]: LoadStatus } = {};
 
 export class Result<T> {
@@ -42,12 +32,19 @@ export class Result<T> {
   }
 }
 
-export const useAsync = <Args extends any[], ResponseData>(
-  asyncFn: (...args: Args) => Promise<ResponseData>,
-  options?: Options<ResponseData | null>
-  // ...args: Args
+export const useAsync = <TArgs extends any[], TReturn>(
+  asyncFn: (...args: TArgs) => Promise<TReturn>,
+  options?: {
+    args?: TArgs;
+    key?: string;
+    loadStatus?: LoadStatus;
+    minDelayMillis?: number;
+    runImmediately?: boolean;
+    onSuccess?(data: TReturn | null): void;
+    updateLoadStatus?(status: LoadStatus): void;
+  }
 ) => {
-  const [data, setData] = useState<ResponseData | null>(null);
+  const [data, setData] = useState<TReturn | null>(null);
   const [error, setError] = useState<ResultError>(null);
   const [status, setStatus] = useState<AsyncStatus>("idle");
   const result = useMemo(() => new Result(data, error, status), [
@@ -63,9 +60,9 @@ export const useAsync = <Args extends any[], ResponseData>(
   }
 
   const execute = useCallback(
-    async (...args: Args) => {
+    async (...args: TArgs) => {
       const start = dayjs();
-      let localData: ResponseData | null = null;
+      let localData: TReturn | null = null;
       let localError: ResultError = null;
       let localStatus: AsyncStatus = "pending";
       setData(localData);
@@ -114,8 +111,7 @@ export const useAsync = <Args extends any[], ResponseData>(
     status === "idle" &&
     (!key || loadStatusByKey[key] === "notLoaded")
   ) {
-    (execute as any)();
-    // execute(...args);
+    execute(...((options.args ?? []) as TArgs));
   }
 
   return [execute, result] as const;
