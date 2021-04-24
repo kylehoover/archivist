@@ -1,29 +1,23 @@
-import { useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
-import { useAsync } from '.'
-import { useStores } from '../stores'
+import { useHistory } from "react-router-dom";
+import { useAsync } from ".";
+import { useStores } from "../stores";
 
 export const useOnAppLoad = () => {
-  const history = useHistory()
-  const { userStore } = useStores()
-  const [loadCurrentUser, { isIdle, isPending }] = useAsync(userStore.loadCurrentUser)
+  const history = useHistory();
+  const { userStore } = useStores();
 
-  useEffect(() => {
-    const run = async () => {
-      const { isError, isSuccess } = await loadCurrentUser()
-      const { pathname } = window.location
-
-      if (isSuccess && pathname === '/') {
-        history.replace('/home/')
-      } else if (isError) {
-        history.replace('/')
+  const [, status] = useAsync(userStore.loadCurrentUser, {
+    key: "currentUser",
+    runImmediately: true,
+    onFailure: () => history.replace("/"),
+    onSuccess: () => {
+      if (window.location.pathname === "/") {
+        history.replace("/home/");
       }
-    }
-
-    run()
-  }, [history, loadCurrentUser])
+    },
+  });
 
   return {
-    isLoading: isIdle || isPending
-  }
-}
+    isLoading: status === "idle" || status === "pending",
+  };
+};

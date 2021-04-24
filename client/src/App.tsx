@@ -1,5 +1,5 @@
-import React from "react";
-import { LoadingIndicator, NavBarFlat, Routes } from "./components";
+import { CircularProgress, Grid } from "@material-ui/core";
+import { NavBarFlat, Routes } from "./components";
 import { useOnAppLoad } from "./helpers";
 
 export const App = () => {
@@ -7,7 +7,9 @@ export const App = () => {
 
   if (isLoading) {
     return (
-      <LoadingIndicator className="row center middle full-height" size={30} />
+      <Grid container className="h-full" alignItems="center" justify="center">
+        <CircularProgress />
+      </Grid>
     );
   }
 

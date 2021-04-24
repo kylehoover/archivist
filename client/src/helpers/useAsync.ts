@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
-import { useCallback, useMemo, useState } from "react";
-import { useDelay } from "./useDelay";
+import { useCallback, useState } from "react";
+import { delay } from "./delay";
 
 type AsyncStatus = "error" | "idle" | "pending" | "success";
 type LoadStatus = "notLoaded" | "loaded";
@@ -8,51 +8,18 @@ type ResultError = Error | null;
 
 const loadStatusByKey: { [key: string]: LoadStatus } = {};
 
-export class Result<T> {
-  constructor(
-    public readonly data: T | null,
-    public readonly error: ResultError,
-    public readonly status: AsyncStatus
-  ) {}
-
-  public get isError(): boolean {
-    return this.status === "error";
-  }
-
-  public get isIdle(): boolean {
-    return this.status === "idle";
-  }
-
-  public get isPending(): boolean {
-    return this.status === "pending";
-  }
-
-  public get isSuccess(): boolean {
-    return this.status === "success";
-  }
-}
-
 export const useAsync = <TArgs extends any[], TReturn>(
   asyncFn: (...args: TArgs) => Promise<TReturn>,
   options?: {
     args?: TArgs;
     key?: string;
-    loadStatus?: LoadStatus;
     minDelayMillis?: number;
     runImmediately?: boolean;
+    onFailure?(error: ResultError): void;
     onSuccess?(data: TReturn | null): void;
-    updateLoadStatus?(status: LoadStatus): void;
   }
 ) => {
-  const [data, setData] = useState<TReturn | null>(null);
-  const [error, setError] = useState<ResultError>(null);
   const [status, setStatus] = useState<AsyncStatus>("idle");
-  const result = useMemo(() => new Result(data, error, status), [
-    data,
-    error,
-    status,
-  ]);
-  const delay = useDelay();
   const key = options?.key ?? "";
 
   if (key && !loadStatusByKey[key]) {
@@ -61,23 +28,22 @@ export const useAsync = <TArgs extends any[], TReturn>(
 
   const execute = useCallback(
     async (...args: TArgs) => {
+      setStatus("pending");
       const start = dayjs();
-      let localData: TReturn | null = null;
-      let localError: ResultError = null;
-      let localStatus: AsyncStatus = "pending";
-      setData(localData);
-      setError(localError);
-      setStatus(localStatus);
+      let responseData: TReturn | null = null;
 
       try {
         const response = await asyncFn(...args);
-        localData = response === undefined ? null : response;
-        localStatus = "success";
+        responseData = response === undefined ? null : response;
       } catch (error) {
         // TODO: show generic toast when generic server error
-        localError = error;
-        localStatus = "error";
-        console.log(error);
+        setStatus("error");
+        options?.onFailure?.(error);
+        return;
+      }
+
+      if (key) {
+        loadStatusByKey[key] = "loaded";
       }
 
       if (options?.minDelayMillis !== undefined) {
@@ -88,22 +54,10 @@ export const useAsync = <TArgs extends any[], TReturn>(
         }
       }
 
-      if (localStatus === "success") {
-        options?.updateLoadStatus?.("loaded");
-        options?.onSuccess?.(localData);
-
-        if (key) {
-          loadStatusByKey[key] = "loaded";
-        }
-      }
-
-      setData(localData);
-      setError(localError);
-      setStatus(localStatus);
-
-      return new Result(localData, localError, localStatus);
+      setStatus("success");
+      options?.onSuccess?.(responseData);
     },
-    [asyncFn, delay, options]
+    [asyncFn, key, options]
   );
 
   if (
@@ -114,5 +68,5 @@ export const useAsync = <TArgs extends any[], TReturn>(
     execute(...((options.args ?? []) as TArgs));
   }
 
-  return [execute, result] as const;
+  return [execute, status] as const;
 };

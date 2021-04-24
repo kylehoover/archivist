@@ -1,39 +1,40 @@
-import React from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+/* eslint-disable */
+import React from "react";
+import { useHistory, useLocation } from "react-router-dom";
 
-import { Button, Form, Input } from '../../common'
-import { MightHaveReferrer } from '../../../types'
-import { useCampaignCreator } from '../../../stores'
+import { Button, Form, Input } from "../../common";
+import { MightHaveReferrer } from "../../../types";
+import { useCampaignCreator } from "../../../stores";
 
 export interface AddCampaignFormData {
-  name: string
+  name: string;
 }
 
 const AddCampaignForm = () => {
-  const history = useHistory()
-  const { state: locationState } = useLocation<MightHaveReferrer>()
-  const [createCampaign, { isPending }] = useCampaignCreator()
+  const history = useHistory();
+  const { state: locationState } = useLocation<MightHaveReferrer>();
+  // const [createCampaign, { isPending }] = useCampaignCreator()
+  const isPending = false;
 
   const handleSubmit = async (formData: AddCampaignFormData) => {
-    const { data, isSuccess } = await createCampaign(formData)
-
-    if (isSuccess && data !== null) {
-      history.push(`/campaign/${data.id}/`)
-    }
-  }
+    // const { data, isSuccess } = await createCampaign(formData)
+    // if (isSuccess && data !== null) {
+    //   history.push(`/campaign/${data.id}/`)
+    // }
+  };
 
   const handleCancel = () => {
     // TODO: create useReferrerNavigator
-    const path = locationState?.referrer ?? '/home/'
-    history.push(path)
-  }
+    const path = locationState?.referrer ?? "/home/";
+    history.push(path);
+  };
 
   return (
-    <Form className='row end middle' onSubmit={handleSubmit}>
-      <div className='col sm-12 md'>
+    <Form className="row end middle" onSubmit={handleSubmit}>
+      <div className="col sm-12 md">
         <Input
-          label='Campaign name'
-          name='name'
+          label="Campaign name"
+          name="name"
           validationRules={{
             maxLength: 50,
             required: true,
@@ -41,15 +42,15 @@ const AddCampaignForm = () => {
           disabled={isPending}
         />
       </div>
-      <div className='col'>
-        <Button color='purple' type='submit' disabled={isPending}>
+      <div className="col">
+        <Button color="purple" type="submit" disabled={isPending}>
           Create
         </Button>
       </div>
-      <div className='col'>
+      <div className="col">
         <Button
           outlined
-          color='purple'
+          color="purple"
           disabled={isPending}
           onClick={handleCancel}
         >
@@ -57,7 +58,7 @@ const AddCampaignForm = () => {
         </Button>
       </div>
     </Form>
-  )
-}
+  );
+};
 
-export default AddCampaignForm
+export default AddCampaignForm;

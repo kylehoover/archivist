@@ -1,13 +1,30 @@
-import React from 'react'
-import { useLogoutHandler } from '../../../stores'
-import { LoadingIndicator } from '../../common'
+import { useHistory } from "react-router-dom";
+import { logoutUser } from "../../../graphql";
+import { useAsync } from "../../../helpers";
+import { useRootStore } from "../../../stores";
+import { CircularProgress, Grid } from "@material-ui/core";
 
 export const LogoutView = () => {
-  useLogoutHandler()
+  const history = useHistory();
+  const { clearStores } = useRootStore();
+
+  useAsync(logoutUser, {
+    minDelayMillis: 500,
+    runImmediately: true,
+    onSuccess: () => {
+      clearStores();
+      history.push("/");
+    },
+  });
 
   return (
-    <div className='LogoutView'>
-      <LoadingIndicator className='row center middle height-10' size={30} />
-    </div>
-  )
-}
+    <Grid
+      container
+      className="LogoutView mt-4"
+      alignItems="center"
+      justify="center"
+    >
+      <CircularProgress />
+    </Grid>
+  );
+};

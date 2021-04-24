@@ -1,121 +1,128 @@
-import axios, { AxiosRequestConfig } from 'axios'
-import { AccessTokenState, GraphQLVariables, RequestErrorType } from './types'
-import { AuthenticationRequiredError, RequestError } from './errors'
-import { refreshTokens } from './users'
+import axios, { AxiosRequestConfig } from "axios";
+import { AccessTokenState, GraphQLVariables, RequestErrorType } from "./types";
+import { AuthenticationRequiredError, RequestError } from "./errors";
+import { refreshTokens } from "./users";
 
-let accessToken: string | undefined = undefined
+let accessToken: string | undefined = undefined;
 
-export const authenticatedRequest = async<T>(
+export const authenticatedRequest = async <T>(
   query: string,
-  variables?: GraphQLVariables,
+  variables?: GraphQLVariables
 ): Promise<T> => {
   // console.log('authenticatedRequest')
   if (accessToken === undefined) {
-    return authenticatedRequestAccessTokenMissing<T>(query, variables)
+    return authenticatedRequestAccessTokenMissing<T>(query, variables);
   }
 
-  return authenticatedRequestAccessTokenPresent<T>(query, variables)
-}
+  return authenticatedRequestAccessTokenPresent<T>(query, variables);
+};
 
 export const request = async <T>(
   query: string,
-  variables?: GraphQLVariables,
+  variables?: GraphQLVariables
 ): Promise<T> => {
   // console.log('request')
-  let response
+  let response;
 
-  logRequestEndPoint(query)
+  logRequestEndPoint(query);
 
   try {
-    response = await axios.post('/graphql', { query, variables }, getRequestConfig())
+    response = await axios.post(
+      "/graphql",
+      { query, variables },
+      getRequestConfig()
+    );
   } catch (err) {
-    response = err.response
+    response = err.response;
   }
 
   // console.log(response.data)
-  const { data, errors } = response.data
+  const { data, errors } = response.data;
 
   if (errors?.length > 0) {
     throw new RequestError(
       errors[0]?.extensions?.errorType ?? RequestErrorType.Unknown,
       errors[0].message,
-      errors[0]?.extensions?.accessTokenState,
-    )
+      errors[0]?.extensions?.accessTokenState
+    );
   }
 
-  return data as T
-}
+  return data as T;
+};
 
 export const clearAccessToken = (): void => {
-  accessToken = undefined
-}
+  accessToken = undefined;
+};
 
 export const setAccessToken = (token: string): void => {
-  accessToken = token
-}
+  accessToken = token;
+};
 
 // Helpers //
 
-const authenticatedRequestAccessTokenMissing = async<T>(
+const authenticatedRequestAccessTokenMissing = async <T>(
   query: string,
-  variables?: GraphQLVariables,
+  variables?: GraphQLVariables
 ): Promise<T> => {
   // console.log('accessToken: MISSING')
-  logRequestEndPoint(query)
-  await refreshTokensOrThrow()
-  return request<T>(query, variables)
-}
+  logRequestEndPoint(query);
+  await refreshTokensOrThrow();
+  return request<T>(query, variables);
+};
 
-const authenticatedRequestAccessTokenPresent = async<T>(
+const authenticatedRequestAccessTokenPresent = async <T>(
   query: string,
-  variables?: GraphQLVariables,
+  variables?: GraphQLVariables
 ): Promise<T> => {
   // console.log('accessToken: PRESENT')
   try {
-    return request<T>(query, variables)
+    return request<T>(query, variables);
   } catch (error) {
     if (!(error instanceof RequestError) || !shouldRefreshTokens(error)) {
-      throw error
+      throw error;
     }
   }
 
-  await refreshTokensOrThrow()
-  return request<T>(query, variables)
-}
+  await refreshTokensOrThrow();
+  return request<T>(query, variables);
+};
 
 const getRequestConfig = (): AxiosRequestConfig | undefined => {
-  return accessToken === undefined ? undefined : {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  }
-}
+  return accessToken === undefined
+    ? undefined
+    : {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      };
+};
 
 const refreshTokensOrThrow = async (): Promise<void> => {
   // console.log('refreshTokensOrThrow')
-  let data
+  let data;
 
   try {
-    data = await refreshTokens()
+    data = await refreshTokens();
   } catch (error) {
     // refresh token either isn't present or isn't valid; the user will need to log in before
     // any authenticated requests should be attempted again
     // console.log('Failed to refresh tokens')
-    throw new AuthenticationRequiredError()
+    throw new AuthenticationRequiredError();
   }
 
   // console.log('Successfully refreshed tokens')
-  accessToken = data.accessToken
-}
+  accessToken = data.accessToken;
+};
 
 const shouldRefreshTokens = (error: RequestError): boolean => {
-  return error.type === RequestErrorType.Unauthorized && (
-    error.accessTokenState === AccessTokenState.Expired ||
-    error.accessTokenState === AccessTokenState.Invalid
-  )
-}
+  return (
+    error.type === RequestErrorType.Unauthorized &&
+    (error.accessTokenState === AccessTokenState.Expired ||
+      error.accessTokenState === AccessTokenState.Invalid)
+  );
+};
 
 const logRequestEndPoint = (query: string): void => {
-  const endPoint = query.match(/(mutation|query)\s(\w+)/)
-  console.log(endPoint ? endPoint[2] : '?? request ??')
-}
+  const endPoint = query.match(/(mutation|query)\s(\w+)/);
+  console.log(endPoint ? endPoint[2] : "?? request ??");
+};
