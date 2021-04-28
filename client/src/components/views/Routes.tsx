@@ -16,26 +16,24 @@ export const Routes = () => {
       <Route exact strict path="/">
         <LoginView />
       </Route>
-      <Route exact strict path="/campaign/new/">
-        <Authorized>
+
+      {/* Authorized routes */}
+      <Authorized>
+        <Route exact strict path="/campaign/new/">
           <NewCampaignView />
-        </Authorized>
-      </Route>
-      <Route exact strict path="/campaign/:id/">
-        <Authorized>
+        </Route>
+        <Route exact strict path="/campaign/:id/">
           <CampaignView />
-        </Authorized>
-      </Route>
-      <Route exact strict path="/home/">
-        <Authorized>
+        </Route>
+        <Route exact strict path="/home/">
           <HomeView />
-        </Authorized>
-      </Route>
-      <Route exact strict path="/logout/">
-        {/* <Authorized> */}
-        <LogoutView />
-        {/* </Authorized> */}
-      </Route>
+        </Route>
+        <Route exact strict path="/logout/">
+          <LogoutView />
+        </Route>
+      </Authorized>
+
+      {/* Fall-through route */}
       <Route>
         <NotFoundView />
       </Route>

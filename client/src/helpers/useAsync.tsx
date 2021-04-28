@@ -20,8 +20,10 @@ export const useAsync = <TArgs extends any[], TReturn>(
     onSuccess?(data: TReturn | null): void;
   }
 ) => {
-  const [status, setStatus] = useState<AsyncStatus>("idle");
   const key = options?.key ?? "";
+  const [status, setStatus] = useState<AsyncStatus>(
+    loadStatusByKey[key] === "loaded" ? "success" : "idle"
+  );
 
   if (key && !loadStatusByKey[key]) {
     loadStatusByKey[key] = "notLoaded";
