@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import { useRacesPreviewLoader } from "../../races/useRacesPreviewLoader";
 
 export const RacesPanel = observer(() => {
-  const races = useRacesPreviewLoader();
+  const [races, LoadingPlaceHolder] = useRacesPreviewLoader();
   const racesSorted = races
     .slice()
     .sort((a, b) => a.name.localeCompare(b.name));
@@ -15,41 +15,22 @@ export const RacesPanel = observer(() => {
         Races
       </Typography>
 
-      <Grid container spacing={2}>
-        {racesSorted.map((race) => (
-          <Grid item xs={12} sm={6} md={3} key={race.id}>
+      <LoadingPlaceHolder>
+        <Grid container spacing={2}>
+          {racesSorted.map((race) => (
+            <Grid item xs={12} sm={6} md={3} key={race.id}>
+              <Button className="h-min-3-5 w-100" variant="outlined">
+                {race.name}
+              </Button>
+            </Grid>
+          ))}
+          <Grid item xs={12} sm={6} md={3}>
             <Button className="h-min-3-5 w-100" variant="outlined">
-              {race.name}
+              <AddIcon />
             </Button>
           </Grid>
-        ))}
-
-        {/* <Grid item xs={12} sm={6} md={3}>
-          <Button className="h-min-3-5 w-100" variant="outlined">
-            Dwarf
-          </Button>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Button className="h-min-3-5 w-100" variant="outlined">
-            Elf
-          </Button>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Button className="h-min-3-5 w-100" variant="outlined">
-            Halfling
-          </Button>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Button className="h-min-3-5 w-100" variant="outlined">
-            Human
-          </Button>
-        </Grid> */}
-        <Grid item xs={12} sm={6} md={3}>
-          <Button className="h-min-3-5 w-100" variant="outlined">
-            <AddIcon fontSize="large" />
-          </Button>
-        </Grid>
-      </Grid>
+      </LoadingPlaceHolder>
     </Paper>
   );
 });

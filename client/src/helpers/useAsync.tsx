@@ -1,8 +1,9 @@
 import dayjs from "dayjs";
 import { useCallback, useState } from "react";
+import { AsyncStatus, HasChildren } from "../types";
 import { delay } from "./delay";
+import { LoadingPlaceholder } from "../components";
 
-type AsyncStatus = "error" | "idle" | "pending" | "success";
 type LoadStatus = "notLoaded" | "loaded";
 type ResultError = Error | null;
 
@@ -68,5 +69,12 @@ export const useAsync = <TArgs extends any[], TReturn>(
     execute(...((options.args ?? []) as TArgs));
   }
 
-  return [execute, status] as const;
+  const Placeholder = useCallback(
+    (props: HasChildren) => (
+      <LoadingPlaceholder status={status}>{props.children}</LoadingPlaceholder>
+    ),
+    [status]
+  );
+
+  return [execute, status, Placeholder] as const;
 };

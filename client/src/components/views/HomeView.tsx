@@ -10,7 +10,7 @@ export const HomeView = () => {
         <CampaignsPanel />
       </div> */}
 
-      <Link to="/campaign/new/">Create campaign</Link>
+      {/* <Link to="/campaign/new/">Create campaign</Link> */}
 
       <Grid container>
         <Grid item xs={12}>

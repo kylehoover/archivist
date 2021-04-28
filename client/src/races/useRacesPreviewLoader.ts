@@ -1,12 +1,13 @@
+import { ReactNode } from "react";
 import { RacePreview } from "./raceTypes";
 import { fetchRacesPreview } from "../graphql";
 import { useAsync } from "../helpers";
 import { useRaceStore } from "../stores";
 
-export function useRacesPreviewLoader(): RacePreview[] {
+export function useRacesPreviewLoader(): [RacePreview[], any] {
   const raceStore = useRaceStore();
 
-  useAsync(fetchRacesPreview, {
+  const [, , LoadingPlaceholder] = useAsync(fetchRacesPreview, {
     key: "racesPreview",
     runImmediately: true,
     onSuccess: (data) => {
@@ -16,5 +17,5 @@ export function useRacesPreviewLoader(): RacePreview[] {
     },
   });
 
-  return raceStore.racesPreview;
+  return [raceStore.racesPreview, LoadingPlaceholder];
 }

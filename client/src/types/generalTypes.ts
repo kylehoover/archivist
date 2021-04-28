@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 
+export type AsyncStatus = "error" | "idle" | "pending" | "success";
+
 export interface HasDescription {
   description: string;
 }
